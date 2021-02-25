@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8963115336202124093}
   - component: {fileID: -7666627932545185162}
   - component: {fileID: -7207658861104982467}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 209609452027454674}
   - component: {fileID: 4980735565969075670}
   - component: {fileID: 8568081354380592418}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
