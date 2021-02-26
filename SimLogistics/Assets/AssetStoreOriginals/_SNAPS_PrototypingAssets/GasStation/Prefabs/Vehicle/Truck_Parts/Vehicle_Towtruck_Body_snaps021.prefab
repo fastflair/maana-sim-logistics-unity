@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8299692948998583198
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8299692948998090686}
+  - component: {fileID: 8299692948999384990}
+  - component: {fileID: 8299692949000514910}
+  - component: {fileID: 659506829221954878}
+  m_Layer: 0
+  m_Name: Vehicle_Towtruck_Body_snaps021
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8299692948998090686
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8299692948998583198}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &8299692948999384990
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8299692948998583198}
+  m_Mesh: {fileID: 4300000, guid: b3290d9697281c942ba151d0ff6e5617, type: 2}
+--- !u!23 &8299692949000514910
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8299692948998583198}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 423993b3b29b40f4ab413d19e7164954, type: 2}
+  - {fileID: 2100000, guid: d5a3aa10262f66d449063fcaf500c08c, type: 2}
+  - {fileID: 2100000, guid: 8f23d30d29b9ed74494e51fa3cad3880, type: 2}
+  - {fileID: 2100000, guid: ac28646a08f7760478e1a26fed781add, type: 2}
+  - {fileID: 2100000, guid: 3261a516525006e43b2768e4757272ab, type: 2}
+  - {fileID: 2100000, guid: 58419c0c6ccf09446a0ea2e9ebedf038, type: 2}
+  - {fileID: 2100000, guid: 4de11243489f7224f9bc37d77a2b064f, type: 2}
+  - {fileID: 2100000, guid: 982426e08528077409c9adb6c114f9c7, type: 2}
+  - {fileID: 2100000, guid: 7738461b3becda446b446e6a5f479f90, type: 2}
+  - {fileID: 2100000, guid: 8c8ec03ff1976e54086a6be7e14aad8d, type: 2}
+  - {fileID: 2100000, guid: 1a690581a6570454db68b4f18d411ebd, type: 2}
+  - {fileID: 2100000, guid: 57b884ff8e0c77947acc0c673a831956, type: 2}
+  - {fileID: 2100000, guid: f60c69c289e44e643b958460e12ebd05, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 2
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!64 &659506829221954878
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8299692948998583198}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300000, guid: b3290d9697281c942ba151d0ff6e5617, type: 2}
