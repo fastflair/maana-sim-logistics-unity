@@ -38,10 +38,14 @@ namespace Maana.GraphQL
             }
             else
             {
-                Debug.LogError("No URL specified for GraphQL Manager!");
+                throw new Exception(("No URL specified for GraphQL Manager"));
             }
 
-            if (credentials == null) return;
+            if (credentials == null)
+            {
+                throw new Exception("No credentials");
+            }
+            
             _fetcher = new OAuthFetcher(credentials.text);
             _fetcher.TokenReceivedEvent.AddListener(TokenReceived);
         }
