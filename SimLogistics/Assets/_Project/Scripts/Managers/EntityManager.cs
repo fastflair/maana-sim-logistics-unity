@@ -6,7 +6,7 @@ using Maana.GraphQL;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class MapEntitySpawner : MonoBehaviour
+public class EntityManager : MonoBehaviour
 {
     [SerializeField] private UnityEvent<QMapAndTiles, float, float> onMapEntitiesSpawned;
 

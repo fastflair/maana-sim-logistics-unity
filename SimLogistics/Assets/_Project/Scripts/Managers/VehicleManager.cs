@@ -5,7 +5,7 @@ using Maana.GraphQL;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class VehicleSpawner : MonoBehaviour
+public class VehicleManager : MonoBehaviour
 {
     [SerializeField] private UnityEvent onVehiclesSpawned;
 

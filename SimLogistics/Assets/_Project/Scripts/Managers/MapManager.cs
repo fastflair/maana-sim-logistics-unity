@@ -4,7 +4,7 @@ using Maana.GraphQL;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class TileMapSpawner : MonoBehaviour
+public class MapManager : MonoBehaviour
 { 
     [SerializeField] private UnityEvent<QMapAndTiles, float, float> onTileMapSpawned;
     
