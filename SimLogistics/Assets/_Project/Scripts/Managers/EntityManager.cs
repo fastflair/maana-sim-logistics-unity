@@ -13,7 +13,7 @@ public class EntityManager : MonoBehaviour
 
     [SerializeField] private MapManager mapManager;
     [SerializeField] private MapSettings mapSettings;
-    [SerializeField] private SimulationInfo simInfo;
+    [SerializeField] private StringVariable simName;
     [SerializeField] private GameObject city;
     [SerializeField] private GameObject airport;
     [SerializeField] private GameObject port;
@@ -59,7 +59,7 @@ public class EntityManager : MonoBehaviour
     {
         var query = @$"
           query {{
-            mapEntities(sim: ""{simInfo.simName}"") {{
+            mapEntities(sim: ""{simName.Value}"") {{
               id
               type
               kind

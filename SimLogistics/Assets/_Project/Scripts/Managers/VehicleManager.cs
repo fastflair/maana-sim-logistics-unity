@@ -12,7 +12,7 @@ public class VehicleManager : MonoBehaviour
 
     [SerializeField] private MapManager mapManager;
     [SerializeField] private MapSettings mapSettings;
-    [SerializeField] private SimulationInfo simInfo;
+    [SerializeField] private StringVariable simName;
     [SerializeField] private GameObject truck;
     [SerializeField] private GameObject plane;
     [SerializeField] private GameObject ship;
@@ -45,7 +45,7 @@ public class VehicleManager : MonoBehaviour
     {
         var query = @$"
           query {{
-            mapVehicles(sim: ""{simInfo.simName}"") {{
+            mapVehicles(sim: ""{simName.Value}"") {{
               id
               kind
               x

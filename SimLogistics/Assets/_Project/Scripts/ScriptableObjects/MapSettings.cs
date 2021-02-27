@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Map Settings")]
+[CreateAssetMenu]
 public class MapSettings : ScriptableObject
 {
     public string mapName;
