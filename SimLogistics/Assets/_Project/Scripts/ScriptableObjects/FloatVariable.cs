@@ -4,14 +4,14 @@ using UnityEngine;
 [CreateAssetMenu]
 public class FloatVariable : ScriptableObject, ISerializationCallbackReceiver
 {
-    [SerializeField] private float defaultValue;
+    public float defaultValue;
 
     [NonSerialized] public float Value;
 
-    public void OnBeforeSerialize()
+    public void OnBeforeSerialize() { }
+
+    public void OnAfterDeserialize()
     {
         Value = defaultValue;
     }
-
-    public void OnAfterDeserialize() { }
 }

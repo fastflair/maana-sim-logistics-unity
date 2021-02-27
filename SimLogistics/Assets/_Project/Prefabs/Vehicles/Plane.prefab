@@ -7,9 +7,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2687667479998062441}
     m_Modifications:
+    - target: {fileID: 1649818988032786337, guid: df3b71398f9194942b7a4092624281ed, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1649818988032786339, guid: df3b71398f9194942b7a4092624281ed, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1649818988032786341, guid: df3b71398f9194942b7a4092624281ed, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 1649818988032786343, guid: df3b71398f9194942b7a4092624281ed, type: 3}
       propertyPath: m_Name
       value: Plane02
+      objectReference: {fileID: 0}
+    - target: {fileID: 1649818988032786343, guid: df3b71398f9194942b7a4092624281ed, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1649818988032877447, guid: df3b71398f9194942b7a4092624281ed, type: 3}
       propertyPath: m_RootOrder

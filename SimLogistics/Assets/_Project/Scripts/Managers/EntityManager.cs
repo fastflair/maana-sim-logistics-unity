@@ -7,13 +7,14 @@ using UnityEngine;
 using UnityEngine.Events;
 using Object = UnityEngine.Object;
 
-public class EntityManager : MonoBehaviour
+public class EntityManager : MonoBehaviour, ISelectionHandler
 {
     [SerializeField] private UnityEvent onEntitiesSpawned;
 
-    [SerializeField] private MapManager mapManager;
-    [SerializeField] private MapSettings mapSettings;
     [SerializeField] private StringVariable simName;
+    [SerializeField] private FloatVariable tileSize;
+    [SerializeField] private FloatVariable tileDropHeight;
+    [SerializeField] private FloatVariable spawnDelay;
     [SerializeField] private GameObject city;
     [SerializeField] private GameObject airport;
     [SerializeField] private GameObject port;
@@ -33,15 +34,9 @@ public class EntityManager : MonoBehaviour
     public List<QMapEntity> QMapEntities { get; private set; }
     public List<GameObject> EntityGameObjects { get; private set; }
 
-    private float _startX;
-    private float _startZ;
-
     [UsedImplicitly]
     public void Spawn()
     {
-        _startX = -(mapSettings.tileSizeX * (mapManager.QMapAndTiles.map.tilesX / 2));
-        _startZ = mapSettings.tileSizeZ * (mapManager.QMapAndTiles.map.tilesY / 2);
-
         QueryQ();
     }
 
@@ -71,6 +66,18 @@ public class EntityManager : MonoBehaviour
 
         GraphQLManager.Instance.Query(query, callback: QueryQCallback);
     }
+    
+    private void QueryQCallback(GraphQLResponse response)
+    {
+        if (response.Errors != null) throw new Exception("GraphQL errors: " + response.Errors);
+
+        Destroy();
+        
+        EntityGameObjects = new List<GameObject>();
+        QMapEntities = response.GetList<QMapEntity>("mapEntities");
+
+        StartCoroutine(Co_Spawn());
+    }
 
     private GameObject EntityGameObject(string kind)
     {
@@ -95,18 +102,6 @@ public class EntityManager : MonoBehaviour
         };
     }
 
-    private void QueryQCallback(GraphQLResponse response)
-    {
-        if (response.Errors != null) throw new Exception("GraphQL errors: " + response.Errors);
-
-        Destroy();
-        
-        EntityGameObjects = new List<GameObject>();
-        QMapEntities = response.GetList<QMapEntity>("mapEntities");
-
-        StartCoroutine(Co_Spawn());
-    }
-
     private IEnumerator Co_Spawn()
     {
         foreach (var qMapEntity in QMapEntities)
@@ -119,9 +114,12 @@ public class EntityManager : MonoBehaviour
             }
 
             var entityGameObject = SpawnEntity(entityPrototype, qMapEntity.x, qMapEntity.y);
+            var selectableObject = entityGameObject.AddComponent<SelectableObject>();
+            selectableObject.SelectionHandler = this;
+            selectableObject.id = qMapEntity.id;
             EntityGameObjects.Add(entityGameObject);
             
-            yield return new WaitForSeconds(mapSettings.spawnDelay);
+            yield return new WaitForSeconds(spawnDelay.Value);
         }
 
         onEntitiesSpawned.Invoke();
@@ -129,12 +127,29 @@ public class EntityManager : MonoBehaviour
 
     private GameObject SpawnEntity(GameObject entity, float tileX, float tileY)
     {
-        var posX = _startX + mapSettings.tileSizeX * tileX;
-        var posZ = _startZ - mapSettings.tileSizeZ * tileY;
+        var posX = tileSize.Value * tileX;
+        var posZ = -tileSize.Value * tileY;
 
-        // print("entity:posX: " + posX + " (" + tileX + ")");
-        // print("entity:posZ: " + posZ + " (" + tileY + ")");
+        return Instantiate(entity, new Vector3(posX, tileDropHeight.Value * tileSize.Value, posZ), Quaternion.identity);
+    }
 
-        return Instantiate(entity, new Vector3(posX, mapSettings.startY, posZ), Quaternion.identity);
+    public void OnHoverEnter(GameObject selectedObject)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnHoverExit(GameObject selectedObject)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnSelect(GameObject selectedObject)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnDeselect(GameObject selectedObject)
+    {
+        throw new NotImplementedException();
     }
 }

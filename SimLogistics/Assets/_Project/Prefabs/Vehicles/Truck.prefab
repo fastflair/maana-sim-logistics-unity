@@ -7,9 +7,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2940979749544336595}
     m_Modifications:
+    - target: {fileID: 3063795611364132762, guid: 8c3d087ebad424dc091f100a9e27c7c8, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3064164545569957072, guid: 8c3d087ebad424dc091f100a9e27c7c8, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3064258599389609754, guid: 8c3d087ebad424dc091f100a9e27c7c8, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3064261386725641122, guid: 8c3d087ebad424dc091f100a9e27c7c8, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3064374663801037228, guid: 8c3d087ebad424dc091f100a9e27c7c8, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3064379619312183040, guid: 8c3d087ebad424dc091f100a9e27c7c8, type: 3}
       propertyPath: m_Name
       value: truck
+      objectReference: {fileID: 0}
+    - target: {fileID: 3064379619312183040, guid: 8c3d087ebad424dc091f100a9e27c7c8, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3064434455739353742, guid: 8c3d087ebad424dc091f100a9e27c7c8, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3064531985940894108, guid: 8c3d087ebad424dc091f100a9e27c7c8, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3066332860987071964, guid: 8c3d087ebad424dc091f100a9e27c7c8, type: 3}
       propertyPath: m_RootOrder

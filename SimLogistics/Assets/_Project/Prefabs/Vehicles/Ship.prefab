@@ -153,9 +153,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 323654308882958888, guid: 0bf17915d1fdd4b2c9ddbfdd3598922e, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 323654308882958892, guid: 0bf17915d1fdd4b2c9ddbfdd3598922e, type: 3}
       propertyPath: m_Name
       value: ship-cargo
+      objectReference: {fileID: 0}
+    - target: {fileID: 323654308882958892, guid: 0bf17915d1fdd4b2c9ddbfdd3598922e, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 323654308882958894, guid: 0bf17915d1fdd4b2c9ddbfdd3598922e, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0bf17915d1fdd4b2c9ddbfdd3598922e, type: 3}

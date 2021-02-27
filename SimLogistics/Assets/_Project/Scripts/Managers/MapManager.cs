@@ -8,7 +8,10 @@ public class MapManager : MonoBehaviour
 { 
     [SerializeField] private UnityEvent onMapTilesSpawned;
     
-    [SerializeField] private MapSettings mapSettings;
+    [SerializeField] private StringVariable mapName;
+    [SerializeField] private FloatVariable tileSize;
+    [SerializeField] private FloatVariable tileDropHeight;
+    [SerializeField] private FloatVariable spawnDelay;
     [SerializeField] private GameObject landTile;
     [SerializeField] private GameObject waterTile;
 
@@ -23,7 +26,7 @@ public class MapManager : MonoBehaviour
     {
         var query = @$"
           query {{
-            mapAndTiles(map: ""{mapSettings.mapName}"") {{
+            mapAndTiles(map: ""{mapName.Value}"") {{
               map {{
                 id
                 tilesX
@@ -53,23 +56,17 @@ public class MapManager : MonoBehaviour
 
     private IEnumerator Co_Spawn()
     {
-        var startX = -(mapSettings.tileSizeX * (QMapAndTiles.map.tilesX / 2));
-        var startZ = mapSettings.tileSizeZ * (QMapAndTiles.map.tilesY / 2);
-
         foreach (var qTile in QMapAndTiles.tiles)
         {
             var tile = qTile.type.id == "Land" ? landTile : waterTile;
             if (tile is null) continue;
             
-            var posX = startX + mapSettings.tileSizeX * qTile.x;
-            var posZ = startZ - mapSettings.tileSizeZ * qTile.y;
-        
-            // print("posX: " + posX + " (" + qTile.x + ")");
-            // print("posZ: " + posZ + " (" + qTile.y + ")");
-        
-            Instantiate(tile, new Vector3(posX, mapSettings.startY, posZ), Quaternion.identity);
+            var posX = tileSize.Value * qTile.x;
+            var posZ = -tileSize.Value * qTile.y;
+            
+            Instantiate(tile, new Vector3(posX, tileDropHeight.Value * tileSize.Value, posZ), Quaternion.identity);
 
-            yield return new WaitForSeconds(mapSettings.spawnDelay);
+            yield return new WaitForSeconds(spawnDelay.Value);
         }
         
         onMapTilesSpawned.Invoke();

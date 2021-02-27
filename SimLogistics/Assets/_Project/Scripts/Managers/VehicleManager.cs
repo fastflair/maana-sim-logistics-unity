@@ -6,13 +6,14 @@ using UnityEngine;
 using UnityEngine.Events;
 using Object = UnityEngine.Object;
 
-public class VehicleManager : MonoBehaviour
+public class VehicleManager : MonoBehaviour, ISelectionHandler
 {
     [SerializeField] private UnityEvent onVehiclesSpawned;
 
-    [SerializeField] private MapManager mapManager;
-    [SerializeField] private MapSettings mapSettings;
     [SerializeField] private StringVariable simName;
+    [SerializeField] private FloatVariable tileSize;
+    [SerializeField] private FloatVariable tileDropHeight;
+    [SerializeField] private FloatVariable spawnDelay;
     [SerializeField] private GameObject truck;
     [SerializeField] private GameObject plane;
     [SerializeField] private GameObject ship;
@@ -20,14 +21,8 @@ public class VehicleManager : MonoBehaviour
     public List<QVehicle> QVehicles { get; private set; }
     public List<GameObject> VehicleGameObjects { get; private set; }
 
-    private float _startX;
-    private float _startZ;
-
     public void Spawn()
     {
-        _startX = -(mapSettings.tileSizeX * (mapManager.QMapAndTiles.map.tilesX / 2));
-        _startZ = mapSettings.tileSizeZ * (mapManager.QMapAndTiles.map.tilesY / 2);
-
         QueryQ();
     }
 
@@ -57,18 +52,7 @@ public class VehicleManager : MonoBehaviour
 
         GraphQLManager.Instance.Query(query, callback: QueryQCallback);
     }
-
-    private GameObject VehicleGameObject(string kind)
-    {
-        return kind switch
-        {
-            "Plane" => plane,
-            "Ship" => ship,
-            "Truck" => truck,
-            _ => null
-        };
-    }
-
+    
     private void QueryQCallback(GraphQLResponse response)
     {
         if (response.Errors != null) throw new Exception("GraphQL errors: " + response.Errors);
@@ -79,6 +63,17 @@ public class VehicleManager : MonoBehaviour
         QVehicles = response.GetList<QVehicle>("mapVehicles");
 
         StartCoroutine(Co_Spawn());
+    }
+
+    private GameObject VehicleGameObject(string kind)
+    {
+        return kind switch
+        {
+            "Plane" => plane,
+            "Ship" => ship,
+            "Truck" => truck,
+            _ => null
+        };
     }
 
     private IEnumerator Co_Spawn()
@@ -93,9 +88,12 @@ public class VehicleManager : MonoBehaviour
             }
 
             var vehicleGameObject = SpawnVehicle(vehiclePrototype, qVehicle.x, qVehicle.y);
+            var selectableObject = vehicleGameObject.AddComponent<SelectableObject>();
+            selectableObject.SelectionHandler = this;
+            selectableObject.id = qVehicle.id;
             VehicleGameObjects.Add(vehicleGameObject);
 
-            yield return new WaitForSeconds(mapSettings.spawnDelay);
+            yield return new WaitForSeconds(spawnDelay.Value);
         }
 
         onVehiclesSpawned.Invoke();
@@ -103,12 +101,29 @@ public class VehicleManager : MonoBehaviour
 
     private GameObject SpawnVehicle(GameObject vehicle, float tileX, float tileY)
     {
-        var posX = _startX + mapSettings.tileSizeX * tileX;
-        var posZ = _startZ - mapSettings.tileSizeZ * tileY;
+        var posX = tileSize.Value * tileX;
+        var posZ = -tileSize.Value * tileY;
 
-        // print("entity:posX: " + posX + " (" + tileX + ")");
-        // print("entity:posZ: " + posZ + " (" + tileY + ")");
+        return Instantiate(vehicle, new Vector3(posX, tileDropHeight.Value * tileSize.Value, posZ), Quaternion.identity);
+    }
 
-        return Instantiate(vehicle, new Vector3(posX, mapSettings.startY, posZ), Quaternion.identity);
+    public void OnHoverEnter(GameObject selectedObject)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnHoverExit(GameObject selectedObject)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnSelect(GameObject selectedObject)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnDeselect(GameObject selectedObject)
+    {
+        throw new NotImplementedException();
     }
 }

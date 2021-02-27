@@ -13,10 +13,11 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float rotationAmount;
     [SerializeField] private float mouseRotationSpeed;
     [SerializeField] private Vector3 zoomAmount;
-    [SerializeField] private Vector3 minBoundPosition;
-    [SerializeField] private Vector3 maxBoundPosition;
     [SerializeField] private Vector3 minBoundZoom;
     [SerializeField] private Vector3 maxBoundZoom;
+    [SerializeField] private FloatVariable tileSize;
+    [SerializeField] private FloatVariable mapTilesX;
+    [SerializeField] private FloatVariable mapTilesY;
 
     // Changes
     private Vector3 _newPosition;
@@ -29,17 +30,11 @@ public class CameraController : MonoBehaviour
     private Vector3 _rotateStartPosition;
     private Vector3 _rotateCurrentPosition;
     
-    // Cache
-    private Transform _transform;
-    private Transform _cameraTransform;
-
     private void Start()
     {
-        _transform = transform;
-        _cameraTransform = camera.transform;
-        _newPosition = _transform.position;
-        _newRotation = _transform.rotation;
-        _newZoom = _cameraTransform.localPosition;
+        _newPosition = transform.position;
+        _newRotation = transform.rotation;
+        _newZoom = camera.transform.localPosition;
     }
     
     private void Update()
@@ -51,13 +46,13 @@ public class CameraController : MonoBehaviour
     {
         HandleInputKeyboard();
         HandleInputMouse();
-
+        
         ClampPosition();
         ClampZoom();
         
-        transform.position = Vector3.Lerp(_transform.position, _newPosition, Time.deltaTime * movementTime);
-        transform.rotation = Quaternion.Lerp(_transform.rotation, _newRotation, Time.deltaTime * movementTime);
-        _cameraTransform.localPosition = Vector3.Lerp(_cameraTransform.localPosition, _newZoom, Time.deltaTime * movementTime);
+        transform.position = Vector3.Lerp(transform.position, _newPosition, Time.deltaTime * movementTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, _newRotation, Time.deltaTime * movementTime);
+        camera.transform.localPosition = Vector3.Lerp(camera.transform.localPosition, _newZoom, Time.deltaTime * movementTime);
     }
 
     private void HandleInputMouse()
@@ -181,8 +176,13 @@ public class CameraController : MonoBehaviour
 
     private void ClampPosition()
     {
-        _newPosition.x = Mathf.Clamp(_newPosition.x, minBoundPosition.x, maxBoundPosition.x);
-        _newPosition.z = Mathf.Clamp(_newPosition.z, minBoundPosition.z, maxBoundPosition.z);
+        var maxX = tileSize.Value * mapTilesX.Value;
+        var maxZ = -tileSize.Value * mapTilesY.Value;
+
+        // print($"Cam.Pos: {transform.position} - clamp: {maxX}, {maxZ}");
+
+        _newPosition.x = Mathf.Clamp(_newPosition.x, 0, maxX);
+        _newPosition.z = Mathf.Clamp(_newPosition.z, maxZ, 0);
     }
 
     private void ClampZoom()

@@ -4,14 +4,14 @@ using UnityEngine;
 [CreateAssetMenu]
 public class StringVariable : ScriptableObject, ISerializationCallbackReceiver
 {
-    [SerializeField] private string defaultValue;
+    public string defaultValue;
 
     [NonSerialized] public string Value;
 
-    public void OnBeforeSerialize()
+    public void OnBeforeSerialize() { }
+
+    public void OnAfterDeserialize()
     {
         Value = defaultValue;
     }
-
-    public void OnAfterDeserialize() { }
 }

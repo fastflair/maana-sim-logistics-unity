@@ -10,7 +10,7 @@ public class DepthOfFieldController : MonoBehaviour
     [SerializeField] private GameObject volumeObject;
     [SerializeField] private float maxFocusDistance;
     [SerializeField] private float focusSpeed;
-    [SerializeField] private int excludeLayer;
+    [SerializeField] private int layer;
     
     private Ray _raycast;
     private RaycastHit _hit;
@@ -33,7 +33,7 @@ public class DepthOfFieldController : MonoBehaviour
         var position = localTransform.position;
         
         _raycast = new Ray(position, localTransform.forward * maxFocusDistance);
-        _hitDistance = Physics.Raycast(_raycast, out _hit, maxFocusDistance, ~(excludeLayer << 8)) ? Vector3.Distance(position, _hit.point) : maxFocusDistance;
+        _hitDistance = Physics.Raycast(_raycast, out _hit, maxFocusDistance, 1 << layer) ? Vector3.Distance(position, _hit.point) : maxFocusDistance;
 
         SetFocus();
     }
