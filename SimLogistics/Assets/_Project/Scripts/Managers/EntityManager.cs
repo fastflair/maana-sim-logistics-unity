@@ -8,11 +8,11 @@ using UnityEngine.Events;
 
 public class EntityManager : MonoBehaviour
 {
-    [SerializeField] private UnityEvent<QMapAndTiles, float, float> onMapEntitiesSpawned;
+    [SerializeField] private UnityEvent onEntitiesSpawned;
 
+    [SerializeField] private MapManager mapManager;
+    [SerializeField] private MapSettings mapSettings;
     [SerializeField] private string simName;
-    [SerializeField] private float startY;
-    [SerializeField] private float spawnDelay;
     [SerializeField] private GameObject city;
     [SerializeField] private GameObject airport;
     [SerializeField] private GameObject port;
@@ -29,21 +29,15 @@ public class EntityManager : MonoBehaviour
     [SerializeField] private GameObject oilWell;
     [SerializeField] private GameObject oilRefinery;
 
-    private QMapAndTiles _qMapAndTiles;
     private float _startX;
     private float _startZ;
-    private float _tileSizeX;
-    private float _tileSizeZ;
     private List<QMapEntity> _qMapEntities;
 
     [UsedImplicitly]
-    public void Spawn(QMapAndTiles qMapAndTiles, float tileSizeX, float tileSizeZ)
+    public void Spawn()
     {
-        _qMapAndTiles = qMapAndTiles;
-        _tileSizeX = tileSizeX;
-        _tileSizeZ = tileSizeZ;
-        _startX = -(_tileSizeX * (_qMapAndTiles.map.tilesX / 2));
-        _startZ = _tileSizeZ * (_qMapAndTiles.map.tilesY / 2);
+        _startX = -(mapSettings.tileSizeX * (mapManager.QMapAndTiles.map.tilesX / 2));
+        _startZ = mapSettings.tileSizeZ * (mapManager.QMapAndTiles.map.tilesY / 2);
 
         QueryQ();
     }
@@ -102,7 +96,7 @@ public class EntityManager : MonoBehaviour
         foreach (var qMapEntity in _qMapEntities)
         {
             var entity = EntityGameObject(qMapEntity.kind);
-            if (entity == null)
+            if (entity is null)
             {
                 print("Unsupported entity kind: " + qMapEntity.kind);
                 continue;
@@ -110,20 +104,20 @@ public class EntityManager : MonoBehaviour
 
             SpawnEntity(entity, qMapEntity.x, qMapEntity.y);
 
-            yield return new WaitForSeconds(spawnDelay);
+            yield return new WaitForSeconds(mapSettings.spawnDelay);
         }
 
-        onMapEntitiesSpawned.Invoke(_qMapAndTiles, _tileSizeX, _tileSizeZ);
+        onEntitiesSpawned.Invoke();
     }
 
     private void SpawnEntity(GameObject entity, float tileX, float tileY)
     {
-        var posX = _startX + _tileSizeX * tileX;
-        var posZ = _startZ - _tileSizeZ * tileY;
+        var posX = _startX + mapSettings.tileSizeX * tileX;
+        var posZ = _startZ - mapSettings.tileSizeZ * tileY;
 
         // print("entity:posX: " + posX + " (" + tileX + ")");
         // print("entity:posZ: " + posZ + " (" + tileY + ")");
 
-        Instantiate(entity, new Vector3(posX, startY, posZ), Quaternion.identity);
+        Instantiate(entity, new Vector3(posX, mapSettings.startY, posZ), Quaternion.identity);
     }
 }

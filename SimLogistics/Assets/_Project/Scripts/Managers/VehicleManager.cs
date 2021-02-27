@@ -9,27 +9,21 @@ public class VehicleManager : MonoBehaviour
 {
     [SerializeField] private UnityEvent onVehiclesSpawned;
 
+    [SerializeField] private MapManager mapManager;
+    [SerializeField] private MapSettings mapSettings;
     [SerializeField] private string simName;
-    [SerializeField] private float startY;
-    [SerializeField] private float spawnDelay;
     [SerializeField] private GameObject truck;
     [SerializeField] private GameObject plane;
     [SerializeField] private GameObject ship;
 
-    private QMapAndTiles _qMapAndTiles;
     private float _startX;
     private float _startZ;
-    private float _tileSizeX;
-    private float _tileSizeZ;
     private List<QVehicle> _qVehicles;
 
-    public void Spawn(QMapAndTiles qMap, float tileSizeX, float tileSizeZ)
+    public void Spawn()
     {
-        _qMapAndTiles = qMap;
-        _tileSizeX = tileSizeX;
-        _tileSizeZ = tileSizeZ;
-        _startX = -(_tileSizeX * (_qMapAndTiles.map.tilesX / 2));
-        _startZ = _tileSizeZ * (_qMapAndTiles.map.tilesY / 2);
+        _startX = -(mapSettings.tileSizeX * (mapManager.QMapAndTiles.map.tilesX / 2));
+        _startZ = mapSettings.tileSizeZ * (mapManager.QMapAndTiles.map.tilesY / 2);
 
         QueryQ();
     }
@@ -84,7 +78,7 @@ public class VehicleManager : MonoBehaviour
 
             SpawnVehicle(vehicle, qVehicle.x, qVehicle.y);
 
-            yield return new WaitForSeconds(spawnDelay);
+            yield return new WaitForSeconds(mapSettings.spawnDelay);
         }
 
         onVehiclesSpawned.Invoke();
@@ -92,12 +86,12 @@ public class VehicleManager : MonoBehaviour
 
     private void SpawnVehicle(GameObject vehicle, float tileX, float tileY)
     {
-        var posX = _startX + _tileSizeX * tileX;
-        var posZ = _startZ - _tileSizeZ * tileY;
+        var posX = _startX + mapSettings.tileSizeX * tileX;
+        var posZ = _startZ - mapSettings.tileSizeZ * tileY;
 
         // print("entity:posX: " + posX + " (" + tileX + ")");
         // print("entity:posZ: " + posZ + " (" + tileY + ")");
 
-        Instantiate(vehicle, new Vector3(posX, startY, posZ), Quaternion.identity);
+        Instantiate(vehicle, new Vector3(posX, mapSettings.startY, posZ), Quaternion.identity);
     }
 }

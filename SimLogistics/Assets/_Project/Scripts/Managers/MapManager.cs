@@ -6,18 +6,14 @@ using UnityEngine.Events;
 
 public class MapManager : MonoBehaviour
 { 
-    [SerializeField] private UnityEvent<QMapAndTiles, float, float> onTileMapSpawned;
+    [SerializeField] private UnityEvent onMapTilesSpawned;
     
-    [SerializeField] private string mapName = "Default";
-    [SerializeField] private float tileSizeX;
-    [SerializeField] private float tileSizeZ;
-    [SerializeField] private float startY;
-    [SerializeField] private float spawnDelay;
+    [SerializeField] private MapSettings mapSettings;
     [SerializeField] private GameObject landTile;
     [SerializeField] private GameObject waterTile;
 
-    private QMapAndTiles _qMapAndTiles;
-    
+    public QMapAndTiles QMapAndTiles { get; private set; }
+
     private void Start()
     {
         QueryQ();
@@ -27,7 +23,7 @@ public class MapManager : MonoBehaviour
     {
         var query = @$"
           query {{
-            mapAndTiles(map: ""{mapName}"") {{
+            mapAndTiles(map: ""{mapSettings.mapName}"") {{
               map {{
                 id
                 tilesX
@@ -50,34 +46,32 @@ public class MapManager : MonoBehaviour
     {
         if (response.Errors != null) throw new Exception("GraphQL errors: " + response.Errors);
         
-        _qMapAndTiles = response.GetValue<QMapAndTiles>("mapAndTiles");
+        QMapAndTiles = response.GetValue<QMapAndTiles>("mapAndTiles");
 
         StartCoroutine(Co_Spawn());
     }
 
     private IEnumerator Co_Spawn()
     {
-        var startX = -(tileSizeX * (_qMapAndTiles.map.tilesX / 2));
-        var startZ = tileSizeZ * (_qMapAndTiles.map.tilesY / 2);
+        var startX = -(mapSettings.tileSizeX * (QMapAndTiles.map.tilesX / 2));
+        var startZ = mapSettings.tileSizeZ * (QMapAndTiles.map.tilesY / 2);
 
-        foreach (var qTile in _qMapAndTiles.tiles)
+        foreach (var qTile in QMapAndTiles.tiles)
         {
             var tile = qTile.type.id == "Land" ? landTile : waterTile;
             if (tile is null) continue;
             
-            var posX = startX + tileSizeX * qTile.x;
-            var posZ = startZ - tileSizeZ * qTile.y;
+            var posX = startX + mapSettings.tileSizeX * qTile.x;
+            var posZ = startZ - mapSettings.tileSizeZ * qTile.y;
         
             // print("posX: " + posX + " (" + qTile.x + ")");
             // print("posZ: " + posZ + " (" + qTile.y + ")");
         
-            Instantiate(tile, new Vector3(posX, startY, posZ), Quaternion.identity);
+            Instantiate(tile, new Vector3(posX, mapSettings.startY, posZ), Quaternion.identity);
 
-            yield return new WaitForSeconds(spawnDelay);
+            yield return new WaitForSeconds(mapSettings.spawnDelay);
         }
-
-        // yield return new WaitForSeconds(.5f);
         
-        onTileMapSpawned.Invoke(_qMapAndTiles, tileSizeX, tileSizeZ);
+        onMapTilesSpawned.Invoke();
     }
 }

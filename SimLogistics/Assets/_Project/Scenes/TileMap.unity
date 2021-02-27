@@ -394,6 +394,132 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!1001 &345468461
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1371865655538722457, guid: 816601641613348598814d3c836a4b31, type: 3}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1371865655538722457, guid: 816601641613348598814d3c836a4b31, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1371865655538722457, guid: 816601641613348598814d3c836a4b31, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1371865655538722457, guid: 816601641613348598814d3c836a4b31, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1371865655538722457, guid: 816601641613348598814d3c836a4b31, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1371865655538722457, guid: 816601641613348598814d3c836a4b31, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1371865655538722457, guid: 816601641613348598814d3c836a4b31, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1371865655538722457, guid: 816601641613348598814d3c836a4b31, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1371865655538722457, guid: 816601641613348598814d3c836a4b31, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1371865655538722457, guid: 816601641613348598814d3c836a4b31, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1371865655538722457, guid: 816601641613348598814d3c836a4b31, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160246193665693229, guid: 816601641613348598814d3c836a4b31, type: 3}
+      propertyPath: m_Name
+      value: Warehouse
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160246193665693229, guid: 816601641613348598814d3c836a4b31, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 816601641613348598814d3c836a4b31, type: 3}
+--- !u!1001 &390241969
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 136678805820990412, guid: 3b9bfb619e7e2477e968a7ce49ce1c9d, type: 3}
+      propertyPath: m_RootOrder
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 136678805820990412, guid: 3b9bfb619e7e2477e968a7ce49ce1c9d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 136678805820990412, guid: 3b9bfb619e7e2477e968a7ce49ce1c9d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 136678805820990412, guid: 3b9bfb619e7e2477e968a7ce49ce1c9d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 136678805820990412, guid: 3b9bfb619e7e2477e968a7ce49ce1c9d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 136678805820990412, guid: 3b9bfb619e7e2477e968a7ce49ce1c9d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 136678805820990412, guid: 3b9bfb619e7e2477e968a7ce49ce1c9d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 136678805820990412, guid: 3b9bfb619e7e2477e968a7ce49ce1c9d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 136678805820990412, guid: 3b9bfb619e7e2477e968a7ce49ce1c9d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 136678805820990412, guid: 3b9bfb619e7e2477e968a7ce49ce1c9d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 136678805820990412, guid: 3b9bfb619e7e2477e968a7ce49ce1c9d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2623957471697947176, guid: 3b9bfb619e7e2477e968a7ce49ce1c9d, type: 3}
+      propertyPath: m_Name
+      value: Land
+      objectReference: {fileID: 0}
+    - target: {fileID: 2623957471697947176, guid: 3b9bfb619e7e2477e968a7ce49ce1c9d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8217562798473702652, guid: 3b9bfb619e7e2477e968a7ce49ce1c9d, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3b9bfb619e7e2477e968a7ce49ce1c9d, type: 3}
 --- !u!1 &523995296
 GameObject:
   m_ObjectHideFlags: 0
@@ -523,13 +649,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dc49b56fed7440d883e0bb8f80085ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onMapEntitiesSpawned:
+  onEntitiesSpawned:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 700448671}
         m_TargetAssemblyTypeName: VehicleManager, Assembly-CSharp
         m_MethodName: Spawn
-        m_Mode: 0
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -538,9 +664,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  mapManager: {fileID: 893339561}
+  mapSettings: {fileID: 11400000, guid: 23e6c8c21650a4317b21aae052ae54dc, type: 2}
   simName: Default
-  startY: 10
-  spawnDelay: 0.0125
   city: {fileID: 7559179808104249890, guid: 1e39dd45218f0451fb4259e287b173ed, type: 3}
   airport: {fileID: 118847066705729414, guid: e6052310db935467aa82aa26e85e75f7, type: 3}
   port: {fileID: 6551864086501810534, guid: b94646b51c9314535b9653aa7d21cc3b, type: 3}
@@ -695,9 +821,9 @@ MonoBehaviour:
   onVehiclesSpawned:
     m_PersistentCalls:
       m_Calls: []
+  mapManager: {fileID: 893339561}
+  mapSettings: {fileID: 11400000, guid: 23e6c8c21650a4317b21aae052ae54dc, type: 2}
   simName: Default
-  startY: 10
-  spawnDelay: 0.0125
   truck: {fileID: 8513029505835190429, guid: 08a1e6e48e83a4faba8bf87fe5447949, type: 3}
   plane: {fileID: 8915066700314676007, guid: 7d5479167827749ca9bc2d9b958d2b1c, type: 3}
   ship: {fileID: 3520889274449652908, guid: 70e437808115f438085c0f6ad061b997, type: 3}
@@ -875,13 +1001,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d22b399c34bf247349b8616516464fb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onTileMapSpawned:
+  onMapTilesSpawned:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 570201677}
         m_TargetAssemblyTypeName: EntityManager, Assembly-CSharp
         m_MethodName: Spawn
-        m_Mode: 0
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -890,11 +1016,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  mapName: Default
-  tileSizeX: 1
-  tileSizeZ: 1
-  startY: 10
-  spawnDelay: 0.0125
+  mapSettings: {fileID: 11400000, guid: 23e6c8c21650a4317b21aae052ae54dc, type: 2}
   landTile: {fileID: 2623957471697947176, guid: 3b9bfb619e7e2477e968a7ce49ce1c9d, type: 3}
   waterTile: {fileID: 1529806562796867624, guid: 3b55476e256af41bd8607d47695935a8, type: 3}
 --- !u!4 &893339562
