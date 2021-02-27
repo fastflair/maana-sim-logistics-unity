@@ -76,7 +76,7 @@ public class VehicleManager : MonoBehaviour
         foreach (var qVehicle in _qVehicles)
         {
             var vehicle = VehicleGameObject(qVehicle.kind);
-            if (vehicle == null)
+            if (vehicle is null)
             {
                 print("Unsupported vehicle kind: " + qVehicle.kind);
                 continue;
