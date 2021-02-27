@@ -8,6 +8,7 @@ public class CameraController : MonoBehaviour
 {
     // Settings
     [SerializeField] private new Camera camera;
+    [SerializeField] private BoolVariable isWorldInteractable;
     [SerializeField] private float movementSpeed;
     [SerializeField] private float movementTime;
     [SerializeField] private float rotationAmount;
@@ -39,6 +40,8 @@ public class CameraController : MonoBehaviour
     
     private void Update()
     {
+        if (!isWorldInteractable.Value) return;
+
         HandleMovement();
     }
     

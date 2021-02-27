@@ -1,8 +1,11 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using JetBrains.Annotations;
 using Maana.GraphQL;
 using UnityEngine;
 using UnityEngine.Events;
+using Object = UnityEngine.Object;
 
 public class MapManager : MonoBehaviour
 { 
@@ -15,13 +18,34 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject landTile;
     [SerializeField] private GameObject waterTile;
 
-    public QMapAndTiles QMapAndTiles { get; private set; }
-
-    private void Start()
+    private bool TitlesComplete { get; set; }
+    
+    private QMapAndTiles QMapAndTiles { get; set; }
+    public List<GameObject> TileGameObjects { get; private set; }
+    
+    [UsedImplicitly]
+    public void Spawn()
     {
         QueryQ();
     }
 
+    public void OnTitlesComplete()
+    {
+        TitlesComplete = true;
+
+        TrySpawn();
+    }
+    
+    private void Destroy()
+    {
+        if (TileGameObjects is null) return;
+        
+        foreach (var tile in TileGameObjects)
+        {
+            Object.Destroy(tile);
+        }    
+    }
+    
     private void QueryQ()
     {
         var query = @$"
@@ -49,11 +73,21 @@ public class MapManager : MonoBehaviour
     {
         if (response.Errors != null) throw new Exception("GraphQL errors: " + response.Errors);
         
+        Destroy();
+
         QMapAndTiles = response.GetValue<QMapAndTiles>("mapAndTiles");
 
-        StartCoroutine(Co_Spawn());
+        TrySpawn();
     }
 
+    private void TrySpawn()
+    {
+        if (TitlesComplete && QMapAndTiles != null)
+        {
+            StartCoroutine(Co_Spawn());
+        }
+    }
+    
     private IEnumerator Co_Spawn()
     {
         foreach (var qTile in QMapAndTiles.tiles)

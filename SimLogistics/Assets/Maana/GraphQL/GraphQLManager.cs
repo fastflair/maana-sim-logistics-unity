@@ -10,6 +10,7 @@ namespace Maana.GraphQL
 
         [SerializeField] private string url;
         [SerializeField] private TextAsset credentials;
+        [SerializeField] private bool persistAcrossScenes;
 
         private OAuthFetcher _fetcher;
         private GraphQLClient _client;
@@ -29,7 +30,10 @@ namespace Maana.GraphQL
                 Destroy(gameObject);
             }
 
-            DontDestroyOnLoad(gameObject);
+            if (persistAcrossScenes)
+            {
+                DontDestroyOnLoad(gameObject);
+            }
 
             if (Instance != this) return;
             if(!string.IsNullOrEmpty(url))

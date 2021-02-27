@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SelectionManager : MonoBehaviour
 {
+    [SerializeField] private BoolVariable isWorldInteractable;
     [SerializeField] private new Camera camera;
     [SerializeField] private int layer;
 
@@ -13,6 +14,8 @@ public class SelectionManager : MonoBehaviour
     
     private void Update()
     {
+        if (!isWorldInteractable.Value) return;
+        
         var ray = camera.ScreenPointToRay(Input.mousePosition);
         if (!Physics.Raycast(ray, out var hitInfo, 100f, 1 << layer))
         {
