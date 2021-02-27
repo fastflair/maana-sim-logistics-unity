@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu]
+[CreateAssetMenu(menuName = "Variables/String")]
 public class StringVariable : ScriptableObject, ISerializationCallbackReceiver
 {
     public string defaultValue;

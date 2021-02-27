@@ -107,23 +107,18 @@ public class VehicleManager : MonoBehaviour, ISelectionHandler
         return Instantiate(vehicle, new Vector3(posX, tileDropHeight.Value * tileSize.Value, posZ), Quaternion.identity);
     }
 
-    public void OnHoverEnter(GameObject selectedObject)
+    public void OnHoverEnter(GameObject obj)
     {
-        throw new NotImplementedException();
+        print($"OnHoverEnter: {obj.name}");
     }
 
-    public void OnHoverExit(GameObject selectedObject)
+    public void OnHoverExit(GameObject obj)
     {
-        throw new NotImplementedException();
+        print($"OnHoverExit: {obj.name}");
     }
 
-    public void OnSelect(GameObject selectedObject)
+    public void OnSelect(GameObject obj)
     {
-        throw new NotImplementedException();
-    }
-
-    public void OnDeselect(GameObject selectedObject)
-    {
-        throw new NotImplementedException();
+        print($"OnSelect: {obj.name}");
     }
 }

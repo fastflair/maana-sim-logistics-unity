@@ -6,24 +6,62 @@ public class SelectionManager : MonoBehaviour
 {
     [SerializeField] private new Camera camera;
     [SerializeField] private int layer;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
+    private SelectableObject _curSelectableObject;
+    private GameObject _curHitObject;
+    private bool _hasCurrent;
+    
     private void Update()
     {
         var ray = camera.ScreenPointToRay(Input.mousePosition);
-        if (!Physics.Raycast(ray, out var hitInfo, 1000f, 1 << layer)) return;
+        if (!Physics.Raycast(ray, out var hitInfo, 100f, 1 << layer))
+        {
+            Exit();
+            return;
+        }
 
         var hitObject = hitInfo.collider.gameObject;
+        if (_hasCurrent && hitObject == _curHitObject)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                Select();
+            }
+
+            return;
+        }
+        
         var selectableObject = hitObject.GetComponent<SelectableObject>();
-        if (selectableObject == null) return;
-        print("hit: " + hitObject.name + " " + selectableObject);
+        if (selectableObject == null)
+        {
+            Exit();
+            return;
+        }
+        
+        Enter(selectableObject, hitObject);
+    }
+
+    private void Enter(SelectableObject selectableObject, GameObject hitObject)
+    {
+        _curSelectableObject = selectableObject;
+        _curHitObject = hitObject;
+        _hasCurrent = true;
         selectableObject.SelectionHandler.OnHoverEnter(hitObject);
-        print(hitInfo.collider.gameObject.name);
+    }
+    
+    private void Exit()
+    {
+        if (!_hasCurrent) return;
+            
+        _curSelectableObject.SelectionHandler.OnHoverExit(_curHitObject);
+
+        _curSelectableObject = null;
+        _curHitObject = null;
+        _hasCurrent = false;
+    }
+
+    private void Select()
+    {
+        _curSelectableObject.SelectionHandler.OnSelect(_curHitObject);
     }
 }

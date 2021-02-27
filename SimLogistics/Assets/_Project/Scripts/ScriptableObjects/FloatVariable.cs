@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu]
+[CreateAssetMenu(menuName = "Variables/Float")]
 public class FloatVariable : ScriptableObject, ISerializationCallbackReceiver
 {
     public float defaultValue;
