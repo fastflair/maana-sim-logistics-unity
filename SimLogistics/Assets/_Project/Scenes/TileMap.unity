@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 665342620}
-  m_IndirectSpecularColor: {r: 0.1542623, g: 0.16135067, b: 0.14087062, a: 1}
+  m_IndirectSpecularColor: {r: 0.15491088, g: 0.16200972, b: 0.14144863, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -141,7 +141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &120076562
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -729,7 +729,7 @@ PrefabInstance:
     - target: {fileID: 3313465577940156256, guid: 875546c8571c3ce4e915520e42d0374b, type: 3}
       propertyPath: credentials
       value: 
-      objectReference: {fileID: 4900000, guid: f1bbf560f8bfe464c9a72bf1dd9afce7, type: 3}
+      objectReference: {fileID: 4900000, guid: 15e7304bb38e545ca9f092251d717be6, type: 3}
     - target: {fileID: 5940945553469092076, guid: 875546c8571c3ce4e915520e42d0374b, type: 3}
       propertyPath: m_Name
       value: GraphQLManager
@@ -1341,7 +1341,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   volumeObject: {fileID: 1334222044}
-  maxFocusDistance: 14
+  maxFocusDistance: 5
+  focusSpeed: 8
 --- !u!1001 &1318383669
 PrefabInstance:
   m_ObjectHideFlags: 0
