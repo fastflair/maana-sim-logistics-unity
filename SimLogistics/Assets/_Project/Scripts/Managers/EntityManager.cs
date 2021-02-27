@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 using Maana.GraphQL;
 using UnityEngine;
 using UnityEngine.Events;
+using Object = UnityEngine.Object;
 
 public class EntityManager : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class EntityManager : MonoBehaviour
 
     [SerializeField] private MapManager mapManager;
     [SerializeField] private MapSettings mapSettings;
-    [SerializeField] private string simName;
+    [SerializeField] private SimulationInfo simInfo;
     [SerializeField] private GameObject city;
     [SerializeField] private GameObject airport;
     [SerializeField] private GameObject port;
@@ -29,9 +30,11 @@ public class EntityManager : MonoBehaviour
     [SerializeField] private GameObject oilWell;
     [SerializeField] private GameObject oilRefinery;
 
+    public List<QMapEntity> QMapEntities { get; private set; }
+    public List<GameObject> EntityGameObjects { get; private set; }
+
     private float _startX;
     private float _startZ;
-    private List<QMapEntity> _qMapEntities;
 
     [UsedImplicitly]
     public void Spawn()
@@ -42,11 +45,21 @@ public class EntityManager : MonoBehaviour
         QueryQ();
     }
 
+    private void Destroy()
+    {
+        if (EntityGameObjects is null) return;
+        
+        foreach (var entity in EntityGameObjects)
+        {
+            Object.Destroy(entity);
+        }    
+    }
+    
     private void QueryQ()
     {
         var query = @$"
           query {{
-            mapEntities(sim: ""{simName}"") {{
+            mapEntities(sim: ""{simInfo.simName}"") {{
               id
               type
               kind
@@ -86,31 +99,35 @@ public class EntityManager : MonoBehaviour
     {
         if (response.Errors != null) throw new Exception("GraphQL errors: " + response.Errors);
 
-        _qMapEntities = response.GetList<QMapEntity>("mapEntities");
+        Destroy();
+        
+        EntityGameObjects = new List<GameObject>();
+        QMapEntities = response.GetList<QMapEntity>("mapEntities");
 
         StartCoroutine(Co_Spawn());
     }
 
     private IEnumerator Co_Spawn()
     {
-        foreach (var qMapEntity in _qMapEntities)
+        foreach (var qMapEntity in QMapEntities)
         {
-            var entity = EntityGameObject(qMapEntity.kind);
-            if (entity is null)
+            var entityPrototype = EntityGameObject(qMapEntity.kind);
+            if (entityPrototype is null)
             {
                 print("Unsupported entity kind: " + qMapEntity.kind);
                 continue;
             }
 
-            SpawnEntity(entity, qMapEntity.x, qMapEntity.y);
-
+            var entityGameObject = SpawnEntity(entityPrototype, qMapEntity.x, qMapEntity.y);
+            EntityGameObjects.Add(entityGameObject);
+            
             yield return new WaitForSeconds(mapSettings.spawnDelay);
         }
 
         onEntitiesSpawned.Invoke();
     }
 
-    private void SpawnEntity(GameObject entity, float tileX, float tileY)
+    private GameObject SpawnEntity(GameObject entity, float tileX, float tileY)
     {
         var posX = _startX + mapSettings.tileSizeX * tileX;
         var posZ = _startZ - mapSettings.tileSizeZ * tileY;
@@ -118,6 +135,6 @@ public class EntityManager : MonoBehaviour
         // print("entity:posX: " + posX + " (" + tileX + ")");
         // print("entity:posZ: " + posZ + " (" + tileY + ")");
 
-        Instantiate(entity, new Vector3(posX, mapSettings.startY, posZ), Quaternion.identity);
+        return Instantiate(entity, new Vector3(posX, mapSettings.startY, posZ), Quaternion.identity);
     }
 }

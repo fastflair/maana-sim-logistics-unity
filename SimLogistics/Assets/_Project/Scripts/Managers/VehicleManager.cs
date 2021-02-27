@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Maana.GraphQL;
 using UnityEngine;
 using UnityEngine.Events;
+using Object = UnityEngine.Object;
 
 public class VehicleManager : MonoBehaviour
 {
@@ -11,14 +12,16 @@ public class VehicleManager : MonoBehaviour
 
     [SerializeField] private MapManager mapManager;
     [SerializeField] private MapSettings mapSettings;
-    [SerializeField] private string simName;
+    [SerializeField] private SimulationInfo simInfo;
     [SerializeField] private GameObject truck;
     [SerializeField] private GameObject plane;
     [SerializeField] private GameObject ship;
 
+    public List<QVehicle> QVehicles { get; private set; }
+    public List<GameObject> VehicleGameObjects { get; private set; }
+
     private float _startX;
     private float _startZ;
-    private List<QVehicle> _qVehicles;
 
     public void Spawn()
     {
@@ -28,11 +31,21 @@ public class VehicleManager : MonoBehaviour
         QueryQ();
     }
 
+    private void Destroy()
+    {
+        if (VehicleGameObjects is null) return;
+        
+        foreach (var entity in VehicleGameObjects)
+        {
+            Object.Destroy(entity);
+        }    
+    }
+
     private void QueryQ()
     {
         var query = @$"
           query {{
-            mapVehicles(sim: ""{simName}"") {{
+            mapVehicles(sim: ""{simInfo.simName}"") {{
               id
               kind
               x
@@ -60,23 +73,27 @@ public class VehicleManager : MonoBehaviour
     {
         if (response.Errors != null) throw new Exception("GraphQL errors: " + response.Errors);
 
-        _qVehicles = response.GetList<QVehicle>("mapVehicles");
+        Destroy();
+
+        VehicleGameObjects = new List<GameObject>();
+        QVehicles = response.GetList<QVehicle>("mapVehicles");
 
         StartCoroutine(Co_Spawn());
     }
 
     private IEnumerator Co_Spawn()
     {
-        foreach (var qVehicle in _qVehicles)
+        foreach (var qVehicle in QVehicles)
         {
-            var vehicle = VehicleGameObject(qVehicle.kind);
-            if (vehicle is null)
+            var vehiclePrototype = VehicleGameObject(qVehicle.kind);
+            if (vehiclePrototype is null)
             {
                 print("Unsupported vehicle kind: " + qVehicle.kind);
                 continue;
             }
 
-            SpawnVehicle(vehicle, qVehicle.x, qVehicle.y);
+            var vehicleGameObject = SpawnVehicle(vehiclePrototype, qVehicle.x, qVehicle.y);
+            VehicleGameObjects.Add(vehicleGameObject);
 
             yield return new WaitForSeconds(mapSettings.spawnDelay);
         }
@@ -84,7 +101,7 @@ public class VehicleManager : MonoBehaviour
         onVehiclesSpawned.Invoke();
     }
 
-    private void SpawnVehicle(GameObject vehicle, float tileX, float tileY)
+    private GameObject SpawnVehicle(GameObject vehicle, float tileX, float tileY)
     {
         var posX = _startX + mapSettings.tileSizeX * tileX;
         var posZ = _startZ - mapSettings.tileSizeZ * tileY;
@@ -92,6 +109,6 @@ public class VehicleManager : MonoBehaviour
         // print("entity:posX: " + posX + " (" + tileX + ")");
         // print("entity:posZ: " + posZ + " (" + tileY + ")");
 
-        Instantiate(vehicle, new Vector3(posX, mapSettings.startY, posZ), Quaternion.identity);
+        return Instantiate(vehicle, new Vector3(posX, mapSettings.startY, posZ), Quaternion.identity);
     }
 }
