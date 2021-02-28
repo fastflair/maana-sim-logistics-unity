@@ -6,8 +6,6 @@ namespace Maana.GraphQL
 {
     public sealed class GraphQLManager : MonoBehaviour
     {
-        public static GraphQLManager Instance { get; private set; }
-
         [SerializeField] private string url;
         [SerializeField] private TextAsset credentials;
         [SerializeField] private bool persistAcrossScenes;
@@ -21,21 +19,11 @@ namespace Maana.GraphQL
 
         private void Awake()
         {
-            if(Instance == null)
-            {
-                Instance = this;
-            }
-            else if(Instance != this)
-            {
-                Destroy(gameObject);
-            }
-
             if (persistAcrossScenes)
             {
                 DontDestroyOnLoad(gameObject);
             }
 
-            if (Instance != this) return;
             if(!string.IsNullOrEmpty(url))
             {
                 _client = new GraphQLClient(url);

@@ -10,6 +10,7 @@ public class VehicleManager : MonoBehaviour, ISelectionHandler
 {
     [SerializeField] private UnityEvent onVehiclesSpawned;
 
+    [SerializeField] private GraphQLManager apiService;
     [SerializeField] private StringVariable simName;
     [SerializeField] private FloatVariable tileSize;
     [SerializeField] private FloatVariable tileDropHeight;
@@ -50,7 +51,7 @@ public class VehicleManager : MonoBehaviour, ISelectionHandler
           }}
         ";
 
-        GraphQLManager.Instance.Query(query, callback: QueryQCallback);
+        apiService.Query(query, callback: QueryQCallback);
     }
     
     private void QueryQCallback(GraphQLResponse response)

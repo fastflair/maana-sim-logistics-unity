@@ -11,6 +11,7 @@ public class MapManager : MonoBehaviour
 { 
     [SerializeField] private UnityEvent onMapTilesSpawned;
     
+    [SerializeField] private GraphQLManager apiService;
     [SerializeField] private StringVariable mapName;
     [SerializeField] private FloatVariable tileSize;
     [SerializeField] private FloatVariable tileDropHeight;
@@ -66,7 +67,7 @@ public class MapManager : MonoBehaviour
           }}
         ";
 
-        GraphQLManager.Instance.Query(query, callback: QueryQCallback);
+        apiService.Query(query, callback: QueryQCallback);
     }
 
     private void QueryQCallback(GraphQLResponse response)

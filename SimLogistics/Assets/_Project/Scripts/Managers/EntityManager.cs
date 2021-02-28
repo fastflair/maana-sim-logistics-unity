@@ -11,6 +11,7 @@ public class EntityManager : MonoBehaviour, ISelectionHandler
 {
     [SerializeField] private UnityEvent onEntitiesSpawned;
 
+    [SerializeField] private GraphQLManager apiService;
     [SerializeField] private StringVariable simName;
     [SerializeField] private FloatVariable tileSize;
     [SerializeField] private FloatVariable tileDropHeight;
@@ -64,7 +65,7 @@ public class EntityManager : MonoBehaviour, ISelectionHandler
           }}
         ";
 
-        GraphQLManager.Instance.Query(query, callback: QueryQCallback);
+       apiService.Query(query, callback: QueryQCallback);
     }
     
     private void QueryQCallback(GraphQLResponse response)

@@ -13,8 +13,8 @@ public class Title : MonoBehaviour
 
     public void Start()
     {
-        background.SetActive(true);
         background.GetComponent<CanvasGroup>().alpha = 1f;
+        background.SetActive(true);
         title.GetComponent<CanvasGroup>().alpha = 0f;
         logo.GetComponent<CanvasGroup>().alpha = 0f;
     }
@@ -45,6 +45,7 @@ public class Title : MonoBehaviour
 
     private void OnFadeOutComplete()
     {
+        background.SetActive(false);
         onTitlesComplete.Invoke();
     }
 }
