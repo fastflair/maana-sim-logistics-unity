@@ -1,3 +1,4 @@
+
 # This .gitignore file should be placed at the root of your Unity project directory
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
@@ -72,3 +73,22 @@ crashlytics-build.properties
 
 # EXTRAS
 /[Aa]ssets/credentials.*
+
+# 3rd-party packages
+/[Aa]ssets/AssetStoreOriginals*
+/[Aa]ssets/AssetStoreOriginals.meta
+/[Aa]ssets/Concrete\ textures\ pack*
+/[Aa]ssets/Concrete\ textures\ pack.meta
+/[Aa]ssets/FactorySite*
+/[Aa]ssets/FactorySite.meta
+/[Aa]ssets/Oil_Refinery_06*
+/[Aa]ssets/Oil_Refinery_06.meta
+/[Aa]ssets/Oil_Rig_Platform_Pack*
+/[Aa]ssets/Oil_Rig_Platform_Pack.meta
+/[Aa]ssets/Plugins*
+/[Aa]ssets/polyperfect*
+/[Aa]ssets/polyperfect.meta
+/[Aa]ssets/SampleScenes*
+/[Aa]ssets/SampleScenes.meta
+/[Aa]ssets/SimpleAirport*
+/[Aa]ssets/SimpleAirport.meta

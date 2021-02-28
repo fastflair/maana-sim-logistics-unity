@@ -17,7 +17,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         DisableWorldInteraction();
-        HideHUD();
+        // HideHUD();
         ShowTitle();
         onBootstrap.Invoke();
     }
