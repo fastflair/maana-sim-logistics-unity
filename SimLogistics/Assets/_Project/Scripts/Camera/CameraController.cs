@@ -46,7 +46,7 @@ public class CameraController : MonoBehaviour
 
         HandleMovement();
     }
-    
+
     private void HandleMovement()
     {
         HandleInputKeyboard();

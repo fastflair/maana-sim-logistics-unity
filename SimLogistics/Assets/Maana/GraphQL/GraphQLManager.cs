@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 namespace Maana.GraphQL
@@ -8,7 +9,7 @@ namespace Maana.GraphQL
     {
         private GraphQLClient _client;
         private OAuthFetcher _fetcher;
-        private List<QueuedQuery> _queuedQueries = new List<QueuedQuery>();
+        private readonly List<QueuedQuery> _queuedQueries = new List<QueuedQuery>();
 
         private bool HasToken => _fetcher is {Token: { }};
 
@@ -25,10 +26,15 @@ namespace Maana.GraphQL
 
         private void TokenReceived()
         {
-            foreach (var queuedQuery in _queuedQueries)
-                Query(queuedQuery.Query, queuedQuery.Variables, queuedQuery.Callback);
+            lock (_queuedQueries)
+            {
+                foreach (var queuedQuery in _queuedQueries)
+                {
+                    Query(queuedQuery.Query, queuedQuery.Variables, queuedQuery.Callback);
+                }
 
-            _queuedQueries = new List<QueuedQuery>();
+                _queuedQueries.Clear();
+            }
         }
 
         public void Query(string query, object variables = null, Action<GraphQLResponse> callback = null)
@@ -36,7 +42,10 @@ namespace Maana.GraphQL
             if (HasToken)
                 _client.Query(query, variables, _fetcher.Token.access_token, callback);
             else
-                _queuedQueries.Add(new QueuedQuery(query, variables, callback));
+                lock (_queuedQueries)
+                {
+                    _queuedQueries.Add(new QueuedQuery(query, variables, callback));
+                }
         }
 
         private class QueuedQuery

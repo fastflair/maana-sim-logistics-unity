@@ -7,37 +7,27 @@ using UnityEngine;
 
 public class Serializer
 {
-    public static string SavePath => Path.Combine(Application.persistentDataPath, "saves");
-
-    public static bool Save(string saveName, object saveData)
+    public static bool Save(string filePath, object saveData)
     {
         var formatter = GetBinaryFormatter();
-        
-        if (!Directory.Exists(SavePath))
-        {
-            Directory.CreateDirectory(SavePath);
-        }
-
-        var saveFilePath = Path.Combine(SavePath, $"{saveName}.save");
-
-        using var file = File.Create(saveFilePath);
+        using var file = File.Create(filePath);
         formatter.Serialize(file, saveData);
         file.Close();
         
         return true;
     }
 
-    public static object Load(string path)
+    public static object Load(string filePath)
     {
-        if (!File.Exists(path))
+        if (!File.Exists(filePath))
         {
-            Debug.Log($"Path does not exist: {path}");
+            Debug.Log($"File path does not exist: {filePath}");
             return null;
         }
         
         var formatter = GetBinaryFormatter();
 
-        using var file = File.Open(path, FileMode.Open);
+        using var file = File.Open(filePath, FileMode.Open);
 
         try
         {
@@ -47,10 +37,11 @@ public class Serializer
         }
         catch (Exception e)
         {
-            Debug.LogErrorFormat("Failed to load file at {0}: {1}", path, e);
+            Debug.LogErrorFormat("Failed to load file at {0}: {1}", filePath, e);
             return null;
         }
     }
+    
     public static BinaryFormatter GetBinaryFormatter()
     {
         BinaryFormatter formatter = new BinaryFormatter();

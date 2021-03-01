@@ -1,4 +1,6 @@
 
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using Maana.GraphQL;
 using UnityEngine;
@@ -9,43 +11,80 @@ public class ConnectionManager : MonoBehaviour
     [SerializeField] private TextAsset bootstrapConnection;
 
     [SerializeField] private ConnectionState currentConnectionState;
+    
     public ConnectionState CurrentConnectionState => currentConnectionState;
-
+    private ConnectionState _bootstrapConnectionState;
+    
     public GraphQLManager apiEndpoint;
     public GraphQLManager agentEndpoint;
-    
+
     private void Awake()
     {
-        if (saveManager.CurrentSaveFile == null)
+        _bootstrapConnectionState = JsonUtility.FromJson<ConnectionState>(bootstrapConnection.text);
+        Reload();
+    }
+    
+    private void Reload()
+    {
+        string id;
+        if (saveManager.CurrentSaveFile != null)
         {
-            print("Bootstrapping connection");
-            currentConnectionState = JsonUtility.FromJson<ConnectionState>(bootstrapConnection.text);
-            saveManager.Save(currentConnectionState.id, currentConnectionState);
+            id = saveManager.CurrentSaveFile.FileName;
         }
-        
-        LoadAndConnect(saveManager.CurrentSaveFile.FileName);
+        else
+        {
+            // Bootstrap
+            Save(_bootstrapConnectionState);
+            id = _bootstrapConnectionState.id;
+        }
+
+        LoadAndConnect(id);
     }
 
-    public void LoadAndConnect(string fileName)
+    public bool IsBoostrap(string id)
     {
-        print("Loading connection");
-        currentConnectionState = saveManager.Load<ConnectionState>(fileName);
-        print("Connection: " + currentConnectionState.id);
+        return id == _bootstrapConnectionState.id;
+    }
+    
+    public IEnumerable<string> AvailableConnections
+    {
+        get { return saveManager.saveFiles.Select((x) => x.FileName).ToList(); }
+    }
+
+    public bool Save(ConnectionState state)
+    {
+        if (!saveManager.Save(state.id, state)) return false;
+        Reload();
+        return true;
+
+    }
+
+    public bool Delete(string id)
+    {
+        if (id == _bootstrapConnectionState.id) return false;
+        saveManager.Delete(id);
+        Reload();        
+        return true;
+    }
+    
+    public ConnectionState Load(string id)
+    {
+        return saveManager.Load<ConnectionState>(id);
+    }
+    
+    public ConnectionState LoadAndConnect(string id)
+    {
+        currentConnectionState = Load(id);
         
         ConnectEndpoint(apiEndpoint, currentConnectionState);
         ConnectEndpoint(agentEndpoint, currentConnectionState);
+
+        return currentConnectionState;
     }
     
     private void ConnectEndpoint(GraphQLManager endpoint, ConnectionState state)
     {
         var url = endpoint == apiEndpoint ? state.apiEndpoint : state.agentEndpoint;
-        print("Connecting to: " + url);
         endpoint.Connect(url, state.authDomain, state.authClientId, state.authClientSecret, state.authIdentifier, state.refreshMinutes);
-    }
-    
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

@@ -8,6 +8,18 @@ using UnityEngine;
 
 public class SaveManager : MonoBehaviour
 {
+    public static string SavePath => Path.Combine(Application.persistentDataPath, "saves");
+
+    public static string SafeFileName(string fileName)
+    {
+        return Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c, '-'));
+    }
+    
+    public static string FullPath(string fileName)
+    {
+        return Path.Combine(SavePath, fileName) + ".save";
+    }
+
     public class SaveFile
     {
         public string FileName { get; }
@@ -30,17 +42,25 @@ public class SaveManager : MonoBehaviour
 
     public bool Save(string fileName, object saveData)
     {
-        var safeFileName = Path.GetInvalidFileNameChars().Aggregate(name, (current, c) => current.Replace(c, '-'));
-        if (!Serializer.Save(safeFileName, saveData)) return false;
+        var filePath = FullPath(fileName);
+        if (!Serializer.Save(filePath, saveData)) return false;
+        GetSaveFiles();
+        return true;
+    }
+
+    public bool Delete(string fileName)
+    {
+        var filePath = FullPath(fileName);
+        File.Delete(filePath);
         GetSaveFiles();
         return true;
     }
 
     public T Load<T>(string fileName) where T : class
     {
-        var saveData = Serializer.Load(fileName);
+        var filePath = FullPath(fileName);
+        var saveData = Serializer.Load(filePath);
         if (saveData == null) return null;
-        var filePath = Path.Combine(Serializer.SavePath, fileName);
         File.SetLastWriteTime(filePath, DateTime.Now);
         GetSaveFiles();
         return saveData as T;
@@ -48,19 +68,21 @@ public class SaveManager : MonoBehaviour
     
     private void GetSaveFiles()
     {
-        if (!Directory.Exists(Serializer.SavePath))
+        if (!Directory.Exists(SavePath))
         {
-            Directory.CreateDirectory(Serializer.SavePath);
+            Directory.CreateDirectory(SavePath);
+            return;
         }
 
         saveFiles.Clear();
         
-        var paths = Directory.GetFiles(Serializer.SavePath);
+        var paths = Directory.GetFiles(SavePath);
         var latestWriteTime = DateTime.MinValue;
         foreach (var path in paths)
         {
             var lastWriteTime = File.GetLastWriteTime(path);
-            var saveFile = new SaveFile(path, lastWriteTime);
+            var cleanName = Path.GetFileNameWithoutExtension(path);
+            var saveFile = new SaveFile(cleanName, lastWriteTime);
             saveFiles.Add(saveFile);
 
             if (lastWriteTime <= latestWriteTime) continue;
