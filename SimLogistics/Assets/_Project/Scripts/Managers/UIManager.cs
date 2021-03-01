@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -19,50 +21,61 @@ public class UIManager : MonoBehaviour
 
     // HUD
     [SerializeField] private GameObject hud;
-    [SerializeField] private float hudFadeInDuration;
-    [SerializeField] private float hudFadeInDelay;
-    [SerializeField] private float hudFadeOutDuration;
-    [SerializeField] private float hudFadeOutDelay;
+    [SerializeField] private float hudFadeDuration;
+    [SerializeField] private float hudFadeDelay;
 
-    // HUD: Command Bars and Buttons
-    [SerializeField] private GameObject systemCommandBar;
-    [SerializeField] private GameObject simulationCommandBar;
-    [SerializeField] private Button newButton;
-    [SerializeField] private Button loadButton;
-    [SerializeField] private Button deleteButton;
-    [SerializeField] private Button simulationButton;
+    // HUD: Bars and Buttons
+    [SerializeField] private GameObject systemBar;
+    [SerializeField] private GameObject simulationBar;
+    private Button _newSimulationButton;
+    private Button _loadSimulationButton;
+    private Button _deleteSimulationButton;
+    private Button _simulationButton;
 
     // Dialogs
     [SerializeField] private GameObject backdrop;
-    [SerializeField] private GameObject connectionsDialog;
+    [SerializeField] private ConnectionsDialog connectionsDialog;
+
+    private void Awake()
+    {
+        InitializeSystemButtons();
+    }
 
     private void Start()
     {
+        
         // Initial conditions
         DisableWorldInteraction();
-        HideHUD();
+        // HideHUD();
         SimulationNotReady();
-        ShowSystemCommandBar();
-        HideConnectionsDialog();
-
+        ShowSystemBar();
+        
         ShowTitle();
 
         onBootstrap.Invoke();
     }
 
+    private void InitializeSystemButtons()
+    {
+        _newSimulationButton = systemBar.transform.Find("New").GetComponent<Button>();
+        _loadSimulationButton = systemBar.transform.Find("Load").GetComponent<Button>();
+        _deleteSimulationButton = systemBar.transform.Find("Delete").GetComponent<Button>();
+        _simulationButton = systemBar.transform.Find("Simulation").GetComponent<Button>();
+    }
+    
     public void SimulationReady()
     {
-        EnableNewButton();
-        EnableLoadButton();
-        EnableDeleteButton();
+        EnableNewSimulationButton();
+        EnableLoadSimulationButton();
+        EnableDeleteSimulationButton();
         EnableSimulationButton();
     }
 
     public void SimulationNotReady()
     {
-        DisableNewButton();
-        DisableLoadButton();
-        DisableDeleteButton();
+        DisableNewSimulationButton();
+        DisableLoadSimulationButton();
+        DisableDeleteSimulationButton();
         DisableSimulationButton();
     }
 
@@ -97,15 +110,14 @@ public class UIManager : MonoBehaviour
     {
         hud.GetComponent<CanvasGroup>().alpha = 0f;
         ShowHUD();
-        LeanTween.alphaCanvas(hud.GetComponent<CanvasGroup>(), 1f, hudFadeInDuration).setDelay(hudFadeInDelay);
+        LeanTween.alphaCanvas(hud.GetComponent<CanvasGroup>(), 1f, hudFadeDuration).setDelay(hudFadeDelay);
     }
 
     public void FadeHUDOut()
     {
         hud.GetComponent<CanvasGroup>().alpha = 1f;
-        LeanTween.alphaCanvas(hud.GetComponent<CanvasGroup>(), 0f, hudFadeOutDuration).setDelay(hudFadeOutDelay)
+        LeanTween.alphaCanvas(hud.GetComponent<CanvasGroup>(), 0f, hudFadeDuration).setDelay(hudFadeDelay)
             .setOnComplete(HideHUD);
-        ;
     }
 
     public void ShowHUD()
@@ -118,72 +130,74 @@ public class UIManager : MonoBehaviour
         hud.SetActive(false);
     }
 
-    // HUD: Command Bars
-    public void ShowSystemCommandBar()
+    // HUD: Button Bars
+    public void ShowSystemBar()
     {
-        HideSimulationCommandBar();
-        systemCommandBar.SetActive(true);
+        HideSimulationBar();
+        systemBar.SetActive(true);
     }
 
-    public void HideSystemCommandBar()
+    public void HideSystemBar()
     {
-        systemCommandBar.SetActive(false);
+        systemBar.SetActive(false);
     }
 
-    public void ShowSimulationCommandBar()
+    public void ShowSimulationBar()
     {
-        HideSystemCommandBar();
-        simulationCommandBar.SetActive(true);
+        HideSystemBar();
+        simulationBar.SetActive(true);
     }
 
-    public void HideSimulationCommandBar()
+    public void HideSimulationBar()
     {
-        simulationCommandBar.SetActive(false);
+        simulationBar.SetActive(false);
     }
 
-    public void EnableNewButton()
+    public void EnableNewSimulationButton()
     {
-        newButton.interactable = true;
+        _newSimulationButton.interactable = true;
     }
 
-    public void DisableNewButton()
+    public void DisableNewSimulationButton()
     {
-        newButton.interactable = false;
+        _newSimulationButton.interactable = false;
     }
 
-    public void EnableLoadButton()
+    public void EnableLoadSimulationButton()
     {
-        loadButton.interactable = true;
+        _loadSimulationButton.interactable = true;
     }
 
-    public void DisableLoadButton()
+    public void DisableLoadSimulationButton()
     {
-        loadButton.interactable = false;
+        _loadSimulationButton.interactable = false;
     }
 
-    public void EnableDeleteButton()
+    public void EnableDeleteSimulationButton()
     {
-        deleteButton.interactable = true;
+        _deleteSimulationButton.interactable = true;
     }
 
-    public void DisableDeleteButton()
+    public void DisableDeleteSimulationButton()
     {
-        deleteButton.interactable = false;
+        _deleteSimulationButton.interactable = false;
     }
 
     public void EnableSimulationButton()
     {
-        simulationButton.interactable = true;
+        _simulationButton.interactable = true;
     }
 
     public void DisableSimulationButton()
     {
-        simulationButton.interactable = false;
+        _simulationButton.interactable = false;
     }
 
     // Dialogs
     public void ShowDialog(GameObject dialog)
     {
+        DisableWorldInteraction();
+        
         backdrop.GetComponent<CanvasGroup>().alpha = 0f;
         backdrop.SetActive(true);
 
@@ -197,16 +211,22 @@ public class UIManager : MonoBehaviour
     {
         var slide = dialog.GetComponent<SlideUI>();
         slide.SetVisible(false);
-        LeanTween.alphaCanvas(backdrop.GetComponent<CanvasGroup>(), 0f, 1f).setOnComplete(() => backdrop.SetActive(false));
+        
+        LeanTween.alphaCanvas(backdrop.GetComponent<CanvasGroup>(), 0f, 1f).setOnComplete(() =>
+        {
+            backdrop.SetActive(false);
+            EnableWorldInteraction();
+        });
     }
 
     public void ShowConnectionsDialog()
     {
-        ShowDialog(connectionsDialog);
+        connectionsDialog.PopulateForm();
+        ShowDialog(connectionsDialog.gameObject);
     }
 
     public void HideConnectionsDialog()
     {
-        HideDialog(connectionsDialog);
+        HideDialog(connectionsDialog.gameObject);
     }
 }

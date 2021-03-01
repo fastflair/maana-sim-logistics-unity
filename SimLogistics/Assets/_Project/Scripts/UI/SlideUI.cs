@@ -44,9 +44,9 @@ public class SlideUI : MonoBehaviour
         return _isVisible;
     }
 
-    public void SetVisible(bool onOff, bool isAnimated = true)
+    public LTDescr SetVisible(bool onOff, bool isAnimated = true)
     {
-        if (_isVisible == onOff) return;
+        if (_isVisible == onOff) return null;
 
         _isVisible = onOff;
         if (isAnimated)
@@ -56,10 +56,11 @@ public class SlideUI : MonoBehaviour
             // Delay is set so that these tabs can get "swiped".
             if (delayedShow && onOff)
                 tween.setDelay(animDuration);
-            return;
+            return tween;
         }
 
         _rt.anchoredPosition = _isVisible ? _visiblePos : _offScreenPos;
+        return null;
     }
 
     public void SetDirection(Direction direction)

@@ -6,14 +6,15 @@ using UnityEngine;
 public class ConnectionManager : MonoBehaviour
 {
     [SerializeField] private SaveManager saveManager;
-    [SerializeField] private ConnectionState currentConnectionState;
     [SerializeField] private TextAsset bootstrapConnection;
+
+    [SerializeField] private ConnectionState currentConnectionState;
+    public ConnectionState CurrentConnectionState => currentConnectionState;
 
     public GraphQLManager apiEndpoint;
     public GraphQLManager agentEndpoint;
     
-    // Start is called before the first frame update
-    private void Start()
+    private void Awake()
     {
         if (saveManager.CurrentSaveFile == null)
         {

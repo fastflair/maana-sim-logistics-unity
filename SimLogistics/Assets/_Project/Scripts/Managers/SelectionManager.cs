@@ -1,6 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class SelectionManager : MonoBehaviour
 {
@@ -14,6 +14,8 @@ public class SelectionManager : MonoBehaviour
     
     private void Update()
     {
+        if (Pointer.IsOverUIObject()) return;
+        
         if (!isWorldInteractable.Value) return;
         
         var ray = camera.ScreenPointToRay(Input.mousePosition);
@@ -43,7 +45,7 @@ public class SelectionManager : MonoBehaviour
         
         Enter(selectableObject, hitObject);
     }
-
+    
     private void Enter(SelectableObject selectableObject, GameObject hitObject)
     {
         _curSelectableObject = selectableObject;

@@ -1,8 +1,5 @@
-using System;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
 
 public class CameraController : MonoBehaviour
 {
@@ -26,11 +23,12 @@ public class CameraController : MonoBehaviour
     private Vector3 _newZoom;
 
     // Mouse
+    private bool _isDragging;
     private Vector3 _dragStartPosition;
     private Vector3 _dragCurrentPosition;
     private Vector3 _rotateStartPosition;
     private Vector3 _rotateCurrentPosition;
-    
+        
     private void Start()
     {
         _newPosition = transform.position;
@@ -40,7 +38,11 @@ public class CameraController : MonoBehaviour
     
     private void Update()
     {
-        if (!isWorldInteractable.Value) return;
+        if (!isWorldInteractable.Value || Pointer.IsOverUIObject())
+        {
+            _isDragging = false; // ensure
+            return;
+        }
 
         HandleMovement();
     }
@@ -72,16 +74,20 @@ public class CameraController : MonoBehaviour
             if (GetDragPoint(out var point))
             {
                 _dragStartPosition = point;
+                _isDragging = true;
             }
         }
 
         if (Input.GetMouseButton(0))
         {
-            if (GetDragPoint(out var point))
-            {
-                _dragCurrentPosition = point;
-                _newPosition = transform.position + _dragStartPosition - _dragCurrentPosition;
-            }
+            if (!_isDragging || !GetDragPoint(out var point)) return;
+            
+            _dragCurrentPosition = point;
+            _newPosition = transform.position + _dragStartPosition - _dragCurrentPosition;
+        }
+        else
+        {
+            _isDragging = false;
         }
     }
     
