@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -8,20 +6,20 @@ public class UIManager : MonoBehaviour
 {
     // Events
     [SerializeField] private UnityEvent onBootstrap;
-    
+
     // Interaction
     [SerializeField] private BoolVariable isWorldInteractable;
-    
+
     // Title
     [SerializeField] private GameObject title;
-    
+
     // HUD
     [SerializeField] private GameObject hud;
     [SerializeField] private float hudFadeInDuration;
     [SerializeField] private float hudFadeInDelay;
     [SerializeField] private float hudFadeOutDuration;
     [SerializeField] private float hudFadeOutDelay;
-    
+
     // HUD: Command Bars and Buttons
     [SerializeField] private GameObject systemCommandBar;
     [SerializeField] private GameObject simulationCommandBar;
@@ -30,6 +28,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button deleteButton;
     [SerializeField] private Button simulationButton;
 
+    // Dialogs
+    [SerializeField] private GameObject backdrop;
+    [SerializeField] private GameObject connectionsDialog;
+
     private void Start()
     {
         // Initial conditions
@@ -37,9 +39,10 @@ public class UIManager : MonoBehaviour
         HideHUD();
         SimulationNotReady();
         ShowSystemCommandBar();
-                
+        HideConnectionsDialog();
+
         ShowTitle();
-        
+
         onBootstrap.Invoke();
     }
 
@@ -50,7 +53,7 @@ public class UIManager : MonoBehaviour
         EnableDeleteButton();
         EnableSimulationButton();
     }
-    
+
     public void SimulationNotReady()
     {
         DisableNewButton();
@@ -58,17 +61,17 @@ public class UIManager : MonoBehaviour
         DisableDeleteButton();
         DisableSimulationButton();
     }
-    
+
     public void Quit()
     {
         Application.Quit();
     }
-    
+
     public void EnableWorldInteraction()
     {
         isWorldInteractable.Value = true;
     }
-    
+
     public void DisableWorldInteraction()
     {
         isWorldInteractable.Value = false;
@@ -92,13 +95,15 @@ public class UIManager : MonoBehaviour
         ShowHUD();
         LeanTween.alphaCanvas(hud.GetComponent<CanvasGroup>(), 1f, hudFadeInDuration).setDelay(hudFadeInDelay);
     }
-    
+
     public void FadeHUDOut()
     {
         hud.GetComponent<CanvasGroup>().alpha = 1f;
-        LeanTween.alphaCanvas(hud.GetComponent<CanvasGroup>(), 0f, hudFadeOutDuration).setDelay(hudFadeOutDelay).setOnComplete(HideHUD);;
+        LeanTween.alphaCanvas(hud.GetComponent<CanvasGroup>(), 0f, hudFadeOutDuration).setDelay(hudFadeOutDelay)
+            .setOnComplete(HideHUD);
+        ;
     }
-    
+
     public void ShowHUD()
     {
         hud.SetActive(true);
@@ -108,7 +113,7 @@ public class UIManager : MonoBehaviour
     {
         hud.SetActive(false);
     }
-    
+
     // HUD: Command Bars
     public void ShowSystemCommandBar()
     {
@@ -120,7 +125,7 @@ public class UIManager : MonoBehaviour
     {
         systemCommandBar.SetActive(false);
     }
-    
+
     public void ShowSimulationCommandBar()
     {
         HideSystemCommandBar();
@@ -136,17 +141,17 @@ public class UIManager : MonoBehaviour
     {
         newButton.interactable = true;
     }
-    
+
     public void DisableNewButton()
     {
         newButton.interactable = false;
     }
-    
+
     public void EnableLoadButton()
     {
         loadButton.interactable = true;
     }
-    
+
     public void DisableLoadButton()
     {
         loadButton.interactable = false;
@@ -156,19 +161,48 @@ public class UIManager : MonoBehaviour
     {
         deleteButton.interactable = true;
     }
-    
+
     public void DisableDeleteButton()
     {
         deleteButton.interactable = false;
     }
-    
+
     public void EnableSimulationButton()
     {
         simulationButton.interactable = true;
     }
-    
+
     public void DisableSimulationButton()
     {
         simulationButton.interactable = false;
+    }
+
+    // Dialogs
+    public void ShowDialog(GameObject dialog)
+    {
+        backdrop.GetComponent<CanvasGroup>().alpha = 0f;
+        backdrop.SetActive(true);
+
+        LeanTween.alphaCanvas(backdrop.GetComponent<CanvasGroup>(), 1f, 1f);
+        
+        var slide = dialog.GetComponent<SlideUI>();
+        slide.SetVisible(true);
+    }
+
+    public void HideDialog(GameObject dialog)
+    {
+        var slide = dialog.GetComponent<SlideUI>();
+        slide.SetVisible(false);
+        LeanTween.alphaCanvas(backdrop.GetComponent<CanvasGroup>(), 0f, 1f).setOnComplete(() => backdrop.SetActive(false));
+    }
+
+    public void ShowConnectionsDialog()
+    {
+        ShowDialog(connectionsDialog);
+    }
+
+    public void HideConnectionsDialog()
+    {
+        HideDialog(connectionsDialog);
     }
 }
