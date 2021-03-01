@@ -7,6 +7,10 @@ public class UIManager : MonoBehaviour
     // Events
     [SerializeField] private UnityEvent onBootstrap;
 
+    // State
+    [SerializeField] private ConnectionManager connectionManager;
+    [SerializeField] private SimulationManager simulationManager;
+    
     // Interaction
     [SerializeField] private BoolVariable isWorldInteractable;
 

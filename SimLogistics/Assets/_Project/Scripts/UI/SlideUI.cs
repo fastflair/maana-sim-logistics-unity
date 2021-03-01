@@ -47,7 +47,6 @@ public class SlideUI : MonoBehaviour
     public void SetVisible(bool onOff, bool isAnimated = true)
     {
         if (_isVisible == onOff) return;
-        print("_rt+: "+ _rt);
 
         _isVisible = onOff;
         if (isAnimated)
@@ -75,7 +74,6 @@ public class SlideUI : MonoBehaviour
         for (var i = 0; i < 4; i++)
         {
             corners[i] = _canvasRT.InverseTransformPoint(corners[i]);
-            print("corners: " + corners);
         }
 
         float offScreenValue;

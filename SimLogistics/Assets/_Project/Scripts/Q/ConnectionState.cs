@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class SimulationConnection
+public class ConnectionState
 {
     public string id;
     public string apiEndpoint;
@@ -12,4 +12,5 @@ public class SimulationConnection
     public string authClientId;
     public string authClientSecret;
     public string authIdentifier;
+    public float refreshMinutes;
 }

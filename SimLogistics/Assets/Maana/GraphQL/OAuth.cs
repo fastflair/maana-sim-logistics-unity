@@ -18,44 +18,22 @@ namespace Maana.GraphQL
         [UsedImplicitly] public string scope;
     }
 
-    [Serializable]
-    public class OAuthCredentials
-    {
-        public string AUTH_DOMAIN;
-        public string AUTH_CLIENT_ID;
-        public string AUTH_CLIENT_SECRET;
-        public string AUTH_IDENTIFIER;
-        public float REFRESH_MINUTES = 5f;
-    }
-
     public class OAuthFetcher
     {
-        private readonly string AUTH_CLIENT_ID;
-        private readonly string AUTH_CLIENT_SECRET;
-
-        private readonly string AUTH_DOMAIN;
-        private readonly string AUTH_IDENTIFIER;
-        private readonly float REFRESH_MINUTES;
+        private readonly string authDomain;
+        private readonly string authClientId;
+        private readonly string authClientSecret;
+        private readonly string authIdentifier;
+        private readonly float refreshMinutes;
 
         public OAuthFetcher(string authDomain, string authClientId, string authClientSecret, string authIdentifier,
-            float refreshMinutes = 5f)
+            float refreshMinutes = 20f)
         {
-            AUTH_DOMAIN = authDomain;
-            AUTH_CLIENT_ID = authClientId;
-            AUTH_CLIENT_SECRET = authClientSecret;
-            AUTH_IDENTIFIER = authIdentifier;
-            REFRESH_MINUTES = refreshMinutes;
-            GetOAuthToken();
-        }
-
-        public OAuthFetcher(string authCredentialsJson)
-        {
-            var credentials = JsonUtility.FromJson<OAuthCredentials>(authCredentialsJson);
-            AUTH_DOMAIN = credentials.AUTH_DOMAIN;
-            AUTH_CLIENT_ID = credentials.AUTH_CLIENT_ID;
-            AUTH_CLIENT_SECRET = credentials.AUTH_CLIENT_SECRET;
-            AUTH_IDENTIFIER = credentials.AUTH_IDENTIFIER;
-            REFRESH_MINUTES = credentials.REFRESH_MINUTES;
+            this.authDomain = authDomain;
+            this.authClientId = authClientId;
+            this.authClientSecret = authClientSecret;
+            this.authIdentifier = authIdentifier;
+            this.refreshMinutes = refreshMinutes;
             GetOAuthToken();
         }
 
@@ -66,8 +44,8 @@ namespace Maana.GraphQL
         private string StripCredentials(string str)
         {
             return str
-                .Replace(AUTH_IDENTIFIER, "<chunk redacted>")
-                .Replace(AUTH_CLIENT_SECRET, "<chunk redacted>");
+                .Replace(authIdentifier, "<chunk redacted>")
+                .Replace(authClientSecret, "<chunk redacted>");
         }
 
         private void BeginTokenUpdater()
@@ -77,27 +55,28 @@ namespace Maana.GraphQL
 
         private IEnumerator UpdateToken()
         {
-            yield return new WaitForSeconds(REFRESH_MINUTES * 60f);
+            yield return new WaitForSeconds(refreshMinutes * 20f);
             GetOAuthToken();
         }
 
         private UnityWebRequest TokenRequest()
         {
-            if (AUTH_IDENTIFIER == null)
+            if (authIdentifier == null)
                 throw new Exception(
                     "OAuth: No auth identifier detected in environment variables: proceeding WITHOUT authentication!");
 
             try
             {
-                var url = $"https://{AUTH_DOMAIN}/auth/realms/{AUTH_IDENTIFIER}/protocol/openid-connect/token";
+                // TODO: Auth0?
+                var url = $"https://{authDomain}/auth/realms/{authIdentifier}/protocol/openid-connect/token";
 
                 var formData = new WWWForm();
 
-                formData.AddField("client_id", AUTH_CLIENT_ID);
-                formData.AddField("client_secret", AUTH_CLIENT_SECRET);
+                formData.AddField("client_id", authClientId);
+                formData.AddField("client_secret", authClientSecret);
 
                 formData.AddField("grant_type", "client_credentials");
-                formData.AddField("audience", AUTH_IDENTIFIER);
+                formData.AddField("audience", authIdentifier);
 
                 var request = UnityWebRequest.Post(url, formData);
 
