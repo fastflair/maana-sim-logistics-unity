@@ -4,9 +4,14 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using Maana.GraphQL;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ConnectionManager : MonoBehaviour
 {
+    [SerializeField] private UnityEvent onConnected;
+    [SerializeField] private UnityEvent onDisconnected;
+    [SerializeField] private UnityEvent<string> onConnectionError;
+    
     [SerializeField] private SaveManager saveManager;
     [SerializeField] private TextAsset bootstrapConnection;
 
@@ -18,7 +23,9 @@ public class ConnectionManager : MonoBehaviour
     public GraphQLManager apiEndpoint;
     public GraphQLManager agentEndpoint;
 
-    private void Awake()
+    private int _connectionCount;
+    
+    private void Start()
     {
         _bootstrapConnectionState = JsonUtility.FromJson<ConnectionState>(bootstrapConnection.text);
         Reload();
@@ -86,5 +93,16 @@ public class ConnectionManager : MonoBehaviour
     {
         var url = endpoint == apiEndpoint ? state.apiEndpoint : state.agentEndpoint;
         endpoint.Connect(url, state.authDomain, state.authClientId, state.authClientSecret, state.authIdentifier, state.refreshMinutes);
+        endpoint.onConnected.AddListener(UpdateConnectionStatus);
+        endpoint.onDisconnected.AddListener(() => onDisconnected.Invoke());
+        endpoint.onConnectionError.AddListener((error) => onConnectionError.Invoke(error));
+    }
+
+    private void UpdateConnectionStatus()
+    {
+        if (_connectionCount++ % 2 == 0)
+        {
+            onConnected.Invoke();
+        }
     }
 }

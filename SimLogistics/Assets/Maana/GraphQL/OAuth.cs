@@ -40,6 +40,7 @@ namespace Maana.GraphQL
         public OAuthToken Token { get; private set; }
 
         public UnityEvent TokenReceivedEvent { get; } = new UnityEvent();
+        public UnityEvent<string> TokenErrorEvent { get; } = new UnityEvent<string>();
 
         private string StripCredentials(string str)
         {
@@ -62,8 +63,11 @@ namespace Maana.GraphQL
         private UnityWebRequest TokenRequest()
         {
             if (authIdentifier == null)
-                throw new Exception(
+            {
+                TokenErrorEvent.Invoke(
                     "OAuth: No auth identifier detected in environment variables: proceeding WITHOUT authentication!");
+                return null;
+            }
 
             try
             {
@@ -74,7 +78,6 @@ namespace Maana.GraphQL
 
                 formData.AddField("client_id", authClientId);
                 formData.AddField("client_secret", authClientSecret);
-
                 formData.AddField("grant_type", "client_credentials");
                 formData.AddField("audience", authIdentifier);
 
@@ -87,20 +90,25 @@ namespace Maana.GraphQL
             }
             catch (Exception ex)
             {
-                throw new Exception($"OAuth: Error obtaining OAuth token: {StripCredentials(ex.Message)}");
+                TokenErrorEvent.Invoke($"OAuth: Error obtaining OAuth token: {StripCredentials(ex.Message)}");
+                return null;
             }
         }
 
         private IEnumerator SendRequest()
         {
             var request = TokenRequest();
-
+            if (request == null) yield break;
+            
             using (var www = request)
             {
                 yield return www.SendWebRequest();
 
                 if (www.result != UnityWebRequest.Result.Success)
-                    throw new Exception("Could not authenticate: " + www.error);
+                {
+                    TokenErrorEvent.Invoke("Could not authenticate: " + www.error);
+                    yield break;
+                }
 
                 Token = JsonUtility.FromJson<OAuthToken>(www.downloadHandler.text);
 

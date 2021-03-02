@@ -25,29 +25,23 @@ public class UIManager : MonoBehaviour
     [SerializeField] private float hudFadeDelay;
 
     // HUD: Bars and Buttons
-    [SerializeField] private GameObject systemBar;
-    [SerializeField] private GameObject simulationBar;
-    private Button _newSimulationButton;
-    private Button _loadSimulationButton;
-    private Button _deleteSimulationButton;
-    private Button _simulationButton;
+    [SerializeField] private SystemBar systemBar;
+    [SerializeField] private SimulationBar simulationBar;
 
     // Dialogs
     [SerializeField] private GameObject backdrop;
-    [SerializeField] private ConnectionsDialog connectionsDialog;
-
-    private void Awake()
-    {
-        InitializeSystemButtons();
-    }
-
+    [SerializeField] private Transform dialogHost;
+    [SerializeField] private ConfirmationDialog confirmationDialog;
+    [SerializeField] private MessageDialog errorDialog;
+    [SerializeField] private MessageDialog infoDialog;
+    [SerializeField] private MessageDialog helpDialog;
+    
     private void Start()
     {
-        
         // Initial conditions
         DisableWorldInteraction();
         // HideHUD();
-        SimulationNotReady();
+        systemBar.ConnectionNotReady();
         ShowSystemBar();
         
         ShowTitle();
@@ -55,35 +49,31 @@ public class UIManager : MonoBehaviour
         onBootstrap.Invoke();
     }
 
-    private void InitializeSystemButtons()
+    // Connection state
+    // ----------------
+
+    public void OnConnected()
     {
-        _newSimulationButton = systemBar.transform.Find("New").GetComponent<Button>();
-        _loadSimulationButton = systemBar.transform.Find("Load").GetComponent<Button>();
-        _deleteSimulationButton = systemBar.transform.Find("Delete").GetComponent<Button>();
-        _simulationButton = systemBar.transform.Find("Simulation").GetComponent<Button>();
+        systemBar.ConnectionReady();
+    }
+
+    public void OnDisconnected()
+    {
+        systemBar.ConnectionNotReady();
     }
     
-    public void SimulationReady()
+    public void OnConnectionError(string error)
     {
-        EnableNewSimulationButton();
-        EnableLoadSimulationButton();
-        EnableDeleteSimulationButton();
-        EnableSimulationButton();
+        print("Connection error: " + error);
+        ShowErrorDialog("Connection error: " + error);
+        
+        systemBar.ConnectionNotReady();
+        ShowSystemBar();
     }
-
-    public void SimulationNotReady()
-    {
-        DisableNewSimulationButton();
-        DisableLoadSimulationButton();
-        DisableDeleteSimulationButton();
-        DisableSimulationButton();
-    }
-
-    public void Quit()
-    {
-        Application.Quit();
-    }
-
+    
+    // Interaction state
+    // -----------------
+    
     public void EnableWorldInteraction()
     {
         isWorldInteractable.Value = true;
@@ -95,6 +85,8 @@ public class UIManager : MonoBehaviour
     }
 
     // Title
+    // -----
+    
     public void ShowTitle()
     {
         title.SetActive(true);
@@ -106,6 +98,8 @@ public class UIManager : MonoBehaviour
     }
 
     // HUD
+    // ---
+    
     public void FadeHUDIn()
     {
         hud.GetComponent<CanvasGroup>().alpha = 0f;
@@ -131,70 +125,42 @@ public class UIManager : MonoBehaviour
     }
 
     // HUD: Button Bars
+    // ----------------
+    
     public void ShowSystemBar()
     {
         HideSimulationBar();
-        systemBar.SetActive(true);
+        systemBar.Show();
     }
 
     public void HideSystemBar()
     {
-        systemBar.SetActive(false);
+        systemBar.Hide();
     }
 
     public void ShowSimulationBar()
     {
         HideSystemBar();
-        simulationBar.SetActive(true);
+        simulationBar.Show();
     }
 
     public void HideSimulationBar()
     {
-        simulationBar.SetActive(false);
+        simulationBar.Hide();
     }
-
-    public void EnableNewSimulationButton()
-    {
-        _newSimulationButton.interactable = true;
-    }
-
-    public void DisableNewSimulationButton()
-    {
-        _newSimulationButton.interactable = false;
-    }
-
-    public void EnableLoadSimulationButton()
-    {
-        _loadSimulationButton.interactable = true;
-    }
-
-    public void DisableLoadSimulationButton()
-    {
-        _loadSimulationButton.interactable = false;
-    }
-
-    public void EnableDeleteSimulationButton()
-    {
-        _deleteSimulationButton.interactable = true;
-    }
-
-    public void DisableDeleteSimulationButton()
-    {
-        _deleteSimulationButton.interactable = false;
-    }
-
-    public void EnableSimulationButton()
-    {
-        _simulationButton.interactable = true;
-    }
-
-    public void DisableSimulationButton()
-    {
-        _simulationButton.interactable = false;
-    }
-
+    
     // Dialogs
-    public void ShowDialog(GameObject dialog)
+    // -------
+    
+    public T CreateAndShowDialog<T>(Dialog prefab) where T : class
+    {
+        var dialog = Instantiate(prefab, dialogHost, false);
+        dialog.UIManager = this;
+        ShowDialog(dialog);
+        return dialog as T;
+    }
+
+    public void ShowDialog(Dialog dialog)
     {
         DisableWorldInteraction();
         
@@ -207,26 +173,43 @@ public class UIManager : MonoBehaviour
         slide.SetVisible(true);
     }
 
-    public void HideDialog(GameObject dialog)
+    public void HideDialog(Dialog dialog)
     {
         var slide = dialog.GetComponent<SlideUI>();
         slide.SetVisible(false);
         
         LeanTween.alphaCanvas(backdrop.GetComponent<CanvasGroup>(), 0f, 1f).setOnComplete(() =>
         {
+            Destroy(dialog);
             backdrop.SetActive(false);
             EnableWorldInteraction();
         });
     }
-
-    public void ShowConnectionsDialog()
+    
+    public void ShowConfirmationDialog(string message)
     {
-        connectionsDialog.PopulateForm();
-        ShowDialog(connectionsDialog.gameObject);
+        CreateAndShowDialog<ConfirmationDialog>(confirmationDialog);
+    }
+    
+    public void ShowErrorDialog(string message)
+    {
+        var dialog = CreateAndShowDialog<MessageDialog>(errorDialog);
+        dialog.SetText(message);
     }
 
-    public void HideConnectionsDialog()
+    // Info and Help
+    // -------------
+    
+    public void OnInfo()
     {
-        HideDialog(connectionsDialog.gameObject);
+        var dialog = CreateAndShowDialog<MessageDialog>(infoDialog);
+        dialog.SetText("TODO: Change this to Info dialog");
     }
+
+    public void OnHelp()
+    {
+        var dialog = CreateAndShowDialog<MessageDialog>(helpDialog);
+        dialog.SetText("TODO: Change this to Help dialog");
+    }
+
 }

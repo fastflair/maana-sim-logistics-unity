@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Maana.GraphQL
 {
     public sealed class GraphQLManager : MonoBehaviour
     {
+        public UnityEvent onConnected = new UnityEvent();
+        public UnityEvent onDisconnected = new UnityEvent();
+        public UnityEvent<string> onConnectionError = new UnityEvent<string>();
+        
         private GraphQLClient _client;
         private OAuthFetcher _fetcher;
         private readonly List<QueuedQuery> _queuedQueries = new List<QueuedQuery>();
@@ -19,13 +24,26 @@ namespace Maana.GraphQL
         {
             if (string.IsNullOrEmpty(url)) throw new Exception("No URL specified for GraphQL Manager");
 
+            lock (_queuedQueries)
+            {
+                _queuedQueries.Clear();
+            }
+
+            if (_client != null)
+            {
+                onDisconnected.Invoke();
+            }
+            
             _client = new GraphQLClient(url);
             _fetcher = new OAuthFetcher(authDomain, authClientId, authClientSecret, authIdentifier, refreshMinutes);
             _fetcher.TokenReceivedEvent.AddListener(TokenReceived);
+            _fetcher.TokenErrorEvent.AddListener(TokenError);
         }
 
         private void TokenReceived()
         {
+            onConnected.Invoke();
+            
             lock (_queuedQueries)
             {
                 foreach (var queuedQuery in _queuedQueries)
@@ -35,6 +53,11 @@ namespace Maana.GraphQL
 
                 _queuedQueries.Clear();
             }
+        }
+
+        private void TokenError(string error)
+        {
+            onConnectionError.Invoke(error);
         }
 
         public void Query(string query, object variables = null, Action<GraphQLResponse> callback = null)

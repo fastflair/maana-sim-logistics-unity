@@ -4,24 +4,24 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ConnectionsDialog : MonoBehaviour
+public class ConnectionsDialog : Dialog
 {
-    [SerializeField] private ConnectionManager connectionManager;
     [SerializeField] private Button buttonItemPrefab;
 
+    public ConnectionManager ConnectionManager { get; set; }
     private readonly Dictionary<string, TMP_InputField> _fieldMap = new Dictionary<string, TMP_InputField>();
-    private Button _deleteButton;
 
     private Transform _listContent;
 
     private Button _newButton;
+    private Button _deleteButton;
     private Button _saveButton;
 
     private void Start()
     {
         _listContent = transform.Find("Box/Body/Connection List/Viewport/Content");
 
-        var fieldGroup = transform.Find("Box/Body/Field Group");
+        var fieldGroup = transform.Find("Box/Body/Content");
         for (var i = 0; i < fieldGroup.childCount; i++)
         {
             var child = fieldGroup.GetChild(i);
@@ -35,12 +35,12 @@ public class ConnectionsDialog : MonoBehaviour
         _deleteButton = buttonBar.Find("Delete").GetComponent<Button>();
         _saveButton = buttonBar.Find("Save").GetComponent<Button>();
 
-        UpdateButtons();
+        PopulateForm();
     }
 
     public void PopulateForm()
     {
-        var state = connectionManager.CurrentConnectionState;
+        var state = ConnectionManager.CurrentConnectionState;
         if (state == null) return;
 
         PopulateFormWithState(state);
@@ -74,8 +74,7 @@ public class ConnectionsDialog : MonoBehaviour
 
     public void OnDelete()
     {
-        print("OnDelete");
-        if (!connectionManager.Delete(_fieldMap["Name"].text)) return;
+        if (!ConnectionManager.Delete(_fieldMap["Name"].text)) return;
         
         ClearForm();
         PopulateForm();
@@ -83,7 +82,6 @@ public class ConnectionsDialog : MonoBehaviour
 
     public void OnSave()
     {
-        print("OnSave");
         var state = new ConnectionState
         {
             id = _fieldMap["Name"].text,
@@ -94,8 +92,13 @@ public class ConnectionsDialog : MonoBehaviour
             authClientSecret = _fieldMap["Auth Client Secret"].text,
             authIdentifier = _fieldMap["Auth Identifier"].text
         };
-        connectionManager.Save(state);
+        ConnectionManager.Save(state);
         PopulateForm();
+    }
+
+    public void OnDone()
+    {
+        Hide();
     }
 
     private static TMP_InputField GetInputField(Transform t)
@@ -110,7 +113,7 @@ public class ConnectionsDialog : MonoBehaviour
             var id = _fieldMap["Name"].text;
             
             _newButton.interactable = true;
-            _deleteButton.interactable = IsCurrent(id) && !connectionManager.IsBoostrap(id);
+            _deleteButton.interactable = IsCurrent(id) && !ConnectionManager.IsBoostrap(id);
             _saveButton.interactable = AreAllFieldsPopulated();
         }
         else
@@ -125,17 +128,17 @@ public class ConnectionsDialog : MonoBehaviour
     {
         foreach (Transform buttonItem in _listContent) Destroy(buttonItem.gameObject);
 
-        foreach (var connection in connectionManager.AvailableConnections)
+        foreach (var connection in ConnectionManager.AvailableConnections)
         {
             var buttonItem = Instantiate(buttonItemPrefab, _listContent.transform, false);
             buttonItem.GetComponentInChildren<TMP_Text>().text = connection;
-            buttonItem.onClick.AddListener(() => PopulateFormWithState(connectionManager.LoadAndConnect(connection)));
+            buttonItem.onClick.AddListener(() => PopulateFormWithState(ConnectionManager.LoadAndConnect(connection)));
         }
     }
 
     private bool IsCurrent(string id)
     {
-        return id == connectionManager.CurrentConnectionState.id;
+        return id == ConnectionManager.CurrentConnectionState.id;
     }
 
     private bool AreAnyFieldsPopulated()
