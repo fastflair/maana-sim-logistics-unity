@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class SystemBar : UIElement
 {
     [SerializeField] private float initialShowDelay;
+    private bool _hasShown;
     
     // Managers
     [SerializeField] private UIManager uiManager;
@@ -23,19 +24,23 @@ public class SystemBar : UIElement
 
     public void ShowFirstTime()
     {
-        print("System Bar ShowFirstTime");
+        print($"[{name}] ShowFirstTime: _hasShown={_hasShown}");
+        if (_hasShown) return;
+        _hasShown = true;
         SetVisible(true, Effect.Animate).setDelay(initialShowDelay);
     }
     
     public void Show()
     {
-        print("System Bar Show");
+        print($"[{name}] Show: _hasShown={_hasShown}");
+        if (!_hasShown) return;
+        
         SetVisible(true);
     }
 
     public void Hide()
     {
-        print("System Bar Hide");
+        print($"[{name}] Hide");
         SetVisible(false);
     }
     
@@ -44,19 +49,19 @@ public class SystemBar : UIElement
     
     public void OnConnectionReady()
     {
-        print("OnConnectionReady");
+        print($"[{name}] OnConnectionReady");
         EnableSimulationManagementButtons();
     }
 
     public void OnConnectionNotReady()
     {
-        print("OnConnectionNotReady");
+        print($"[{name}] OnConnectionNotReady");
         DisableSimulationManagementButtons();
     }
 
     public void OnConnectionError(string error)
     {
-        print($"SystemBar: OnConnectionError: {error}");
+        print($"[{name}] OnConnectionError");
         DisableSimulationManagementButtons();
         SetVisible(true, Effect.Animate);
     }
@@ -64,11 +69,20 @@ public class SystemBar : UIElement
     // Simulation state
     // ----------------
     
-    public void OnSimulationReady()
+    public void OnDefaultSimulation()
     {
-        print("OnSimulationReady");
-        if(!simulationManager.IsDefaultCurrent) EnableDeleteSimulationButton();
+        print($"[{name}] OnDefaultSimulation");
+        EnableSimulationManagementButtons();
+        DisableSimulationButton();
+        Show();
+    }
+    
+    public void OnNewSimulation()
+    {
+        print($"[{name}] OnNewSimulation");
+        EnableSimulationManagementButtons();
         EnableSimulationButton();
+        Hide();
     }
 
     public void OnSimulationNotReady()
@@ -103,7 +117,7 @@ public class SystemBar : UIElement
     // Connections
     // -----------
 
-    public void OnConnections()
+    public void OnConnectionsPressed()
     {
         var dialog = uiManager.ShowDialogPrefab<ConnectionsDialog>(connectionsDialogPrefab);
         dialog.ConnectionManager = connectionManager;
@@ -112,7 +126,7 @@ public class SystemBar : UIElement
     // Load
     // ----
 
-    public void OnLoadSimulation()
+    public void OnLoadSimulationPressed()
     {
         var dialog = uiManager.ShowDialogPrefab<LoadSimulationDialog>(loadSimulationDialogPrefab);
         // dialog.ConnectionManager = connectionManager;
@@ -131,7 +145,7 @@ public class SystemBar : UIElement
     // New
     // ---
 
-    public void OnNewSimulation()
+    public void OnNewSimulationPressed()
     {
         var dialog = uiManager.ShowDialogPrefab<NewSimulationDialog>(newSimulationDialogPrefab);
         dialog.UIManager = uiManager;
@@ -151,7 +165,7 @@ public class SystemBar : UIElement
     // Delete
     // ------
 
-    public void OnDeleteSimulation()
+    public void OnDeleteSimulationPressed()
     {
         uiManager.ShowConfirmationDialog("Are you sure you want to delete this simulation?");
         // TODO: callbacks

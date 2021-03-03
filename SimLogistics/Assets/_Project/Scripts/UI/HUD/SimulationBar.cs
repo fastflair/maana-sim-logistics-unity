@@ -6,13 +6,13 @@ public class SimulationBar : UIElement
 {
     public void Show()
     {
-        print("Simulation Bar Show");
+        print($"[{name}] Show");
         SetVisible(true);
     }
 
     public void Hide()
     {
-        print("Simulation Bar Hide");
+        print($"[{name}] Hide");
         SetVisible(false);
     }
     

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -33,6 +34,7 @@ public class UIManager : MonoBehaviour
     // Title Sequence
     // --------------
     
+    [UsedImplicitly]
     public void StartTitleSequence()
     {
         if (IsTitleSequenceTriggered) return;

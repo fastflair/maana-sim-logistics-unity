@@ -19,24 +19,24 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject landTilePrefab;
     [SerializeField] private GameObject waterTilePrefab;
 
-    private bool IsOkToSpawn { get; set; }
+    public bool IsOkToSpawn { get; set; }
     
     private QMapAndTiles QMapAndTiles { get; set; }
-    public List<GameObject> TileGameObjects { get; private set; }
-    
-    public void Load()
-    {
-        QueryQ();
-    }
+    private List<GameObject> TileGameObjects { get; set; }
 
-    public void Spawn()
+    public void OkToSpawn()
     {
+        if (IsOkToSpawn) return;
         IsOkToSpawn = true;
-
         TrySpawn();
     }
     
-    private void Destroy()
+    public void Spawn()
+    {
+        QueryQ();
+    }
+    
+    public void Destroy()
     {
         if (TileGameObjects is null) return;
         
@@ -67,17 +67,17 @@ public class MapManager : MonoBehaviour
           }}
         ";
 
-        connectionManager.apiEndpoint.Query(query, callback: response =>
+        connectionManager.QueryRaiseOnError<QMapAndTiles>(
+            connectionManager.apiEndpoint,
+            query, 
+            queryName,
+            qMapAndTiles =>
         {
-            if (response.Errors != null)
-            {
-                connectionManager.RaiseQueryError(@$"[{name}] failed to query {queryName}:{Environment.NewLine}{response.Errors}");
-                return;
-            }
-
             Destroy();
+            
+            TileGameObjects = new List<GameObject>();
 
-            QMapAndTiles = response.GetValue<QMapAndTiles>(queryName);
+            QMapAndTiles = qMapAndTiles;
 
             TrySpawn();
         });
@@ -95,14 +95,15 @@ public class MapManager : MonoBehaviour
     {
         foreach (var qTile in QMapAndTiles.tiles)
         {
-            var tile = qTile.type.id == "Land" ? landTilePrefab : waterTilePrefab;
-            if (tile is null) continue;
+            var tilePrefab = qTile.type.id == "Land" ? landTilePrefab : waterTilePrefab;
+            if (tilePrefab is null) continue;
             
             var posX = tileSize.Value * qTile.x;
             var posZ = -tileSize.Value * qTile.y;
             
-            Instantiate(tile, new Vector3(posX, tileDropHeight.Value * tileSize.Value, posZ), Quaternion.identity);
-
+            var tile = Instantiate(tilePrefab, new Vector3(posX, tileDropHeight.Value * tileSize.Value, posZ), Quaternion.identity);
+            TileGameObjects.Add(tile);
+            
             yield return new WaitForSeconds(spawnDelay.Value);
         }
         

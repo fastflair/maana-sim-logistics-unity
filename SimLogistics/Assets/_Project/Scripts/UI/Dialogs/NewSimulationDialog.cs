@@ -23,13 +23,12 @@ public class NewSimulationDialog : Dialog
             _simulationManager = value;
             _currentSimulation = _simulationManager.CurrentSimulation;
 
-            simName.Value = _currentSimulation.id;
+            simName.Value = _currentSimulation.name;
             agentEndpoint.Value = _currentSimulation.agentEndpoint;
             
             simName.Input.onValueChanged.AddListener(delegate { UpdateButtons(); });
 
             UpdateButtons();
-
         }
     }
     

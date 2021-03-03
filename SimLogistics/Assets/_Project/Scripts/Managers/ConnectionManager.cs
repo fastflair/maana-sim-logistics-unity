@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -99,7 +100,7 @@ public class ConnectionManager : MonoBehaviour
                 callback.Invoke(default(T));
                 return;
             }
-
+           
             callback.Invoke(response.GetValue<T>(queryName));
         });
     }

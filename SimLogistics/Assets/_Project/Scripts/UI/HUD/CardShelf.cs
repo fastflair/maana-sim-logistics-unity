@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class CardShelf : MonoBehaviour
@@ -13,13 +9,13 @@ public class CardShelf : MonoBehaviour
 
     public void Show()
     {
-        print("Card Shelf Show");
+        print($"[{name}] Show");
         gameObject.SetActive(true);
     }
     
     public void Hide()
     {
-        print("Card Shelf Hide");
+        print($"[{name}] Hide");
         gameObject.SetActive(false);
     }
 }

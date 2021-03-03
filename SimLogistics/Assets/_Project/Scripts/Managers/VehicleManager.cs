@@ -10,7 +10,7 @@ public class VehicleManager : MonoBehaviour, ISelectionHandler
 {
     [SerializeField] private UnityEvent onVehiclesSpawned;
 
-    [SerializeField] private GraphQLManager apiService;
+    [SerializeField] private ConnectionManager connectionManager;
     [SerializeField] private StringVariable simName;
     [SerializeField] private FloatVariable tileSize;
     [SerializeField] private FloatVariable tileDropHeight;
@@ -24,10 +24,11 @@ public class VehicleManager : MonoBehaviour, ISelectionHandler
 
     public void Spawn()
     {
+        Destroy();
         QueryQ();
     }
 
-    private void Destroy()
+    public void Destroy()
     {
         if (VehicleGameObjects is null) return;
         
@@ -39,9 +40,10 @@ public class VehicleManager : MonoBehaviour, ISelectionHandler
 
     private void QueryQ()
     {
+        const string queryName = "mapVehicles";
         var query = @$"
           query {{
-            mapVehicles(sim: ""{simName.Value}"") {{
+            {queryName}(sim: ""{simName.Value}"") {{
               id
               kind
               x
@@ -51,19 +53,20 @@ public class VehicleManager : MonoBehaviour, ISelectionHandler
           }}
         ";
 
-        apiService.Query(query, callback: QueryQCallback);
-    }
-    
-    private void QueryQCallback(GraphQLResponse response)
-    {
-        if (response.Errors != null) throw new Exception("GraphQL errors: " + response.Errors);
+        connectionManager.QueryRaiseOnError<List<QVehicle>>(
+            connectionManager.apiEndpoint,
+            query,
+            queryName,
+            vehicles =>
+            {
+                Destroy();
 
-        Destroy();
+                VehicleGameObjects = new List<GameObject>();
 
-        VehicleGameObjects = new List<GameObject>();
-        QVehicles = response.GetList<QVehicle>("mapVehicles");
+                QVehicles = vehicles;
 
-        StartCoroutine(Co_Spawn());
+                StartCoroutine(Co_Spawn());
+            });
     }
 
     private GameObject VehicleGameObject(string kind)

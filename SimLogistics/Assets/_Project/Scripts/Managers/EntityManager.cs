@@ -11,7 +11,7 @@ public class EntityManager : MonoBehaviour, ISelectionHandler
 {
     [SerializeField] private UnityEvent onEntitiesSpawned;
 
-    [SerializeField] private GraphQLManager apiService;
+    [SerializeField] private ConnectionManager connectionManager;
     [SerializeField] private StringVariable simName;
     [SerializeField] private FloatVariable tileSize;
     [SerializeField] private FloatVariable tileDropHeight;
@@ -38,10 +38,11 @@ public class EntityManager : MonoBehaviour, ISelectionHandler
     [UsedImplicitly]
     public void Spawn()
     {
+        Destroy();
         QueryQ();
     }
 
-    private void Destroy()
+    public void Destroy()
     {
         if (EntityGameObjects is null) return;
         
@@ -50,12 +51,13 @@ public class EntityManager : MonoBehaviour, ISelectionHandler
             Object.Destroy(entity);
         }    
     }
-    
+
     private void QueryQ()
     {
+        const string queryName = "mapEntities";
         var query = @$"
           query {{
-            mapEntities(sim: ""{simName.Value}"") {{
+            {queryName}(sim: ""{simName.Value}"") {{
               id
               type
               kind
@@ -65,19 +67,20 @@ public class EntityManager : MonoBehaviour, ISelectionHandler
           }}
         ";
 
-       apiService.Query(query, callback: QueryQCallback);
-    }
-    
-    private void QueryQCallback(GraphQLResponse response)
-    {
-        if (response.Errors != null) throw new Exception("GraphQL errors: " + response.Errors);
+        connectionManager.QueryRaiseOnError<List<QMapEntity>>(
+            connectionManager.apiEndpoint,
+            query,
+            queryName,
+            entities =>
+            {
+                Destroy();
 
-        Destroy();
-        
-        EntityGameObjects = new List<GameObject>();
-        QMapEntities = response.GetList<QMapEntity>("mapEntities");
+                EntityGameObjects = new List<GameObject>();
 
-        StartCoroutine(Co_Spawn());
+                QMapEntities = entities;
+
+                StartCoroutine(Co_Spawn());
+            });
     }
 
     private GameObject EntityGameObject(string kind)
