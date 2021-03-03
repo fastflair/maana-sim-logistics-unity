@@ -43,7 +43,6 @@ public class SimulationSummary : UIElement
     {
         print($"[{name}] UpdateSummary");
         var sim = simulationManager.CurrentSimulation;
-        print("sim: " + sim.name);
         simName.text = sim.name;
         steps.text = sim.steps.ToString();
         balance.text = sim.balance.ToString(CultureInfo.CurrentCulture);

@@ -4,6 +4,8 @@ using Maana.GraphQL;
 using UnityEngine;
 using UnityEngine.Events;
 
+// "agentEndpoint": "https://lastknowngood.knowledge.maana.io:8443/service/maana-sim-logistics-ai-agent-v3/graphql",
+
 public class SimulationManager : MonoBehaviour
 {
     private const string SimulationData = @"

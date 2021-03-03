@@ -129,7 +129,8 @@ public class SystemBar : UIElement
     public void OnLoadSimulationPressed()
     {
         var dialog = uiManager.ShowDialogPrefab<LoadSimulationDialog>(loadSimulationDialogPrefab);
-        // dialog.ConnectionManager = connectionManager;
+        dialog.ConnectionManager = connectionManager;
+        dialog.SimulationManager = simulationManager;
     }
 
     public void EnableLoadSimulationButton()

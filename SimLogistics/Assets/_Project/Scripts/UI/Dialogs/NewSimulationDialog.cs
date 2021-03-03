@@ -9,8 +9,6 @@ public class NewSimulationDialog : Dialog
     [SerializeField] private InputField simName;
     [SerializeField] private InputField agentEndpoint;
     [SerializeField] private Button okayButton;
-
-    // "agentEndpoint": "https://lastknowngood.knowledge.maana.io:8443/service/maana-sim-logistics-ai-agent-v3/graphql",
     
     private QSimulation _currentSimulation;
 

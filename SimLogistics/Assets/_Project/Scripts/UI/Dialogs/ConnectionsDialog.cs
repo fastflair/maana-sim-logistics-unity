@@ -65,6 +65,7 @@ public class ConnectionsDialog : Dialog
     private void ClearForm()
     {
         foreach (var field in _fieldMap.Values) field.Value = "";
+        ClearList();
     }
 
     private void Reset()
@@ -135,8 +136,8 @@ public class ConnectionsDialog : Dialog
 
     private void PopulateList()
     {
-        foreach (Transform buttonItem in listHost) Destroy(buttonItem.gameObject);
-
+        ClearList();
+        
         foreach (var connection in ConnectionManager.AvailableConnections)
         {
             var buttonItem = Instantiate(buttonItemPrefab, listHost.transform, false);
@@ -149,6 +150,11 @@ public class ConnectionsDialog : Dialog
         }
     }
 
+    private void ClearList()
+    {
+        foreach (Transform buttonItem in listHost) Destroy(buttonItem.gameObject);
+    }
+    
     private bool IsCurrent(string id)
     {
         return id == ConnectionManager.CurrentConnectionState.id;
