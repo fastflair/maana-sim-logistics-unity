@@ -12,6 +12,11 @@ public class MessageDialog : Dialog
     {
         textArea.text = text;
     }
+
+    public string GetText()
+    {
+        return textArea.text;
+    }
     
     public void OnOkay()
     {

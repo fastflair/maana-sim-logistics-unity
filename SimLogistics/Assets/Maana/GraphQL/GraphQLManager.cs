@@ -8,16 +8,18 @@ namespace Maana.GraphQL
 {
     public sealed class GraphQLManager : MonoBehaviour
     {
-        public UnityEvent onConnected = new UnityEvent();
-        public UnityEvent onDisconnected = new UnityEvent();
-        public UnityEvent<string> onConnectionError = new UnityEvent<string>();
+        public UnityEvent connectionReadyEvent = new UnityEvent();
+        public UnityEvent connectionNotReadyEvent = new UnityEvent();
+        public UnityEvent<string> connectionErrorEvent = new UnityEvent<string>();
         
         private GraphQLClient _client;
         private OAuthFetcher _fetcher;
         private readonly List<QueuedQuery> _queuedQueries = new List<QueuedQuery>();
 
         private bool HasToken => _fetcher is {Token: { }};
-
+        private bool _isConnected;
+        
+        // Can be called multiple times
         public void Connect(string url, string authDomain, string authClientId, string authClientSecret,
             string authIdentifier,
             float refreshMinutes = 20f)
@@ -29,10 +31,13 @@ namespace Maana.GraphQL
                 _queuedQueries.Clear();
             }
 
+            _isConnected = false;
             if (_client != null)
             {
-                onDisconnected.Invoke();
+                connectionNotReadyEvent.Invoke();
             }
+
+            if (refreshMinutes == 0f) refreshMinutes = 20f;
             
             _client = new GraphQLClient(url);
             _fetcher = new OAuthFetcher(authDomain, authClientId, authClientSecret, authIdentifier, refreshMinutes);
@@ -42,8 +47,14 @@ namespace Maana.GraphQL
 
         private void TokenReceived()
         {
-            onConnected.Invoke();
-            
+            // First-time connection or refresh?
+            if (!_isConnected)
+            {
+                // First-time connection or refresh?
+                _isConnected = true;
+                connectionReadyEvent.Invoke();
+            }
+
             lock (_queuedQueries)
             {
                 foreach (var queuedQuery in _queuedQueries)
@@ -57,7 +68,8 @@ namespace Maana.GraphQL
 
         private void TokenError(string error)
         {
-            onConnectionError.Invoke(error);
+            _isConnected = false;
+            connectionErrorEvent.Invoke(error);
         }
 
         public void Query(string query, object variables = null, Action<GraphQLResponse> callback = null)

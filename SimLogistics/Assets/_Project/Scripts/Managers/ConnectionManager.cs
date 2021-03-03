@@ -93,9 +93,13 @@ public class ConnectionManager : MonoBehaviour
     {
         var url = endpoint == apiEndpoint ? state.apiEndpoint : state.agentEndpoint;
         endpoint.Connect(url, state.authDomain, state.authClientId, state.authClientSecret, state.authIdentifier, state.refreshMinutes);
-        endpoint.onConnected.AddListener(UpdateConnectionStatus);
-        endpoint.onDisconnected.AddListener(() => onDisconnected.Invoke());
-        endpoint.onConnectionError.AddListener((error) => onConnectionError.Invoke(error));
+        endpoint.connectionReadyEvent.AddListener(UpdateConnectionStatus);
+        endpoint.connectionNotReadyEvent.AddListener(() => onDisconnected.Invoke());
+        endpoint.connectionErrorEvent.AddListener((error) =>
+        {
+            print("OnConnectionError: " + error);
+            onConnectionError.Invoke(error);
+        });
     }
 
     private void UpdateConnectionStatus()

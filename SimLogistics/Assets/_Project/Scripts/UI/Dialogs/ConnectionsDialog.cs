@@ -7,8 +7,8 @@ using UnityEngine.UI;
 public class ConnectionsDialog : Dialog
 {
     [SerializeField] private Button buttonItemPrefab;
-
     public ConnectionManager ConnectionManager { get; set; }
+
     private readonly Dictionary<string, TMP_InputField> _fieldMap = new Dictionary<string, TMP_InputField>();
 
     private Transform _listContent;

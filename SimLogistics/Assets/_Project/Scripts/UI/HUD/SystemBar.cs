@@ -1,16 +1,18 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SystemBar : MonoBehaviour
+public class SystemBar : UIElement
 {
+    [SerializeField] private float initialShowDelay;
+    
     // Managers
     [SerializeField] private UIManager uiManager;
     [SerializeField] private ConnectionManager connectionManager;
 
     // Dialogs
-    [SerializeField] private ConnectionsDialog connectionsDialog;
-    [SerializeField] private NewSimulationDialog newSimulationDialog;
-    [SerializeField] private LoadSimulationDialog loadSimulationDialog;
+    [SerializeField] private ConnectionsDialog connectionsDialogPrefab;
+    [SerializeField] private NewSimulationDialog newSimulationDialogPrefab;
+    [SerializeField] private LoadSimulationDialog loadSimulationDialogPrefab;
 
     // Buttons
     [SerializeField] private Button newSimulationButton;
@@ -18,49 +20,86 @@ public class SystemBar : MonoBehaviour
     [SerializeField] private Button deleteSimulationButton;
     [SerializeField] private Button simulationButton;
 
-    // State management
-    // ----------------
-
+    public void OnBootstrapComplete()
+    {
+        SetVisible(true, Effect.Animate).setDelay(initialShowDelay);
+    }
+    
     public void Show()
     {
-        gameObject.SetActive(true);
+        print("System Bar Show");
+        SetVisible(true, Effect.Animate);
     }
 
     public void Hide()
     {
-        gameObject.SetActive(false);
+        print("System Bar Hide");
+        SetVisible(false, Effect.Animate);
+    }
+    
+    // Connection state
+    // ----------------
+    
+    public void OnConnectionReady()
+    {
+        print("OnConnectionReady");
+        EnableSimulationButtons();
     }
 
-    public void ConnectionReady()
+    public void OnConnectionNotReady()
+    {
+        print("OnConnectionNotReady");
+        DisableSimulationButtons();
+    }
+
+    public void OnConnectionError(string error)
+    {
+        print($"SystemBar: OnConnectionError: {error}");
+        DisableSimulationButtons();
+        // gameObject.SetActive(true);
+        SetVisible(true, Effect.Animate);
+    }
+    
+    // Simulation state
+    // ----------------
+    
+    public void OnSimulationReady()
+    {
+        print("OnSimulationReady");
+        EnableDeleteSimulationButton();
+        EnableSimulationButton();
+    }
+
+    public void OnSimulationNotReady()
+    {
+        print("OnSimulationNotReady");
+        DisableDeleteSimulationButton();
+        DisableSimulationButton();
+    }
+   
+    public void OnSimulationError(string error)
+    {
+        print($"OnSimulationError: {error}");
+    }
+
+    public void EnableSimulationButtons()
     {
         EnableNewSimulationButton();
         EnableLoadSimulationButton();
     }
-
-    public void ConnectionNotReady()
+    
+    public void DisableSimulationButtons()
     {
         DisableNewSimulationButton();
         DisableLoadSimulationButton();
-        DisableDeleteSimulationButton();
-        SimulationNotReady();
     }
-
-    public void SimulationReady()
-    {
-        EnableSimulationButton();
-    }
-
-    public void SimulationNotReady()
-    {
-        DisableSimulationButton();
-    }
-
+    
     // Connections
     // -----------
 
     public void OnConnections()
     {
-        var dialog = uiManager.CreateAndShowDialog<ConnectionsDialog>(connectionsDialog);
+        var dialog = uiManager.ShowDialogPrefab<ConnectionsDialog>(connectionsDialogPrefab);
         dialog.ConnectionManager = connectionManager;
     }
 
@@ -69,7 +108,8 @@ public class SystemBar : MonoBehaviour
 
     public void OnLoadSimulation()
     {
-        uiManager.CreateAndShowDialog<LoadSimulationDialog>(loadSimulationDialog);
+        var dialog = uiManager.ShowDialogPrefab<LoadSimulationDialog>(loadSimulationDialogPrefab);
+        // dialog.ConnectionManager = connectionManager;
     }
 
     public void EnableLoadSimulationButton()
@@ -87,7 +127,8 @@ public class SystemBar : MonoBehaviour
 
     public void OnNewSimulation()
     {
-        uiManager.CreateAndShowDialog<NewSimulationDialog>(newSimulationDialog);
+        var dialog = uiManager.ShowDialogPrefab<NewSimulationDialog>(newSimulationDialogPrefab);
+        // dialog.ConnectionManager = connectionManager;
     }
 
     public void EnableNewSimulationButton()

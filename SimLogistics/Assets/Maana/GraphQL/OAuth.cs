@@ -56,24 +56,17 @@ namespace Maana.GraphQL
 
         private IEnumerator UpdateToken()
         {
-            yield return new WaitForSeconds(refreshMinutes * 20f);
+            yield return new WaitForSeconds(refreshMinutes * 60f);
             GetOAuthToken();
         }
 
         private UnityWebRequest TokenRequest()
         {
-            if (authIdentifier == null)
-            {
-                TokenErrorEvent.Invoke(
-                    "OAuth: No auth identifier detected in environment variables: proceeding WITHOUT authentication!");
-                return null;
-            }
+            // TODO: Auth0?
+            var url = $"https://{authDomain}/auth/realms/{authIdentifier}/protocol/openid-connect/token";
 
             try
             {
-                // TODO: Auth0?
-                var url = $"https://{authDomain}/auth/realms/{authIdentifier}/protocol/openid-connect/token";
-
                 var formData = new WWWForm();
 
                 formData.AddField("client_id", authClientId);
@@ -90,7 +83,8 @@ namespace Maana.GraphQL
             }
             catch (Exception ex)
             {
-                TokenErrorEvent.Invoke($"OAuth: Error obtaining OAuth token: {StripCredentials(ex.Message)}");
+                Debug.LogException(ex);
+                TokenErrorEvent.Invoke($"{url}{Environment.NewLine}{StripCredentials(ex.Message)}");
                 return null;
             }
         }
@@ -106,7 +100,7 @@ namespace Maana.GraphQL
 
                 if (www.result != UnityWebRequest.Result.Success)
                 {
-                    TokenErrorEvent.Invoke("Could not authenticate: " + www.error);
+                    TokenErrorEvent.Invoke($"{request.url}{Environment.NewLine}{www.error}");
                     yield break;
                 }
 

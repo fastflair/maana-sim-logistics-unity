@@ -1,15 +1,19 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(UIElement))]
 public class Dialog : MonoBehaviour
 {
     public UIManager UIManager { get; set; }
 
-    protected void Show()
+    public LTDescr SetVisible(bool isVisible, UIElement.Effect effect)
     {
-        UIManager.ShowDialog(this);
+        var uiElement = GetComponent<UIElement>();
+        return uiElement.SetVisible(isVisible, effect);
     }
     
-    protected void Hide()
+    public void Hide()
     {
         UIManager.HideDialog(this);
     }
