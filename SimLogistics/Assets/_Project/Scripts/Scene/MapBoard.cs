@@ -10,15 +10,15 @@ public class MapBoard : MonoBehaviour
     
     private void Start()
     {
-        // var material = gameObject.GetComponent<Renderer>().material;
-        // var color = material.color;
-        // color.a = 0f;
-        // material.color = color;
+        var material = gameObject.GetComponent<Renderer>().material;
+        var color = material.color;
+        color.a = 0f;
+        material.color = color;
     }
 
-    public void FadeIn()
+    public void Show()
     {
-        print("MapBoard: FadeIn " + gameObject.activeSelf);
+        print("MapBoard: Show " + gameObject.activeSelf);
         
         // LeanTween.alpha(gameObject, 1f, fadeDuration).setDelay(fadeDelay);
     }

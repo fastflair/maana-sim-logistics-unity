@@ -13,6 +13,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textArea: {fileID: 5872415965380840202}
+  cancelEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  okayEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7928904072756036648
 GameObject:
   m_ObjectHideFlags: 0
@@ -482,6 +488,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1671771793614355471, guid: f19cbc401015e4c1ea626d4a53577ae7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1671771793614355471, guid: f19cbc401015e4c1ea626d4a53577ae7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1671771793614355471, guid: f19cbc401015e4c1ea626d4a53577ae7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: -1290096929598238939}
+    - target: {fileID: 1671771793614355471, guid: f19cbc401015e4c1ea626d4a53577ae7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1671771793614355471, guid: f19cbc401015e4c1ea626d4a53577ae7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnOkay
+      objectReference: {fileID: 0}
+    - target: {fileID: 1671771793614355471, guid: f19cbc401015e4c1ea626d4a53577ae7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ConfirmationDialog, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1671771793614355471, guid: f19cbc401015e4c1ea626d4a53577ae7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1671771794515730283, guid: f19cbc401015e4c1ea626d4a53577ae7, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -590,6 +624,34 @@ PrefabInstance:
     - target: {fileID: 6493763244599259905, guid: 9c7453ac424c34247bb88492c8ccbe91, type: 3}
       propertyPath: m_Name
       value: Button Cancel
+      objectReference: {fileID: 0}
+    - target: {fileID: 6493763244599259909, guid: 9c7453ac424c34247bb88492c8ccbe91, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6493763244599259909, guid: 9c7453ac424c34247bb88492c8ccbe91, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6493763244599259909, guid: 9c7453ac424c34247bb88492c8ccbe91, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: -1290096929598238939}
+    - target: {fileID: 6493763244599259909, guid: 9c7453ac424c34247bb88492c8ccbe91, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6493763244599259909, guid: 9c7453ac424c34247bb88492c8ccbe91, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnCancel
+      objectReference: {fileID: 0}
+    - target: {fileID: 6493763244599259909, guid: 9c7453ac424c34247bb88492c8ccbe91, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ConfirmationDialog, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6493763244599259909, guid: 9c7453ac424c34247bb88492c8ccbe91, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6493763244599259910, guid: 9c7453ac424c34247bb88492c8ccbe91, type: 3}
       propertyPath: m_Pivot.x

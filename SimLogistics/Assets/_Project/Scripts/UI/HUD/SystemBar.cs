@@ -28,13 +28,13 @@ public class SystemBar : UIElement
     public void Show()
     {
         print("System Bar Show");
-        SetVisible(true, Effect.Animate);
+        SetVisible(true);
     }
 
     public void Hide()
     {
         print("System Bar Hide");
-        SetVisible(false, Effect.Animate);
+        SetVisible(false);
     }
     
     // Connection state

@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 public class Titles : MonoBehaviour
 {
-    [SerializeField] private UnityEvent onTitlesComplete;
+    [SerializeField] private UnityEvent titlesCompleteEvent;
 
     [SerializeField] private GameObject title;
     [SerializeField] private GameObject logo;
@@ -15,6 +15,10 @@ public class Titles : MonoBehaviour
 
     public void Start()
     {
+        // // Skip title sequence
+        // titlesCompleteEvent.Invoke();
+        // return;
+
         background.GetComponent<CanvasGroup>().alpha = 1f;
         background.SetActive(true);
         title.GetComponent<CanvasGroup>().alpha = 0f;
@@ -45,13 +49,6 @@ public class Titles : MonoBehaviour
 
     private void OnLogoComplete()
     {
-    //     LeanTween.alphaCanvas(logo.GetComponent<CanvasGroup>(), 0f, fadeDuration).setDelay(fadeDelay);
-    //     LeanTween.alphaCanvas(title.GetComponent<CanvasGroup>(), 0f, fadeDuration).setDelay(fadeDelay)
-    //         .setOnComplete(OnTitleFadeOutComplete);
-    // }
-    //
-    // private void OnTitleFadeOutComplete()
-    // {
         LeanTween.alphaCanvas(background.GetComponent<CanvasGroup>(), 0f, endFadeDuration).setDelay(endFadeDelay)
             .setOnComplete(OnFadeOutComplete);
     }
@@ -59,6 +56,6 @@ public class Titles : MonoBehaviour
     private void OnFadeOutComplete()
     {
         background.SetActive(false);
-        onTitlesComplete.Invoke();
+        titlesCompleteEvent.Invoke();
     }
 }

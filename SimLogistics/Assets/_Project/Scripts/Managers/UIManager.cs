@@ -33,14 +33,14 @@ public class UIManager : MonoBehaviour
     {
         bootstrapCompleteEvent.Invoke();
     }
-    
+
     // Connection state
     // ----------------
 
     public void OnConnected()
     {
         print($"UIM: OnConnected: IsBootstrapped: {IsBootstrappedTriggered}");
-        
+
         if (IsBootstrappedTriggered) return;
         bootstrapEvent.Invoke();
         IsBootstrappedTriggered = true;
@@ -80,11 +80,11 @@ public class UIManager : MonoBehaviour
         ShowDialog(dialog);
         return dialog;
     }
-    
+
     public void ShowDialog(Dialog dialog)
     {
         Debug.Assert(dialog != null);
-        
+
         _dialogQueue.Enqueue(dialog);
         ShowQueuedDialog();
     }
@@ -97,7 +97,7 @@ public class UIManager : MonoBehaviour
 
         backdrop.gameObject.SetActive(true);
         backdrop.SetVisible(true, UIElement.Effect.Fade);
-        
+
         _activeDialog = _dialogQueue.Peek();
         print($"showing {_dialogQueue.Count}: " + _activeDialog);
         _activeDialog.UIManager = this;
@@ -106,6 +106,7 @@ public class UIManager : MonoBehaviour
 
     public void HideDialog(Dialog dialog)
     {
+        Debug.Assert(dialog != null);
         Debug.Assert(dialog == _activeDialog);
 
         dialog
@@ -116,7 +117,9 @@ public class UIManager : MonoBehaviour
                     _activeDialog = null;
                     if (_dialogQueue.Count == 0)
                     {
-                        backdrop.SetVisible(false, UIElement.Effect.Fade);
+                        backdrop.SetVisible(false, UIElement.Effect.Fade).setOnComplete(() =>
+                            backdrop.gameObject.SetActive(false));
+
                         EnableWorldInteraction();
                     }
                     else
@@ -145,7 +148,7 @@ public class UIManager : MonoBehaviour
             if (errorDialog == null) continue;
 
             if (errorDialog.GetText() != message) continue;
-            
+
             return;
         }
 

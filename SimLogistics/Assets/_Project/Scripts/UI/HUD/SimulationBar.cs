@@ -7,13 +7,13 @@ public class SimulationBar : UIElement
     public void Show()
     {
         print("Simulation Bar Show");
-        SetVisible(true, Effect.Animate);
+        SetVisible(true);
     }
 
     public void Hide()
     {
         print("Simulation Bar Hide");
-        SetVisible(false, Effect.Animate);
+        SetVisible(false);
     }
     
     // Connection state

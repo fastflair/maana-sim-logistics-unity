@@ -18,8 +18,9 @@ public class MessageDialog : Dialog
         return textArea.text;
     }
     
-    public void OnOkay()
+    public virtual void OnOkay()
     {
+        print("OnOkay");
         Hide();
     }
 }
