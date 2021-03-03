@@ -11,28 +11,27 @@ public class MapManager : MonoBehaviour
 { 
     [SerializeField] private UnityEvent onMapTilesSpawned;
     
-    [SerializeField] private GraphQLManager apiService;
+    [SerializeField] private ConnectionManager connectionManager;
     [SerializeField] private StringVariable mapName;
     [SerializeField] private FloatVariable tileSize;
     [SerializeField] private FloatVariable tileDropHeight;
     [SerializeField] private FloatVariable spawnDelay;
-    [SerializeField] private GameObject landTile;
-    [SerializeField] private GameObject waterTile;
+    [SerializeField] private GameObject landTilePrefab;
+    [SerializeField] private GameObject waterTilePrefab;
 
-    private bool TitlesComplete { get; set; }
+    private bool IsOkToSpawn { get; set; }
     
     private QMapAndTiles QMapAndTiles { get; set; }
     public List<GameObject> TileGameObjects { get; private set; }
     
-    [UsedImplicitly]
-    public void Spawn()
+    public void Load()
     {
         QueryQ();
     }
 
-    public void OnTitlesComplete()
+    public void Spawn()
     {
-        TitlesComplete = true;
+        IsOkToSpawn = true;
 
         TrySpawn();
     }
@@ -46,12 +45,13 @@ public class MapManager : MonoBehaviour
             Object.Destroy(tile);
         }    
     }
-    
+
     private void QueryQ()
     {
+        const string queryName = "mapAndTiles";
         var query = @$"
           query {{
-            mapAndTiles(map: ""{mapName.Value}"") {{
+            {queryName}(map: ""{mapName.Value}"") {{
               map {{
                 id
                 tilesX
@@ -67,23 +67,25 @@ public class MapManager : MonoBehaviour
           }}
         ";
 
-        apiService.Query(query, callback: QueryQCallback);
-    }
+        connectionManager.apiEndpoint.Query(query, callback: response =>
+        {
+            if (response.Errors != null)
+            {
+                connectionManager.RaiseQueryError(@$"[{name}] failed to query {queryName}:{Environment.NewLine}{response.Errors}");
+                return;
+            }
 
-    private void QueryQCallback(GraphQLResponse response)
-    {
-        if (response.Errors != null) throw new Exception("GraphQL errors: " + response.Errors);
-        
-        Destroy();
+            Destroy();
 
-        QMapAndTiles = response.GetValue<QMapAndTiles>("mapAndTiles");
+            QMapAndTiles = response.GetValue<QMapAndTiles>(queryName);
 
-        TrySpawn();
+            TrySpawn();
+        });
     }
 
     private void TrySpawn()
     {
-        if (TitlesComplete && QMapAndTiles != null)
+        if (IsOkToSpawn && QMapAndTiles != null)
         {
             StartCoroutine(Co_Spawn());
         }
@@ -93,7 +95,7 @@ public class MapManager : MonoBehaviour
     {
         foreach (var qTile in QMapAndTiles.tiles)
         {
-            var tile = qTile.type.id == "Land" ? landTile : waterTile;
+            var tile = qTile.type.id == "Land" ? landTilePrefab : waterTilePrefab;
             if (tile is null) continue;
             
             var posX = tileSize.Value * qTile.x;

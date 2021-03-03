@@ -6,4 +6,6 @@ using JetBrains.Annotations;
 public class QSimulation
 {
     public string id;
+    public string name;
+    public string agentEndpoint;
 }

@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -11,6 +12,7 @@ public class ConnectionManager : MonoBehaviour
     [SerializeField] private UnityEvent onConnected;
     [SerializeField] private UnityEvent onDisconnected;
     [SerializeField] private UnityEvent<string> onConnectionError;
+    [SerializeField] private UnityEvent<string> onQueryError;
     
     [SerializeField] private SaveManager saveManager;
     [SerializeField] private TextAsset bootstrapConnection;
@@ -21,10 +23,7 @@ public class ConnectionManager : MonoBehaviour
     private ConnectionState _bootstrapConnectionState;
     
     public GraphQLManager apiEndpoint;
-    public GraphQLManager agentEndpoint;
 
-    private int _connectionCount;
-    
     private void Start()
     {
         _bootstrapConnectionState = JsonUtility.FromJson<ConnectionState>(bootstrapConnection.text);
@@ -55,22 +54,25 @@ public class ConnectionManager : MonoBehaviour
     
     public IEnumerable<string> AvailableConnections
     {
-        get { return saveManager.saveFiles.Select((x) => x.FileName).ToList(); }
+        get
+        {
+            return saveManager
+                .saveFiles
+                .OrderByDescending(x => x.LastWriteTime)
+                .Select(x => x.FileName)
+                .ToList();
+        }
     }
 
     public bool Save(ConnectionState state)
     {
-        if (!saveManager.Save(state.id, state)) return false;
-        Reload();
-        return true;
-
+        return saveManager.Save(state.id, state);
     }
 
     public bool Delete(string id)
     {
         if (id == _bootstrapConnectionState.id) return false;
         saveManager.Delete(id);
-        Reload();        
         return true;
     }
     
@@ -81,18 +83,35 @@ public class ConnectionManager : MonoBehaviour
     
     public ConnectionState LoadAndConnect(string id)
     {
-        currentConnectionState = Load(id);
-        
+        currentConnectionState = Load(id);        
         ConnectEndpoint(apiEndpoint, currentConnectionState);
-        ConnectEndpoint(agentEndpoint, currentConnectionState);
-
         return currentConnectionState;
+    }
+
+    public void QueryRaiseOnError<T>(GraphQLManager endpoint, string query, string queryName, Action<T> callback)
+    {
+        endpoint.Query(query, callback: response =>
+        {
+            if (response.Errors != null)
+            {
+                RaiseQueryError(
+                    $"[{name}] failed to query {queryName}:{Environment.NewLine}{response.Errors}");
+                callback.Invoke(default(T));
+                return;
+            }
+
+            callback.Invoke(response.GetValue<T>(queryName));
+        });
+    }
+
+    public void RaiseQueryError(string message)
+    {
+        onQueryError.Invoke(message);
     }
     
     private void ConnectEndpoint(GraphQLManager endpoint, ConnectionState state)
     {
-        var url = endpoint == apiEndpoint ? state.apiEndpoint : state.agentEndpoint;
-        endpoint.Connect(url, state.authDomain, state.authClientId, state.authClientSecret, state.authIdentifier, state.refreshMinutes);
+        endpoint.Connect(state.apiEndpoint, state.authDomain, state.authClientId, state.authClientSecret, state.authIdentifier, state.refreshMinutes);
         endpoint.connectionReadyEvent.AddListener(UpdateConnectionStatus);
         endpoint.connectionNotReadyEvent.AddListener(() => onDisconnected.Invoke());
         endpoint.connectionErrorEvent.AddListener((error) =>
@@ -104,9 +123,6 @@ public class ConnectionManager : MonoBehaviour
 
     private void UpdateConnectionStatus()
     {
-        if (_connectionCount++ % 2 == 0)
-        {
-            onConnected.Invoke();
-        }
+        onConnected.Invoke();
     }
 }

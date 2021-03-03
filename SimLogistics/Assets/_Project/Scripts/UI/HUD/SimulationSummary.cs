@@ -20,7 +20,7 @@ public class SimulationSummary : UIElement
         expenses.text = "---";
     }
 
-    public void OnBootstrapComplete()
+    public void ShowFirstTime()
     {
         SetVisible(true, Effect.Animate).setDelay(initialShowDelay);
     }

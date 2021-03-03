@@ -6,8 +6,8 @@ using UnityEngine.Events;
 public class UIManager : MonoBehaviour
 {
     // Events
-    [SerializeField] private UnityEvent bootstrapEvent;
-    [SerializeField] private UnityEvent bootstrapCompleteEvent;
+    [SerializeField] private UnityEvent onTitleSequenceStart;
+    [SerializeField] private UnityEvent onTitleSequenceCompleted;
 
     // Interaction
     [SerializeField] private BoolVariable isWorldInteractable;
@@ -19,33 +19,35 @@ public class UIManager : MonoBehaviour
     [SerializeField] private ErrorDialog errorDialogPrefab;
     [SerializeField] private InfoDialog infoDialogPrefab;
     [SerializeField] private HelpDialog helpDialogPrefab;
+    [SerializeField] private Spinner spinnerPrefab;
 
     private readonly Queue<Dialog> _dialogQueue = new Queue<Dialog>();
-    private Dialog _activeDialog;
-    public bool IsBootstrappedTriggered { get; private set; }
+
+    public bool IsTitleSequenceTriggered { get; private set; }
 
     private void Start()
     {
         DisableWorldInteraction();
     }
 
-    public void SignalBootstrapComplete()
+    // Title Sequence
+    // --------------
+    
+    public void StartTitleSequence()
     {
-        bootstrapCompleteEvent.Invoke();
+        if (IsTitleSequenceTriggered) return;
+        IsTitleSequenceTriggered = true;
+        onTitleSequenceStart.Invoke();
+    }
+
+    public void EndTitleSequence()
+    {
+        onTitleSequenceCompleted.Invoke();
     }
 
     // Connection state
     // ----------------
-
-    public void OnConnected()
-    {
-        print($"UIM: OnConnected: IsBootstrapped: {IsBootstrappedTriggered}");
-
-        if (IsBootstrappedTriggered) return;
-        bootstrapEvent.Invoke();
-        IsBootstrappedTriggered = true;
-    }
-
+    
     public void OnDisconnected()
     {
         DisableWorldInteraction();
@@ -86,56 +88,49 @@ public class UIManager : MonoBehaviour
         Debug.Assert(dialog != null);
 
         _dialogQueue.Enqueue(dialog);
-        ShowQueuedDialog();
+        InternalShowDialog(dialog);
     }
 
-    private void ShowQueuedDialog()
+    private void InternalShowDialog(Dialog dialog)
     {
-        if (_dialogQueue.Count == 0 || _activeDialog) return;
+        if (_dialogQueue.Count == 1)
+        {
+            DisableWorldInteraction();
 
-        DisableWorldInteraction();
-
-        backdrop.gameObject.SetActive(true);
-        backdrop.SetVisible(true, UIElement.Effect.Fade);
-
-        _activeDialog = _dialogQueue.Peek();
-        print($"showing {_dialogQueue.Count}: " + _activeDialog);
-        _activeDialog.UIManager = this;
-        _activeDialog.SetVisible(true, UIElement.Effect.Animate);
+            backdrop.gameObject.SetActive(true);
+            backdrop.SetVisible(true, UIElement.Effect.Fade);
+        }
+        
+        print($"showing {_dialogQueue.Count}: " + dialog);
+        dialog.UIManager = this;
+        dialog.SetVisible(true, UIElement.Effect.Animate);
     }
 
     public void HideDialog(Dialog dialog)
     {
         Debug.Assert(dialog != null);
-        Debug.Assert(dialog == _activeDialog);
 
         dialog
             .SetVisible(false, UIElement.Effect.Animate)
             .setOnComplete(() =>
                 {
                     _dialogQueue.Dequeue();
-                    _activeDialog = null;
-                    if (_dialogQueue.Count == 0)
-                    {
-                        backdrop.SetVisible(false, UIElement.Effect.Fade).setOnComplete(() =>
-                            backdrop.gameObject.SetActive(false));
+                    if (_dialogQueue.Count != 0) return;
+                    backdrop.SetVisible(false, UIElement.Effect.Fade).setOnComplete(() =>
+                        backdrop.gameObject.SetActive(false));
 
-                        EnableWorldInteraction();
-                    }
-                    else
-                    {
-                        ShowQueuedDialog();
-                    }
+                    EnableWorldInteraction();
                 }
             )
             .destroyOnComplete = true;
     }
 
-    public void ShowConfirmationDialog(string message)
+    public ConfirmationDialog ShowConfirmationDialog(string message)
     {
         var confirmationDialog = Instantiate(confirmationDialogPrefab, dialogHost, false);
         confirmationDialog.SetText(message);
         ShowDialog(confirmationDialog);
+        return confirmationDialog;
     }
 
     public void ShowErrorDialog(string message)
@@ -169,5 +164,13 @@ public class UIManager : MonoBehaviour
     {
         var helpDialog = ShowDialogPrefab<HelpDialog>(helpDialogPrefab);
         helpDialog.SetText("TODO: Change this to Help dialog");
+    }
+    
+    // Spinner
+    // -------
+
+    public Spinner ShowSpinner()
+    {
+        return ShowDialogPrefab<Spinner>(spinnerPrefab);
     }
 }

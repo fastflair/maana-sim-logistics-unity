@@ -48,10 +48,9 @@ public class UIElement : MonoBehaviour
     
     public LTDescr SetVisible(bool isVisible, Effect effect = Effect.None)
     {
-        
         var rt = GetComponent<RectTransform>();
-        print($"SetVisible: {rt} {isVisible} {effect}");
-        // gameObject.SetActive(true);
+        // print($"SetVisible: {rt} {isVisible} {effect}");
+
         if (isVisible)
         {
             gameObject.SetActive(true);

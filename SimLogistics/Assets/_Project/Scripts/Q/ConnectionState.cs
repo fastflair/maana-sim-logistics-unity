@@ -7,7 +7,6 @@ public class ConnectionState
 {
     public string id;
     public string apiEndpoint;
-    public string agentEndpoint;
     public string authDomain;
     public string authClientId;
     public string authClientSecret;

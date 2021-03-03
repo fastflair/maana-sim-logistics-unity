@@ -6,133 +6,146 @@ using UnityEngine.UI;
 
 public class ConnectionsDialog : Dialog
 {
+    [SerializeField] private InputField inputFieldPrefab;
+    [SerializeField] private Transform fieldHost;
     [SerializeField] private Button buttonItemPrefab;
+    [SerializeField] private Transform listHost;
+    [SerializeField] private Button newButton;
+    [SerializeField] private Button deleteButton;
+    [SerializeField] private Button saveButton;
+    
     public ConnectionManager ConnectionManager { get; set; }
 
-    private readonly Dictionary<string, TMP_InputField> _fieldMap = new Dictionary<string, TMP_InputField>();
+    private readonly Dictionary<string, InputField> _fieldMap = new Dictionary<string, InputField>();
 
-    private Transform _listContent;
-
-    private Button _newButton;
-    private Button _deleteButton;
-    private Button _saveButton;
-
+    private ConnectionState _currentState;
+        
     private void Start()
     {
-        _listContent = transform.Find("Box/Body/Connection List/Viewport/Content");
+        GenerateForm();
+        
+        _currentState = ConnectionManager.CurrentConnectionState;
+        if (_currentState == null) return;
 
-        var fieldGroup = transform.Find("Box/Body/Content");
-        for (var i = 0; i < fieldGroup.childCount; i++)
-        {
-            var child = fieldGroup.GetChild(i);
-            var input = GetInputField(child);
-            input.onValueChanged.AddListener(delegate { UpdateButtons(); });
-            _fieldMap.Add(child.name, input);
-        }
-
-        var buttonBar = transform.Find("Box/Body/Command Bar");
-        _newButton = buttonBar.Find("New").GetComponent<Button>();
-        _deleteButton = buttonBar.Find("Delete").GetComponent<Button>();
-        _saveButton = buttonBar.Find("Save").GetComponent<Button>();
-
-        PopulateForm();
+        PopulateForm(_currentState);
     }
 
-    public void PopulateForm()
+    private void GenerateForm()
     {
-        var state = ConnectionManager.CurrentConnectionState;
-        if (state == null) return;
-
-        PopulateFormWithState(state);
+        AddField("Name");
+        AddField("API Endpoint");
+        AddField("Auth Domain");
+        AddField("Auth Client ID");
+        AddField("Auth Client Secret");
+        AddField("Auth Identifier");
+    }
+    
+    private void AddField(string label)
+    {
+        var inputField = Instantiate(inputFieldPrefab, fieldHost, false);
+        inputField.Label = label;
+        inputField.Input.onValueChanged.AddListener(delegate { UpdateButtons(); });
+        _fieldMap.Add(label, inputField);
     }
 
-    public void PopulateFormWithState(ConnectionState state)
+    private void PopulateForm(ConnectionState state)
     {
-        _fieldMap["Name"].text = state.id;
-        _fieldMap["API Endpoint"].text = state.apiEndpoint;
-        _fieldMap["Agent Endpoint"].text = state.agentEndpoint;
-        _fieldMap["Auth Domain"].text = state.authDomain;
-        _fieldMap["Auth Client ID"].text = state.authClientId;
-        _fieldMap["Auth Client Secret"].text = state.authClientSecret;
-        _fieldMap["Auth Identifier"].text = state.authIdentifier;
+        _fieldMap["Name"].Value = state.id;
+        _fieldMap["API Endpoint"].Value = state.apiEndpoint;
+        _fieldMap["Auth Domain"].Value = state.authDomain;
+        _fieldMap["Auth Client ID"].Value = state.authClientId;
+        _fieldMap["Auth Client Secret"].Value = state.authClientSecret;
+        _fieldMap["Auth Identifier"].Value = state.authIdentifier;
 
         PopulateList();
 
         UpdateButtons();
     }
 
-    public void ClearForm()
+    private void ClearForm()
     {
-        foreach (var field in _fieldMap.Values) field.text = "";
+        foreach (var field in _fieldMap.Values) field.Value = "";
+    }
+
+    private void Reset()
+    {
+        _currentState = null;
+        ClearForm();
+        UpdateButtons();
     }
     
     public void OnNew()
     {
-        ClearForm();
-        UpdateButtons();
+        Reset();
     }
 
     public void OnDelete()
     {
-        if (!ConnectionManager.Delete(_fieldMap["Name"].text)) return;
-        
-        ClearForm();
-        PopulateForm();
+        if (!ConnectionManager.Delete(_fieldMap["Name"].Value)) return;        
+        Reset();
     }
 
     public void OnSave()
     {
-        var state = new ConnectionState
+        _currentState = new ConnectionState
         {
-            id = _fieldMap["Name"].text,
-            apiEndpoint = _fieldMap["API Endpoint"].text,
-            agentEndpoint = _fieldMap["Agent Endpoint"].text,
-            authDomain = _fieldMap["Auth Domain"].text,
-            authClientId = _fieldMap["Auth Client ID"].text,
-            authClientSecret = _fieldMap["Auth Client Secret"].text,
-            authIdentifier = _fieldMap["Auth Identifier"].text
+            id = _fieldMap["Name"].Value,
+            apiEndpoint = _fieldMap["API Endpoint"].Value,
+            authDomain = _fieldMap["Auth Domain"].Value,
+            authClientId = _fieldMap["Auth Client ID"].Value,
+            authClientSecret = _fieldMap["Auth Client Secret"].Value,
+            authIdentifier = _fieldMap["Auth Identifier"].Value
         };
-        ConnectionManager.Save(state);
-        PopulateForm();
+        ConnectionManager.Save(_currentState);
+        PopulateForm(_currentState);
     }
 
-    public void OnDone()
+    public void OnCancel()
     {
         Hide();
     }
-
-    private static TMP_InputField GetInputField(Transform t)
+    
+    public void OnDone()
     {
-        return t.Find("Input").GetComponent<TMP_InputField>();
+        if (_currentState != null)
+        {
+            ConnectionManager.LoadAndConnect(_currentState.id);
+        }
+        Hide();
     }
-
+    
     private void UpdateButtons()
     {
         if (AreAnyFieldsPopulated())
         {
-            var id = _fieldMap["Name"].text;
+            var id = _fieldMap["Name"].Value;
+            var isBootstrap = ConnectionManager.IsBoostrap(id);
             
-            _newButton.interactable = true;
-            _deleteButton.interactable = IsCurrent(id) && !ConnectionManager.IsBoostrap(id);
-            _saveButton.interactable = AreAllFieldsPopulated();
+            newButton.interactable = true;
+            deleteButton.interactable = !isBootstrap;
+            saveButton.interactable = !isBootstrap && AreAllFieldsPopulated();
         }
         else
         {
-            _newButton.interactable =
-                _deleteButton.interactable =
-                    _saveButton.interactable = false;
+            newButton.interactable =
+                deleteButton.interactable =
+                    saveButton.interactable = false;
         }
     }
 
     private void PopulateList()
     {
-        foreach (Transform buttonItem in _listContent) Destroy(buttonItem.gameObject);
+        foreach (Transform buttonItem in listHost) Destroy(buttonItem.gameObject);
 
         foreach (var connection in ConnectionManager.AvailableConnections)
         {
-            var buttonItem = Instantiate(buttonItemPrefab, _listContent.transform, false);
+            var buttonItem = Instantiate(buttonItemPrefab, listHost.transform, false);
             buttonItem.GetComponentInChildren<TMP_Text>().text = connection;
-            buttonItem.onClick.AddListener(() => PopulateFormWithState(ConnectionManager.LoadAndConnect(connection)));
+            buttonItem.onClick.AddListener(() =>
+            {
+                _currentState = ConnectionManager.Load(connection);
+                PopulateForm(_currentState);
+            });
         }
     }
 
@@ -143,11 +156,11 @@ public class ConnectionsDialog : Dialog
 
     private bool AreAnyFieldsPopulated()
     {
-        return _fieldMap.Values.Any(field => field.text.Length > 0);
+        return _fieldMap.Values.Any(field => field.Value.Length > 0);
     }
 
     private bool AreAllFieldsPopulated()
     {
-        return _fieldMap.Values.All(field => field.text.Length > 0);
+        return _fieldMap.Values.All(field => field.Value.Length > 0);
     }
 }

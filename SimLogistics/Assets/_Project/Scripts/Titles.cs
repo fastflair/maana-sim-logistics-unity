@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 public class Titles : MonoBehaviour
 {
-    [SerializeField] private UnityEvent titlesCompleteEvent;
+    [SerializeField] private UnityEvent onTitlesComplete;
 
     [SerializeField] private GameObject title;
     [SerializeField] private GameObject logo;
@@ -56,6 +56,6 @@ public class Titles : MonoBehaviour
     private void OnFadeOutComplete()
     {
         background.SetActive(false);
-        titlesCompleteEvent.Invoke();
+        onTitlesComplete.Invoke();
     }
 }

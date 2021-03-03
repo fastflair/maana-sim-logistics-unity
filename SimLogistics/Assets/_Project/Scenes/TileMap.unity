@@ -330,15 +330,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b66f28be13ae84124884aa37a8a25118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  simulationReadyEvent:
+  onSimulationReady:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1316288417}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: StartTitleSequence
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onSimulationBusy:
     m_PersistentCalls:
       m_Calls: []
-  simulationBusyEvent:
+  onSimulationError:
     m_PersistentCalls:
       m_Calls: []
-  simulationErrorEvent:
-    m_PersistentCalls:
-      m_Calls: []
+  agentEndpointClient: {fileID: 0}
 --- !u!4 &82198424
 Transform:
   m_ObjectHideFlags: 0
@@ -1106,17 +1119,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 285329229}
   m_CullTransparentMesh: 1
---- !u!114 &286683788 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3313465577940156256, guid: 875546c8571c3ce4e915520e42d0374b, type: 3}
-  m_PrefabInstance: {fileID: 5625813}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb14be6d254be5749ac6a31bb6a2ddee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &331056200
 GameObject:
   m_ObjectHideFlags: 0
@@ -2431,7 +2433,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1316288417}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: SignalBootstrapComplete
+        m_MethodName: EndTitleSequence
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3267,6 +3269,7 @@ MonoBehaviour:
   initialShowDelay: 3
   uiManager: {fileID: 1316288417}
   connectionManager: {fileID: 1056472702}
+  simulationManager: {fileID: 82198423}
   connectionsDialogPrefab: {fileID: 8523299322569955625, guid: 4bbb1fa991e054d9786154d3178e4806, type: 3}
   newSimulationDialogPrefab: {fileID: 6311157966571234026, guid: 67929e6c7a8084722b8a301a390d777a, type: 3}
   loadSimulationDialogPrefab: {fileID: 4859758657521723228, guid: a3c12416378144fb995a3166109f3005, type: 3}
@@ -4121,8 +4124,8 @@ MonoBehaviour:
   onConnected:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1316288417}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+      - m_Target: {fileID: 82198423}
+        m_TargetAssemblyTypeName: SimulationManager, Assembly-CSharp
         m_MethodName: OnConnected
         m_Mode: 1
         m_Arguments:
@@ -4180,14 +4183,12 @@ MonoBehaviour:
   currentConnectionState:
     id: 
     apiEndpoint: 
-    agentEndpoint: 
     authDomain: 
     authClientId: 
     authClientSecret: 
     authIdentifier: 
     refreshMinutes: 0
   apiEndpoint: {fileID: 557266249}
-  agentEndpoint: {fileID: 286683788}
 --- !u!1 &1099789498
 GameObject:
   m_ObjectHideFlags: 0
@@ -5204,12 +5205,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dedb0b9de9c7c401a8b2279459e466c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bootstrapEvent:
+  onTitleSequenceStart:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 893339561}
         m_TargetAssemblyTypeName: MapManager, Assembly-CSharp
-        m_MethodName: Spawn
+        m_MethodName: Load
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5231,48 +5232,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  bootstrapCompleteEvent:
+  onTitleSequenceCompleted:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 331056201}
-        m_TargetAssemblyTypeName: EnvironmentManager, Assembly-CSharp
-        m_MethodName: Activate
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1316288417}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: EnableWorldInteraction
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 413326916}
         m_TargetAssemblyTypeName: SimulationSummary, Assembly-CSharp
-        m_MethodName: OnBootstrapComplete
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1660856123}
-        m_TargetAssemblyTypeName: CardShelf, Assembly-CSharp
-        m_MethodName: Show
+        m_MethodName: ShowFirstTime
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5284,7 +5249,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 889842852}
         m_TargetAssemblyTypeName: SystemBar, Assembly-CSharp
-        m_MethodName: OnBootstrapComplete
+        m_MethodName: ShowFirstTime
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6581,12 +6546,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac1462672cef24227b67dee711279605, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  titlesCompleteEvent:
+  onTitlesComplete:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 893339561}
-        m_TargetAssemblyTypeName: MapManager, Assembly-CSharp
-        m_MethodName: OnTitlesComplete
+      - m_Target: {fileID: 1616018755}
+        m_TargetAssemblyTypeName: Scene, Assembly-CSharp
+        m_MethodName: Show
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6608,9 +6573,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1616018755}
-        m_TargetAssemblyTypeName: Scene, Assembly-CSharp
-        m_MethodName: Show
+      - m_Target: {fileID: 893339561}
+        m_TargetAssemblyTypeName: MapManager, Assembly-CSharp
+        m_MethodName: Spawn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6625,8 +6590,8 @@ MonoBehaviour:
   background: {fileID: 854065783}
   titleFadeDuration: 2
   titleFadeDelay: 1.5
-  endFadeDuration: 3
-  endFadeDelay: 2
+  endFadeDuration: 2
+  endFadeDelay: 1
 --- !u!223 &1603518360
 Canvas:
   m_ObjectHideFlags: 0
