@@ -167,8 +167,16 @@ public class SystemBar : UIElement
 
     public void OnDeleteSimulationPressed()
     {
-        uiManager.ShowConfirmationDialog("Are you sure you want to delete this simulation?");
-        // TODO: callbacks
+        var dialog = uiManager.ShowConfirmationDialog(@$"Are you sure you want to delete ""{simulationManager.CurrentSimulation.name}""?");
+        dialog.okayEvent.AddListener(() =>
+        {
+            var spinner = uiManager.ShowSpinner();
+            simulationManager.Delete(simulationManager.CurrentSimulation.id,
+                simulation =>
+                {
+                    spinner.Hide();
+                });
+        });    
     }
     
     public void EnableDeleteSimulationButton()
