@@ -50,19 +50,12 @@ public class MapManager : MonoBehaviour
     {
         const string queryName = "mapAndTiles";
         var query = @$"
+          {QMapFragment.data}
+          {QTileFragment.data}
+          {QMapAndTilesFragment.data}
           query {{
             {queryName}(map: ""{mapName.Value}"") {{
-              map {{
-                id
-                tilesX
-                tilesY
-              }}
-              tiles {{
-                id
-                type {{ id }}
-                x
-                y
-              }}
+              ...mapAndTilesData
             }}
           }}
         ";

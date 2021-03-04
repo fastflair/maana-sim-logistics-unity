@@ -12,8 +12,6 @@ public class LoadSimulationDialog : Dialog
     [SerializeField] private Button buttonItemPrefab;
     [SerializeField] private Transform listHost;
 
-    private readonly DebounceDispatcher _debouncer = new DebounceDispatcher(50);
-
     public ConnectionManager ConnectionManager { get; set; }
     public SimulationManager SimulationManager { get; set; }
 

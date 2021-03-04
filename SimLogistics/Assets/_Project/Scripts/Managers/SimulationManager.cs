@@ -8,17 +8,6 @@ using UnityEngine.Events;
 
 public class SimulationManager : MonoBehaviour
 {
-    private const string SimulationData = @"
-        fragment simulationData on Simulation {
-          id
-          name
-          agentEndpoint
-          steps
-          balance
-          income
-          expenses
-        }";
-
     [SerializeField] private ConnectionManager connectionManager;
 
     public UnityEvent onDefaultSimulation;
@@ -36,6 +25,7 @@ public class SimulationManager : MonoBehaviour
     };
 
     public QSimulation CurrentSimulation { get; private set; }
+    public QState CurrentState { get; private set; }
 
     public bool IsDefaultCurrent => CurrentSimulation.id == DefaultSimulation.id;
 
@@ -54,10 +44,10 @@ public class SimulationManager : MonoBehaviour
     {
         const string queryName = "newSimulation";
         var query = @$"
-          {SimulationData}
+          {QStateFragment.data}
           mutation {{
             {queryName}(name: ""{simName}"", agentEndpoint: ""{agentEndpoint}"") {{
-              ...simulationData
+              ...stateData
             }}
           }}
         ";
@@ -78,10 +68,10 @@ public class SimulationManager : MonoBehaviour
     {
         const string queryName = "overwriteSimulation";
         var query = @$"
-          {SimulationData}
+          {QStateFragment.data}
           mutation {{
             {queryName}(name: ""{simName}"", agentEndpoint: ""{agentEndpoint}"") {{
-              ...simulationData
+              ...stateData
             }}
           }}
         ";
@@ -102,7 +92,7 @@ public class SimulationManager : MonoBehaviour
     {
         const string queryName = "loadSimulation";
         var query = @$"
-          {SimulationData}
+          {QSimulationFragment.data}
           query {{
             {queryName}(id: ""{id}"") {{
               ...simulationData
@@ -126,7 +116,7 @@ public class SimulationManager : MonoBehaviour
     {
         const string queryName = "selectSimulation";
         var query = @$"
-          {SimulationData}
+          {QSimulationFragment.data}
           query {{
             {queryName}(name: ""{simName}"", agentEndpoint: ""{agentEndpoint}"") {{
               ...simulationData

@@ -45,6 +45,7 @@ public class UIManager : MonoBehaviour
     public void EndTitleSequence()
     {
         onTitleSequenceCompleted.Invoke();
+        EnableWorldInteraction();
     }
 
     // Connection state

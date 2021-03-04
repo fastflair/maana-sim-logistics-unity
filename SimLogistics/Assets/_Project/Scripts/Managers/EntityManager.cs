@@ -7,148 +7,91 @@ using UnityEngine;
 using UnityEngine.Events;
 using Object = UnityEngine.Object;
 
-public class EntityManager : MonoBehaviour, ISelectionHandler
+public abstract class EntityManager<TQEntity, TUEntity> : MonoBehaviour 
+    where TQEntity : QEntity
+    where TUEntity : Entity
 {
-    [SerializeField] private UnityEvent onEntitiesSpawned;
+    [SerializeField] private UnityEvent onSpawned;
 
-    [SerializeField] private ConnectionManager connectionManager;
-    [SerializeField] private StringVariable simName;
+    [SerializeField] protected ConnectionManager connectionManager;
+    [SerializeField] protected StringVariable simName;
     [SerializeField] private FloatVariable tileSize;
     [SerializeField] private FloatVariable tileDropHeight;
     [SerializeField] private FloatVariable spawnDelay;
-    [SerializeField] private GameObject city;
-    [SerializeField] private GameObject airport;
-    [SerializeField] private GameObject port;
-    [SerializeField] private GameObject truckDepot;
-    [SerializeField] private GameObject factory;
-    [SerializeField] private GameObject warehouse;
-    [SerializeField] private GameObject farm;
-    [SerializeField] private GameObject forest;
-    [SerializeField] private GameObject lumberMill;
-    [SerializeField] private GameObject coalMine;
-    [SerializeField] private GameObject powerPlant;
-    [SerializeField] private GameObject cotton;
-    [SerializeField] private GameObject textileMill;
-    [SerializeField] private GameObject oilWell;
-    [SerializeField] private GameObject oilRefinery;
 
-    public List<QMapEntity> QMapEntities { get; private set; }
-    public List<GameObject> EntityGameObjects { get; private set; }
+    protected List<TQEntity> QEntities { get; private set; }
+    protected List<TUEntity> UEntities { get; private set; }
 
-    [UsedImplicitly]
-    public void Spawn()
+    protected abstract string QueryName { get; }
+    protected abstract string Query { get; }
+    protected abstract TUEntity EntityPrefab(TQEntity qEntity);
+    
+    public virtual void Spawn()
     {
         Destroy();
         QueryQ();
     }
 
-    public void Destroy()
+    public virtual void Destroy()
     {
-        if (EntityGameObjects is null) return;
+        if (UEntities is null) return;
         
-        foreach (var entity in EntityGameObjects)
+        foreach (var entity in UEntities)
         {
             Object.Destroy(entity);
         }    
     }
-
+    
     private void QueryQ()
     {
-        const string queryName = "mapEntities";
-        var query = @$"
-          query {{
-            {queryName}(sim: ""{simName.Value}"") {{
-              id
-              type
-              kind
-              x
-              y
-            }}
-          }}
-        ";
-
-        connectionManager.QueryRaiseOnError<List<QMapEntity>>(
+        connectionManager.QueryRaiseOnError<List<TQEntity>>(
             connectionManager.apiEndpoint,
-            query,
-            queryName,
-            entities =>
+            Query,
+            QueryName,
+            qEntities =>
             {
                 Destroy();
 
-                EntityGameObjects = new List<GameObject>();
+                UEntities = new List<TUEntity>();
 
-                QMapEntities = entities;
+                QEntities = qEntities;
 
                 StartCoroutine(Co_Spawn());
             });
     }
-
-    private GameObject EntityGameObject(string kind)
-    {
-        return kind switch
-        {
-            "City" => city,
-            "Airport" => airport,
-            "Port" => port,
-            "TruckDepot" => truckDepot,
-            "Factory" => factory,
-            "Warehouse" => warehouse,
-            "Farm" => farm,
-            "Forest" => forest,
-            "LumberMill" => lumberMill,
-            "CoalMine" => coalMine,
-            "PowerPlant" => powerPlant,
-            "Cotton" => cotton,
-            "TextileMill" => textileMill,
-            "OilWell" => oilWell,
-            "OilRefinery" => oilRefinery,
-            _ => null
-        };
-    }
-
+    
     private IEnumerator Co_Spawn()
     {
-        foreach (var qMapEntity in QMapEntities)
+        foreach (var qEntity in QEntities)
         {
-            var entityPrototype = EntityGameObject(qMapEntity.kind);
-            if (entityPrototype is null)
-            {
-                print("Unsupported entity kind: " + qMapEntity.kind);
-                continue;
-            }
+            var posX = tileSize.Value * qEntity.x;
+            var posZ = -tileSize.Value * qEntity.y;
 
-            var entityGameObject = SpawnEntity(entityPrototype, qMapEntity.x, qMapEntity.y);
-            var selectableObject = entityGameObject.AddComponent<SelectableObject>();
-            selectableObject.SelectionHandler = this;
-            selectableObject.id = qMapEntity.id;
-            EntityGameObjects.Add(entityGameObject);
+            var prefab = EntityPrefab(qEntity);
+            var uEntity = Instantiate(prefab, new Vector3(posX, tileDropHeight.Value * tileSize.Value, posZ), Quaternion.identity);
+            // var selectableObject = entityGameObject.AddComponent<SelectableObject>();
+            // selectableObject.SelectionHandler = this;
+            // selectableObject.id = qMapEntity.id;
+            UEntities.Add(uEntity);
             
             yield return new WaitForSeconds(spawnDelay.Value);
         }
 
-        onEntitiesSpawned.Invoke();
+        onSpawned.Invoke();
     }
 
-    private GameObject SpawnEntity(GameObject entity, float tileX, float tileY)
-    {
-        var posX = tileSize.Value * tileX;
-        var posZ = -tileSize.Value * tileY;
-
-        return Instantiate(entity, new Vector3(posX, tileDropHeight.Value * tileSize.Value, posZ), Quaternion.identity);
-    }
-
-    public void OnHoverEnter(GameObject obj)
-    {
-        print($"OnHoverEnter: {obj.name}");
-    }
-
-    public void OnHoverExit(GameObject obj)
-    {
-        print($"OnHoverExit: {obj.name}");
-    }
-
-    public void OnSelect(GameObject obj)
-    {
-        print($"OnSelect: {obj.name}");
-    }
+    // public void OnHoverEnter(GameObject obj)
+    // {
+    //     print($"OnHoverEnter: {obj.name}");
+    // }
+    //
+    // public void OnHoverExit(GameObject obj)
+    // {
+    //     print($"OnHoverExit: {obj.name}");
+    // }
+    //
+    // public void OnSelect(GameObject obj)
+    // {
+    //     print($"OnSelect: {obj.name}");
+    // }
 }

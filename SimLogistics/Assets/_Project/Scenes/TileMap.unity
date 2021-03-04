@@ -1409,7 +1409,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1589308838}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &340110807
 PrefabInstance:
@@ -2233,7 +2233,7 @@ GameObject:
   - component: {fileID: 570201678}
   - component: {fileID: 570201677}
   m_Layer: 0
-  m_Name: Entity Manager
+  m_Name: City Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2251,41 +2251,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dc49b56fed7440d883e0bb8f80085ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onEntitiesSpawned:
+  onSpawned:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 700448671}
-        m_TargetAssemblyTypeName: VehicleManager, Assembly-CSharp
-        m_MethodName: Spawn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   connectionManager: {fileID: 1056472702}
   simName: {fileID: 11400000, guid: d27adb3f676cf46de9db2ed0b4080e9b, type: 2}
   tileSize: {fileID: 11400000, guid: 2b2cfc7108f50497a8f3d5c4318e37c6, type: 2}
   tileDropHeight: {fileID: 11400000, guid: a5b0373571464403b8f12fd2b4bb5c27, type: 2}
   spawnDelay: {fileID: 11400000, guid: d9406173a3339405d96b5cfaf8644123, type: 2}
-  city: {fileID: 7559179808104249890, guid: 1e39dd45218f0451fb4259e287b173ed, type: 3}
-  airport: {fileID: 118847066705729414, guid: e6052310db935467aa82aa26e85e75f7, type: 3}
-  port: {fileID: 6551864086501810534, guid: b94646b51c9314535b9653aa7d21cc3b, type: 3}
-  truckDepot: {fileID: 4603766997596279123, guid: 6d8e5ab4d85844259b632ab7216db7ac, type: 3}
-  factory: {fileID: 4794755285424476899, guid: 87dd53d76bf904bf48b4f4c13955be5c, type: 3}
-  warehouse: {fileID: 5160246193665693229, guid: 816601641613348598814d3c836a4b31, type: 3}
-  farm: {fileID: 1362693942741860460, guid: a83d8fc9a294346c4ad46732f65be273, type: 3}
-  forest: {fileID: 4562473441677858685, guid: ec9c124805aef436a8a87641c4795898, type: 3}
-  lumberMill: {fileID: 493915603732959278, guid: c197482d04c1e4c309ce73d0b667655e, type: 3}
-  coalMine: {fileID: 4802506286489123829, guid: 78930e960dad544958a8335d38829328, type: 3}
-  powerPlant: {fileID: 218885995509418035, guid: b03a3d850e2f3412ea1fdcac425a74b6, type: 3}
-  cotton: {fileID: 3841788670206290433, guid: 395113e6c9a144059b79e7ada708c281, type: 3}
-  textileMill: {fileID: 8117149952175509347, guid: 191a1d1ba553a4ba4b9137f5ed9f752f, type: 3}
-  oilWell: {fileID: 9130818804412649210, guid: 66b6c4e734dd449a0857fb8644dd968c, type: 3}
-  oilRefinery: {fileID: 3037196657890534479, guid: 671577a876f6b428a9548b54ef57ab39, type: 3}
+  cityPrefab: {fileID: 5340312781506302778, guid: 1e39dd45218f0451fb4259e287b173ed, type: 3}
 --- !u!4 &570201678
 Transform:
   m_ObjectHideFlags: 0
@@ -2788,33 +2762,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59c89d045dd2046e49add649bdfe6069, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onVehiclesSpawned:
+  onSpawned:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1316288417}
-        m_TargetAssemblyTypeName: StateManager, Assembly-CSharp
-        m_MethodName: EnableWorldInteraction
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 331056201}
-        m_TargetAssemblyTypeName: EnvironmentManager, Assembly-CSharp
-        m_MethodName: Activate
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1316288417}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: EndTitleSequence
@@ -2832,9 +2782,9 @@ MonoBehaviour:
   tileSize: {fileID: 11400000, guid: 2b2cfc7108f50497a8f3d5c4318e37c6, type: 2}
   tileDropHeight: {fileID: 11400000, guid: a5b0373571464403b8f12fd2b4bb5c27, type: 2}
   spawnDelay: {fileID: 11400000, guid: d9406173a3339405d96b5cfaf8644123, type: 2}
-  truck: {fileID: 8513029505835190429, guid: 08a1e6e48e83a4faba8bf87fe5447949, type: 3}
-  plane: {fileID: 8915066700314676007, guid: 7d5479167827749ca9bc2d9b958d2b1c, type: 3}
-  ship: {fileID: 3520889274449652908, guid: 70e437808115f438085c0f6ad061b997, type: 3}
+  truckPrefab: {fileID: 2672735459399409640, guid: 08a1e6e48e83a4faba8bf87fe5447949, type: 3}
+  planePrefab: {fileID: 2921569967722060882, guid: 7d5479167827749ca9bc2d9b958d2b1c, type: 3}
+  shipPrefab: {fileID: 7201145449756212185, guid: 70e437808115f438085c0f6ad061b997, type: 3}
 --- !u!4 &700448672
 Transform:
   m_ObjectHideFlags: 0
@@ -2847,7 +2797,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1589308838}
-  m_RootOrder: 5
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &710080734
 PrefabInstance:
@@ -3166,6 +3116,60 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6022947142163900339, guid: 7001c1d38339d4ef2b9a7e6d578f5a04, type: 3}
   m_PrefabInstance: {fileID: 1776170368}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &837692212
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 837692213}
+  - component: {fileID: 837692214}
+  m_Layer: 0
+  m_Name: Hub Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &837692213
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837692212}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1589308838}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &837692214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837692212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 202d842d9fdc24518b14b3db3d4ceabf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onSpawned:
+    m_PersistentCalls:
+      m_Calls: []
+  connectionManager: {fileID: 1056472702}
+  simName: {fileID: 11400000, guid: d27adb3f676cf46de9db2ed0b4080e9b, type: 2}
+  tileSize: {fileID: 11400000, guid: 2b2cfc7108f50497a8f3d5c4318e37c6, type: 2}
+  tileDropHeight: {fileID: 11400000, guid: a5b0373571464403b8f12fd2b4bb5c27, type: 2}
+  spawnDelay: {fileID: 11400000, guid: d9406173a3339405d96b5cfaf8644123, type: 2}
+  portPrefab: {fileID: 693949280587655427, guid: b94646b51c9314535b9653aa7d21cc3b, type: 3}
+  airportPrefab: {fileID: 1227211266259575393, guid: 57964510478e64cf6ad103dbe5b2e017, type: 3}
+  truckDepotPrefab: {fileID: 6577167819340550628, guid: e05cd6efd14fd4519bb1ad4b3b1f4a16, type: 3}
 --- !u!1 &854065783
 GameObject:
   m_ObjectHideFlags: 0
@@ -3707,6 +3711,42 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 570201677}
         m_TargetAssemblyTypeName: EntityManager, Assembly-CSharp
+        m_MethodName: Spawn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1752998127}
+        m_TargetAssemblyTypeName: EntityManager`2[[QProducer, Assembly-CSharp
+        m_MethodName: Spawn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 837692214}
+        m_TargetAssemblyTypeName: EntityManager`2[[QHub, Assembly-CSharp
+        m_MethodName: Spawn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 700448671}
+        m_TargetAssemblyTypeName: EntityManager`2[[QVehicle, Assembly-CSharp
         m_MethodName: Spawn
         m_Mode: 1
         m_Arguments:
@@ -6772,6 +6812,8 @@ Transform:
   - {fileID: 82198424}
   - {fileID: 893339562}
   - {fileID: 570201678}
+  - {fileID: 1752998126}
+  - {fileID: 837692213}
   - {fileID: 700448672}
   - {fileID: 331056202}
   - {fileID: 2126323609}
@@ -7878,6 +7920,68 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f9b83ffd4410420ea871a836d54ce23, type: 3}
+--- !u!1 &1752998125
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1752998126}
+  - component: {fileID: 1752998127}
+  m_Layer: 0
+  m_Name: Producer Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1752998126
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1752998125}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1589308838}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1752998127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1752998125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 377e37378ed1e4492ad2ecc1755ba7c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onSpawned:
+    m_PersistentCalls:
+      m_Calls: []
+  connectionManager: {fileID: 1056472702}
+  simName: {fileID: 11400000, guid: d27adb3f676cf46de9db2ed0b4080e9b, type: 2}
+  tileSize: {fileID: 11400000, guid: 2b2cfc7108f50497a8f3d5c4318e37c6, type: 2}
+  tileDropHeight: {fileID: 11400000, guid: a5b0373571464403b8f12fd2b4bb5c27, type: 2}
+  spawnDelay: {fileID: 11400000, guid: d9406173a3339405d96b5cfaf8644123, type: 2}
+  coalMinePrefab: {fileID: 6209881653117042854, guid: eb3907145dd704a7dafa018e54253769, type: 3}
+  cottonPrefab: {fileID: 6209881653117042854, guid: 29debd9c2709740099a7ad59a5cd25f9, type: 3}
+  factoryPrefab: {fileID: 7837982138812609604, guid: ea012ae801d9b43d48da14595db957f9, type: 3}
+  farmPrefab: {fileID: 7837982138812609604, guid: 9a9f47c7a3d27443ea4cc9c642a5aec6, type: 3}
+  forestPrefab: {fileID: 6209881653117042854, guid: ec3426e3657cf4803bbbbf5b14a2da24, type: 3}
+  lumberMillPrefab: {fileID: 7837982138812609604, guid: 9c2389912510d45b5a5126006478e6d1, type: 3}
+  powerPlantPrefab: {fileID: 7837982138812609604, guid: e39d258724e3341a1974e4de16c32919, type: 3}
+  textileMillPrefab: {fileID: 7837982138812609604, guid: 103938f7f0f1e4f998eb41f1133a8df7, type: 3}
+  oilRefineryPrefab: {fileID: 7837982138812609604, guid: 766a1457c205546819762f4bb968250c, type: 3}
+  oilWellPrefab: {fileID: 6209881653117042854, guid: 651c1d300dbdc4307b6fbba4e12f75ea, type: 3}
+  warehousePrefab: {fileID: 6209881653117042854, guid: 53d076515c2fd402e8a5354e5d9b5a24, type: 3}
 --- !u!1001 &1776170368
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9266,7 +9370,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1589308838}
-  m_RootOrder: 8
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2017251495
 MonoBehaviour:
@@ -9765,7 +9869,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1589308838}
-  m_RootOrder: 7
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2126323610
 MonoBehaviour:
