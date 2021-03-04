@@ -7,66 +7,94 @@ public class SelectionManager : MonoBehaviour
     [SerializeField] private BoolVariable isWorldInteractable;
     [SerializeField] private new Camera camera;
     [SerializeField] private int layer;
+    [SerializeField] private float maxHitDistance = 1000f;
 
     private SelectableObject _curSelectableObject;
-    private GameObject _curHitObject;
-    private bool _hasCurrent;
+    private readonly List<SelectableObject> _curSelectedObjects = new List<SelectableObject>();
     
     private void Update()
     {
-        if (Pointer.IsOverUIObject()) return;
+        if (Pointer.IsOverUIObject())
+        {
+            Leave();
+            return;
+        }
         
         if (!isWorldInteractable.Value) return;
         
         var ray = camera.ScreenPointToRay(Input.mousePosition);
-        if (!Physics.Raycast(ray, out var hitInfo, 100f, 1 << layer))
+        if (!Physics.Raycast(ray, out var hitInfo, maxHitDistance, 1 << layer))
         {
-            Exit();
+            Leave();
             return;
         }
 
         var hitObject = hitInfo.collider.gameObject;
-        if (_hasCurrent && hitObject == _curHitObject)
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                Select();
-            }
 
-            return;
-        }
-        
         var selectableObject = hitObject.GetComponent<SelectableObject>();
         if (selectableObject == null)
         {
-            Exit();
+            Leave();
             return;
         }
-        
-        Enter(selectableObject, hitObject);
-    }
-    
-    private void Enter(SelectableObject selectableObject, GameObject hitObject)
-    {
+
+        var isMouseDown = Input.GetMouseButtonDown(0);
+
+        if (selectableObject != _curSelectableObject)
+        {
+            Leave();
+        }
+        else
+        {
+            if (!isMouseDown) return;
+        }
+
         _curSelectableObject = selectableObject;
-        _curHitObject = hitObject;
-        _hasCurrent = true;
-        selectableObject.SelectionHandler.OnHoverEnter(hitObject);
+
+        var isCurSelected = _curSelectedObjects.Contains(_curSelectableObject);
+        if (!isCurSelected)
+        {
+            Enter();
+        }
+
+        if (!isMouseDown) return;
+
+        if (isCurSelected)
+        {
+            Deselect();
+        }
+        else
+        {
+            Select();
+        }
     }
     
-    private void Exit()
+    private void Enter()
     {
-        if (!_hasCurrent) return;
-            
-        _curSelectableObject.SelectionHandler.OnHoverExit(_curHitObject);
+        _curSelectableObject.onHoverEnter.Invoke();
+    }
+    
+    private void Leave()
+    {
+        if (_curSelectableObject == null) return;
+        if (_curSelectedObjects.Contains(_curSelectableObject)) return;
+
+        print($"[name] Leave {_curSelectableObject.name}");
+        _curSelectableObject.onHoverLeave.Invoke();
 
         _curSelectableObject = null;
-        _curHitObject = null;
-        _hasCurrent = false;
     }
 
     private void Select()
     {
-        _curSelectableObject.SelectionHandler.OnSelect(_curHitObject);
+        _curSelectedObjects.Add(_curSelectableObject);
+        _curSelectableObject.onSelect.Invoke();
+    }
+    
+    private void Deselect()
+    {
+        _curSelectableObject.onDeselect.Invoke();
+        _curSelectedObjects.Remove(_curSelectableObject);
+        Enter();
     }
 }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5499130640715547544}
   - component: {fileID: 2337182279868832959}
   - component: {fileID: 4729353294401577086}
+  - component: {fileID: -7962626133438165135}
   m_Layer: 6
   m_Name: Entity
   m_TagString: Untagged
@@ -74,3 +75,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b82b76a176f74d9da9ace41f9e55e12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-7962626133438165135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6552866188316212356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3947b97bcbdc49fbb9d3d68c681ed70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onHoverEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  onHoverLeave:
+    m_PersistentCalls:
+      m_Calls: []
+  onSelect:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeselect:
+    m_PersistentCalls:
+      m_Calls: []
+  meshRendererSource: {fileID: 0}
+  highlightColor: {r: 1, g: 0, b: 0.9143152, a: 0.49803922}
+  selectColor: {r: 0.9930594, g: 0.514151, b: 1, a: 1}

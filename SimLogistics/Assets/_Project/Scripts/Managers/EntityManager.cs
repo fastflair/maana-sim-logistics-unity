@@ -69,9 +69,6 @@ public abstract class EntityManager<TQEntity, TUEntity> : MonoBehaviour
 
             var prefab = EntityPrefab(qEntity);
             var uEntity = Instantiate(prefab, new Vector3(posX, tileDropHeight.Value * tileSize.Value, posZ), Quaternion.identity);
-            // var selectableObject = entityGameObject.AddComponent<SelectableObject>();
-            // selectableObject.SelectionHandler = this;
-            // selectableObject.id = qMapEntity.id;
             UEntities.Add(uEntity);
             
             yield return new WaitForSeconds(spawnDelay.Value);
@@ -79,19 +76,4 @@ public abstract class EntityManager<TQEntity, TUEntity> : MonoBehaviour
 
         onSpawned.Invoke();
     }
-
-    // public void OnHoverEnter(GameObject obj)
-    // {
-    //     print($"OnHoverEnter: {obj.name}");
-    // }
-    //
-    // public void OnHoverExit(GameObject obj)
-    // {
-    //     print($"OnHoverExit: {obj.name}");
-    // }
-    //
-    // public void OnSelect(GameObject obj)
-    // {
-    //     print($"OnSelect: {obj.name}");
-    // }
 }

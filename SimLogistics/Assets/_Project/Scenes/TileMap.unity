@@ -2253,7 +2253,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onSpawned:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1752998127}
+        m_TargetAssemblyTypeName: EntityManager`2[[QProducer, Assembly-CSharp
+        m_MethodName: Spawn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   connectionManager: {fileID: 1056472702}
   simName: {fileID: 11400000, guid: d27adb3f676cf46de9db2ed0b4080e9b, type: 2}
   tileSize: {fileID: 11400000, guid: 2b2cfc7108f50497a8f3d5c4318e37c6, type: 2}
@@ -2782,9 +2794,9 @@ MonoBehaviour:
   tileSize: {fileID: 11400000, guid: 2b2cfc7108f50497a8f3d5c4318e37c6, type: 2}
   tileDropHeight: {fileID: 11400000, guid: a5b0373571464403b8f12fd2b4bb5c27, type: 2}
   spawnDelay: {fileID: 11400000, guid: d9406173a3339405d96b5cfaf8644123, type: 2}
-  truckPrefab: {fileID: 2672735459399409640, guid: 08a1e6e48e83a4faba8bf87fe5447949, type: 3}
-  planePrefab: {fileID: 2921569967722060882, guid: 7d5479167827749ca9bc2d9b958d2b1c, type: 3}
-  shipPrefab: {fileID: 7201145449756212185, guid: 70e437808115f438085c0f6ad061b997, type: 3}
+  truckPrefab: {fileID: 1377585946651504442, guid: 298bc6185dc834ddb9e5c51776881bb9, type: 3}
+  planePrefab: {fileID: 5021086288044931339, guid: 050344ad8d7aa4e92b073685b1ed8acc, type: 3}
+  shipPrefab: {fileID: 2505280414355346097, guid: d2746c912964a41f5b8e2191967056e4, type: 3}
 --- !u!4 &700448672
 Transform:
   m_ObjectHideFlags: 0
@@ -3161,7 +3173,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onSpawned:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 700448671}
+        m_TargetAssemblyTypeName: EntityManager`2[[QVehicle, Assembly-CSharp
+        m_MethodName: Spawn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   connectionManager: {fileID: 1056472702}
   simName: {fileID: 11400000, guid: d27adb3f676cf46de9db2ed0b4080e9b, type: 2}
   tileSize: {fileID: 11400000, guid: 2b2cfc7108f50497a8f3d5c4318e37c6, type: 2}
@@ -3711,42 +3735,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 570201677}
         m_TargetAssemblyTypeName: EntityManager, Assembly-CSharp
-        m_MethodName: Spawn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1752998127}
-        m_TargetAssemblyTypeName: EntityManager`2[[QProducer, Assembly-CSharp
-        m_MethodName: Spawn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 837692214}
-        m_TargetAssemblyTypeName: EntityManager`2[[QHub, Assembly-CSharp
-        m_MethodName: Spawn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 700448671}
-        m_TargetAssemblyTypeName: EntityManager`2[[QVehicle, Assembly-CSharp
         m_MethodName: Spawn
         m_Mode: 1
         m_Arguments:
@@ -5731,7 +5719,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 1f7aa4d40edff6e48b549003cad031e1, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1f7aa4d40edff6e48b549003cad031e1, type: 3}
       propertyPath: m_RootOrder
@@ -5751,7 +5739,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1f7aa4d40edff6e48b549003cad031e1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -15.5
+      value: -11.1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1f7aa4d40edff6e48b549003cad031e1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5759,7 +5747,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1f7aa4d40edff6e48b549003cad031e1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5
+      value: -0.7
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 1f7aa4d40edff6e48b549003cad031e1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6180,7 +6168,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1334222044}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
   m_Name: 
@@ -7965,23 +7953,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onSpawned:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 837692214}
+        m_TargetAssemblyTypeName: EntityManager`2[[QHub, Assembly-CSharp
+        m_MethodName: Spawn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   connectionManager: {fileID: 1056472702}
   simName: {fileID: 11400000, guid: d27adb3f676cf46de9db2ed0b4080e9b, type: 2}
   tileSize: {fileID: 11400000, guid: 2b2cfc7108f50497a8f3d5c4318e37c6, type: 2}
   tileDropHeight: {fileID: 11400000, guid: a5b0373571464403b8f12fd2b4bb5c27, type: 2}
   spawnDelay: {fileID: 11400000, guid: d9406173a3339405d96b5cfaf8644123, type: 2}
-  coalMinePrefab: {fileID: 6209881653117042854, guid: eb3907145dd704a7dafa018e54253769, type: 3}
-  cottonPrefab: {fileID: 6209881653117042854, guid: 29debd9c2709740099a7ad59a5cd25f9, type: 3}
-  factoryPrefab: {fileID: 7837982138812609604, guid: ea012ae801d9b43d48da14595db957f9, type: 3}
-  farmPrefab: {fileID: 7837982138812609604, guid: 9a9f47c7a3d27443ea4cc9c642a5aec6, type: 3}
-  forestPrefab: {fileID: 6209881653117042854, guid: ec3426e3657cf4803bbbbf5b14a2da24, type: 3}
-  lumberMillPrefab: {fileID: 7837982138812609604, guid: 9c2389912510d45b5a5126006478e6d1, type: 3}
-  powerPlantPrefab: {fileID: 7837982138812609604, guid: e39d258724e3341a1974e4de16c32919, type: 3}
-  textileMillPrefab: {fileID: 7837982138812609604, guid: 103938f7f0f1e4f998eb41f1133a8df7, type: 3}
-  oilRefineryPrefab: {fileID: 7837982138812609604, guid: 766a1457c205546819762f4bb968250c, type: 3}
-  oilWellPrefab: {fileID: 6209881653117042854, guid: 651c1d300dbdc4307b6fbba4e12f75ea, type: 3}
-  warehousePrefab: {fileID: 6209881653117042854, guid: 53d076515c2fd402e8a5354e5d9b5a24, type: 3}
+  coalMinePrefab: {fileID: 7729084644594269555, guid: bb24fd48dd23e4169b763a02ae2b782e, type: 3}
+  cottonPrefab: {fileID: 5475585973066945096, guid: 133217cd5d2c54466b9a1a04982c1086, type: 3}
+  factoryPrefab: {fileID: 6369483268286323675, guid: 884dd89eb72ea41ccb0e8e371e542356, type: 3}
+  farmPrefab: {fileID: 7382846477849804013, guid: e0ca9b2282c9c4a1fb56e529574053db, type: 3}
+  forestPrefab: {fileID: 586590423777602964, guid: 9cae5ac036859438499f66f2d14c81fc, type: 3}
+  lumberMillPrefab: {fileID: 4368420780599954489, guid: 63880968b384e4e708b18a850ee4b1c9, type: 3}
+  powerPlantPrefab: {fileID: 623925444997271782, guid: fc4d55a7d85014ca2aa29e0c26d13794, type: 3}
+  textileMillPrefab: {fileID: 7636167584737532844, guid: 5e446da85e815407e90b029a2a0010a8, type: 3}
+  oilRefineryPrefab: {fileID: 1202130287431178465, guid: fb7678e366d3a4782b6868617603fc11, type: 3}
+  oilWellPrefab: {fileID: 5762798848283108663, guid: 7c847cf6430114519832fe31596db529, type: 3}
+  warehousePrefab: {fileID: 8315945207984709182, guid: c9315c9fba473410ea5b78247ed080f2, type: 3}
 --- !u!1001 &1776170368
 PrefabInstance:
   m_ObjectHideFlags: 0
