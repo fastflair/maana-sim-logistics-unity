@@ -28,20 +28,20 @@ public static class QVehicleFragment
 
 public class QVehicleTypeEnum
 {
-    public string id;
+    [UsedImplicitly] public string id;
 }
 
 public class QVehicle : QEntity
 {
-    public string hub;
-    public QVehicleTypeEnum type;
-    public List<QResource> cargo;
-    public float speed;
-    public float maxDistance;
-    public float efficiency;
-    public float durability;
-    public int serviceInterval;    
-    public int lastServiceStep;    
-    public bool cargoModeAND;
-    public QTransitOrder transitOrder;
+    [UsedImplicitly] public string hub;
+    [UsedImplicitly] public QVehicleTypeEnum type;
+    [UsedImplicitly] public List<QResource> cargo;
+    [UsedImplicitly] public float speed;
+    [UsedImplicitly] public float maxDistance;
+    [UsedImplicitly] public float efficiency;
+    [UsedImplicitly] public float durability;
+    [UsedImplicitly] public int serviceInterval;    
+    [UsedImplicitly] public int lastServiceStep;    
+    [UsedImplicitly] public bool cargoModeAND;
+    [UsedImplicitly] public QTransitOrder transitOrder;
 }

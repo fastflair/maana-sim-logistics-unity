@@ -18,11 +18,11 @@ public static class QSimulationFragment
 
 public class QSimulation
 {
-    public string id;
-    public string name;
-    public string agentEndpoint;
-    public int steps;
-    public float balance;
-    public float income;
-    public float expenses;
+    [UsedImplicitly] public string id;
+    [UsedImplicitly] public string name;
+    [UsedImplicitly] public string agentEndpoint;
+    [UsedImplicitly] public int steps;
+    [UsedImplicitly] public float balance;
+    [UsedImplicitly] public float income;
+    [UsedImplicitly] public float expenses;
 }

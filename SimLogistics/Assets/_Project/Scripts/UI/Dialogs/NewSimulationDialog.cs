@@ -37,8 +37,6 @@ public class NewSimulationDialog : Dialog
 
     public void OnOkay()
     {
-        var spinner = UIManager.ShowSpinner();
-        
         SimulationManager.List(simName.Value, agentEndpoint.Value, existing =>
         {
             if (existing.Count != 0)
@@ -48,20 +46,17 @@ public class NewSimulationDialog : Dialog
                 {
                     SimulationManager.Overwrite(simName.Value, agentEndpoint.Value, simulation =>
                     {
-                        spinner.Hide();
                         Hide();
                     });
                 });
                 dialog.cancelEvent.AddListener(() =>
                 {
-                    spinner.Hide();
                 });
             }
             else
             {
                 SimulationManager.New(simName.Value, agentEndpoint.Value, simulation =>
                 {
-                    spinner.Hide();
                     Hide();
                 });
             }

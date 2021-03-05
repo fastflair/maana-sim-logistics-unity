@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ProducerManager : EntityManager<QProducer>
@@ -13,17 +14,9 @@ public class ProducerManager : EntityManager<QProducer>
     [SerializeField] private Entity oilRefineryPrefab;
     [SerializeField] private Entity oilWellPrefab;
     [SerializeField] private Entity warehousePrefab;
+    
+    protected override IEnumerable<QProducer> QEntities => simulationManager.CurrentState.producers;
 
-    protected override string QueryName => "selectProducer";
-    protected override string Query => @$"
-          {QResourceFragment.data}
-          {QProducerFragment.data}
-          query {{
-            {QueryName}(sim: ""{simName.Value}"") {{
-              ...producerData
-            }}
-          }}
-        ";
     protected override Entity EntityPrefab(QProducer qProducer)
     {
         return qProducer.type.id switch

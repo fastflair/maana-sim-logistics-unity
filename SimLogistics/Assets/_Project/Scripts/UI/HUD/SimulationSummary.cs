@@ -6,9 +6,6 @@ using UnityEngine;
 
 public class SimulationSummary : UIElement
 {
-    [SerializeField] private float initialShowDelay;
-    private bool _hasShown;
-
     [SerializeField] private TMP_Text simName;
     [SerializeField] private TMP_Text steps;
     [SerializeField] private TMP_Text balance;
@@ -16,22 +13,25 @@ public class SimulationSummary : UIElement
     [SerializeField] private TMP_Text expenses;
 
     [SerializeField] private SimulationManager simulationManager;
-    
-    public void ShowFirstTime()
-    {
-        if (_hasShown) return;
-        _hasShown = true;
-        SetVisible(true, Effect.Animate).setDelay(initialShowDelay);
-    }
-    
+ 
     public void Show()
     {
-        if (!_hasShown) return;
-        
-        SetVisible(true, Effect.Animate);
+        UpdateSummary();
+        SetVisible(true);
     }
-    
+
+    public void ShowAnimate()
+    {
+        UpdateSummary();
+        SetVisible(true, Effect.Animate); 
+    }
+
     public void Hide()
+    {
+        SetVisible(false);
+    }
+
+    public void HideAnimate()
     {
         SetVisible(false, Effect.Animate);
     }

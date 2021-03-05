@@ -20,12 +20,12 @@ public static class QHubFragment
 
 public class QHubTypeEnum
 {
-    public string id;
+    [UsedImplicitly] public string id;
 }
 
 public class QHub : QEntity
 {
-    public QHubTypeEnum type;
-    public List<QResource> supplies;
-    public QVehicleTypeEnum vehicleType;
+    [UsedImplicitly] public QHubTypeEnum type;
+    [UsedImplicitly] public List<QResource> supplies;
+    [UsedImplicitly] public QVehicleTypeEnum vehicleType;
 }

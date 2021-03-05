@@ -59,7 +59,8 @@ namespace Maana.GraphQL
             {
                 foreach (var queuedQuery in _queuedQueries)
                 {
-                    Query(queuedQuery.Query, queuedQuery.Variables, queuedQuery.Callback);
+                    // Query(queuedQuery.Query, queuedQuery.Variables, queuedQuery.Callback);
+                    _client.Query(queuedQuery.Query, queuedQuery.Variables, _fetcher.Token.access_token, queuedQuery.Callback);
                 }
 
                 _queuedQueries.Clear();

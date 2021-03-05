@@ -5,6 +5,18 @@ using JetBrains.Annotations;
 
 public static class QStateFragment
 {
+    public static readonly string withIncludes = @$"
+      {QTransitOrderFragment.data}
+      {QResourceTransferFragment.data}
+      {QResourceFragment.data}
+      {QVehicleFragment.data}
+      {QHubFragment.data}
+      {QProducerFragment.data}
+      {QCityFragment.data}
+      {QSimulationFragment.data}
+      {data}
+        ";
+
     public const string data = @"
         fragment stateData on State {
           id
@@ -19,11 +31,11 @@ public static class QStateFragment
 
 public class QState
 {
-    public string id;
-    public QSimulation simulation;
-    public List<QCity> cities;
-    public List<QProducer> producers;
-    public List<QHub> hubs;
-    public List<QVehicle> vehicles;
-    public List<QResourceTransfer> transfers;
+    [UsedImplicitly] public string id;
+    [UsedImplicitly] public QSimulation sim;
+    [UsedImplicitly] public List<QCity> cities;
+    [UsedImplicitly] public List<QProducer> producers;
+    [UsedImplicitly] public List<QHub> hubs;
+    [UsedImplicitly] public List<QVehicle> vehicles;
+    [UsedImplicitly] public List<QResourceTransfer> transfers;
 }

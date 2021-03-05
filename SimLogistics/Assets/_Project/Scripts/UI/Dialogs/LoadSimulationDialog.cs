@@ -42,59 +42,52 @@ public class LoadSimulationDialog : Dialog
 
     private void PopulateList()
     {
-            ClearList();
+        ClearList();
+        
+        var nameFilter = nameInputField.text;
+        var agentEndpointFilter = agentEndpointInputField.text;
 
-            var spinner = UIManager.ShowSpinner();
+        clearFiltersButton.interactable = !string.IsNullOrEmpty(nameFilter) ||
+                                          !string.IsNullOrEmpty(agentEndpointFilter);
 
-            var nameFilter = nameInputField.text;
-            var agentEndpointFilter = agentEndpointInputField.text;
-
-            clearFiltersButton.interactable = !string.IsNullOrEmpty(nameFilter) ||
-                                              !string.IsNullOrEmpty(agentEndpointFilter);
-
-            SimulationManager.List(
-                nameFilter,
-                agentEndpointFilter,
-                simulations =>
+        SimulationManager.List(
+            nameFilter,
+            agentEndpointFilter,
+            simulations =>
+            {
+                if (simulations.Count == 0)
                 {
-                    spinner.Hide();
+                    resultCountText.text = "(no results)";
+                    return;
+                }
 
-                    if (simulations.Count == 0)
+                var resultCount = simulations.Count;
+
+                foreach (var simulation in simulations)
+                {
+                    if (simulation.id == SimulationManager.DefaultSimulation.id)
                     {
-                        resultCountText.text = "(no results)";
-                        return;
+                        resultCount--;
+                        continue;
                     }
 
-                    var resultCount = simulations.Count;
-
-                    foreach (var simulation in simulations)
+                    var text = $"{simulation.name} @ {AgentEndpointDisplayName(simulation.agentEndpoint)}";
+                    var buttonItem = Instantiate(buttonItemPrefab, listHost.transform, false);
+                    buttonItem.GetComponentInChildren<TMP_Text>().text = text;
+                    buttonItem.onClick.AddListener(() =>
                     {
-                        if (simulation.id == SimulationManager.DefaultSimulation.id)
+                        SimulationManager.Load(simulation.id, loaded =>
                         {
-                            resultCount--;
-                            continue;
-                        }
-
-                        var text = $"{simulation.name} @ {AgentEndpointDisplayName(simulation.agentEndpoint)}";
-                        var buttonItem = Instantiate(buttonItemPrefab, listHost.transform, false);
-                        buttonItem.GetComponentInChildren<TMP_Text>().text = text;
-                        buttonItem.onClick.AddListener(() =>
-                        {
-                            spinner = UIManager.ShowSpinner();
-
-                            SimulationManager.Load(simulation.id, loaded =>
-                            {
-                                spinner.Hide();
-                                Hide();
-                            });
+                            Hide();
                         });
-                    }
+                    });
+                }
 
-                    resultCountText.text = resultCount.ToString(CultureInfo.CurrentCulture);
-                });
+                resultCountText.text = resultCount.ToString(CultureInfo.CurrentCulture);
+            });
     }
 
-    private string AgentEndpointDisplayName(string agentEndpoint)
+    private static string AgentEndpointDisplayName(string agentEndpoint)
     {
         if (agentEndpoint == null) return "Interactive";
 

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Text;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Maana.GraphQL
@@ -77,6 +78,7 @@ namespace Maana.GraphQL
             string sToken = null,
             Action<GraphQLResponse> callback = null)
         {
+            Debug.Log($"GraphQL query: {query} {variables}");
             Coroutiner.StartCoroutine(SendRequest(query, variables, callback, sToken));
         }
     }

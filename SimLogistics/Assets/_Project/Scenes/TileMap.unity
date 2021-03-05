@@ -331,12 +331,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connectionManager: {fileID: 1056472702}
-  onDefaultSimulation:
+  onLoading:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1316288417}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: StartTitleSequence
+        m_MethodName: Loading
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -346,132 +346,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 889842852}
-        m_TargetAssemblyTypeName: SystemBar, Assembly-CSharp
-        m_MethodName: OnDefaultSimulation
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 930856743}
-        m_TargetAssemblyTypeName: SimulationBar, Assembly-CSharp
-        m_MethodName: Hide
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 893339561}
-        m_TargetAssemblyTypeName: MapManager, Assembly-CSharp
-        m_MethodName: Spawn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 413326916}
-        m_TargetAssemblyTypeName: SimulationSummary, Assembly-CSharp
-        m_MethodName: UpdateSummary
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 570201677}
-        m_TargetAssemblyTypeName: EntityManager, Assembly-CSharp
-        m_MethodName: Destroy
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 700448671}
-        m_TargetAssemblyTypeName: VehicleManager, Assembly-CSharp
-        m_MethodName: Destroy
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1752998127}
-        m_TargetAssemblyTypeName: EntityManager`1[[QProducer, Assembly-CSharp
-        m_MethodName: Destroy
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 837692214}
-        m_TargetAssemblyTypeName: EntityManager`1[[QHub, Assembly-CSharp
-        m_MethodName: Destroy
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onNewSimulation:
+  onLoaded:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 930856743}
-        m_TargetAssemblyTypeName: SimulationBar, Assembly-CSharp
-        m_MethodName: Show
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 889842852}
-        m_TargetAssemblyTypeName: SystemBar, Assembly-CSharp
-        m_MethodName: OnNewSimulation
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 893339561}
         m_TargetAssemblyTypeName: MapManager, Assembly-CSharp
-        m_MethodName: Destroy
+        m_MethodName: Load
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -481,81 +361,36 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 413326916}
-        m_TargetAssemblyTypeName: SimulationSummary, Assembly-CSharp
-        m_MethodName: UpdateSummary
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 570201677}
-        m_TargetAssemblyTypeName: EntityManager, Assembly-CSharp
-        m_MethodName: Destroy
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 700448671}
-        m_TargetAssemblyTypeName: VehicleManager, Assembly-CSharp
-        m_MethodName: Destroy
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 893339561}
-        m_TargetAssemblyTypeName: MapManager, Assembly-CSharp
-        m_MethodName: Spawn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1752998127}
-        m_TargetAssemblyTypeName: EntityManager`1[[QProducer, Assembly-CSharp
-        m_MethodName: Destroy
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 837692214}
-        m_TargetAssemblyTypeName: EntityManager`1[[QHub, Assembly-CSharp
-        m_MethodName: Destroy
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onSimulationBusy:
+  onBusy:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1316288417}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ShowSpinner
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onNotBusy:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1316288417}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: HideSpinner
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onSimulationError:
     m_PersistentCalls:
       m_Calls: []
@@ -682,8 +517,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72e3e2f2390c244688b9f567aa6a8883, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeDuration: 10
-  fadeDelay: 3
 --- !u!114 &162702069 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7929705258238976079, guid: 41a4995e5e63e4544b2e975457df28c6, type: 3}
@@ -1752,7 +1585,6 @@ MonoBehaviour:
   animDelay: 0.3
   fadeDuration: 2
   fadeDelay: 2
-  initialShowDelay: 3
   simName: {fileID: 1160929656}
   steps: {fileID: 1469351162}
   balance: {fileID: 1578422962}
@@ -2291,10 +2123,9 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   uiManager: {fileID: 1316288417}
-  connectionManager: {fileID: 1056472702}
-  simName: {fileID: 11400000, guid: d27adb3f676cf46de9db2ed0b4080e9b, type: 2}
+  simulationManager: {fileID: 82198423}
   tileSize: {fileID: 11400000, guid: 2b2cfc7108f50497a8f3d5c4318e37c6, type: 2}
-  tileDropHeight: {fileID: 11400000, guid: a5b0373571464403b8f12fd2b4bb5c27, type: 2}
+  spawnHeight: {fileID: 11400000, guid: a5b0373571464403b8f12fd2b4bb5c27, type: 2}
   spawnDelay: {fileID: 11400000, guid: d9406173a3339405d96b5cfaf8644123, type: 2}
   cityPrefab: {fileID: 4236613664765942426, guid: 1e39dd45218f0451fb4259e287b173ed, type: 3}
 --- !u!4 &570201678
@@ -2804,7 +2635,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1316288417}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: EndTitleSequence
+        m_MethodName: Ready
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2815,10 +2646,9 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   uiManager: {fileID: 1316288417}
-  connectionManager: {fileID: 1056472702}
-  simName: {fileID: 11400000, guid: d27adb3f676cf46de9db2ed0b4080e9b, type: 2}
+  simulationManager: {fileID: 82198423}
   tileSize: {fileID: 11400000, guid: 2b2cfc7108f50497a8f3d5c4318e37c6, type: 2}
-  tileDropHeight: {fileID: 11400000, guid: a5b0373571464403b8f12fd2b4bb5c27, type: 2}
+  spawnHeight: {fileID: 11400000, guid: a5b0373571464403b8f12fd2b4bb5c27, type: 2}
   spawnDelay: {fileID: 11400000, guid: d9406173a3339405d96b5cfaf8644123, type: 2}
   truckPrefab: {fileID: 8131646060204039481, guid: 298bc6185dc834ddb9e5c51776881bb9, type: 3}
   planePrefab: {fileID: 2767806654049258248, guid: 050344ad8d7aa4e92b073685b1ed8acc, type: 3}
@@ -3208,10 +3038,9 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   uiManager: {fileID: 1316288417}
-  connectionManager: {fileID: 1056472702}
-  simName: {fileID: 11400000, guid: d27adb3f676cf46de9db2ed0b4080e9b, type: 2}
+  simulationManager: {fileID: 82198423}
   tileSize: {fileID: 11400000, guid: 2b2cfc7108f50497a8f3d5c4318e37c6, type: 2}
-  tileDropHeight: {fileID: 11400000, guid: a5b0373571464403b8f12fd2b4bb5c27, type: 2}
+  spawnHeight: {fileID: 11400000, guid: a5b0373571464403b8f12fd2b4bb5c27, type: 2}
   spawnDelay: {fileID: 11400000, guid: d9406173a3339405d96b5cfaf8644123, type: 2}
   portPrefab: {fileID: 2110633849371970905, guid: b94646b51c9314535b9653aa7d21cc3b, type: 3}
   airportPrefab: {fileID: 426983628386960955, guid: 57964510478e64cf6ad103dbe5b2e017, type: 3}
@@ -3700,7 +3529,6 @@ MonoBehaviour:
   animDelay: 0.3
   fadeDuration: 0.2
   fadeDelay: 0.2
-  initialShowDelay: 3
   uiManager: {fileID: 1316288417}
   connectionManager: {fileID: 1056472702}
   simulationManager: {fileID: 82198423}
@@ -3752,11 +3580,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d22b399c34bf247349b8616516464fb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onMapTilesSpawned:
+  onLoaded:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1603518359}
+        m_TargetAssemblyTypeName: LoadingScreen, Assembly-CSharp
+        m_MethodName: OnLoaded
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onSpawned:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 570201677}
-        m_TargetAssemblyTypeName: EntityManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: EntityManager`1[[QCity, Assembly-CSharp
         m_MethodName: Spawn
         m_Mode: 1
         m_Arguments:
@@ -3770,7 +3613,7 @@ MonoBehaviour:
   connectionManager: {fileID: 1056472702}
   mapName: {fileID: 11400000, guid: 116c3e9e4cff14af4a91eff1437c59ba, type: 2}
   tileSize: {fileID: 11400000, guid: 2b2cfc7108f50497a8f3d5c4318e37c6, type: 2}
-  tileDropHeight: {fileID: 11400000, guid: a5b0373571464403b8f12fd2b4bb5c27, type: 2}
+  spawnHeight: {fileID: 11400000, guid: a5b0373571464403b8f12fd2b4bb5c27, type: 2}
   spawnDelay: {fileID: 11400000, guid: d9406173a3339405d96b5cfaf8644123, type: 2}
   landTilePrefab: {fileID: 2251346963766427461, guid: 85c8d70d82e1947828119945ae0757c3, type: 3}
   waterTilePrefab: {fileID: 4050735417507327338, guid: e6c7d9fba3a024a1aa287e80c672a558, type: 3}
@@ -4570,36 +4413,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 889842852}
-        m_TargetAssemblyTypeName: SystemBar, Assembly-CSharp
-        m_MethodName: OnConnectionReady
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   onDisconnected:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1316288417}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: OnDisconnected
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 889842852}
-        m_TargetAssemblyTypeName: SystemBar, Assembly-CSharp
-        m_MethodName: OnConnectionNotReady
+        m_MethodName: NotReady
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4615,19 +4434,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1316288417}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: OnConnectionError
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 889842852}
-        m_TargetAssemblyTypeName: SystemBar, Assembly-CSharp
-        m_MethodName: OnConnectionError
-        m_Mode: 0
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5678,12 +5485,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dedb0b9de9c7c401a8b2279459e466c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onTitleSequenceStart:
+  onLoading:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1603518359}
-        m_TargetAssemblyTypeName: Titles, Assembly-CSharp
-        m_MethodName: Roll
+        m_TargetAssemblyTypeName: LoadingScreen, Assembly-CSharp
+        m_MethodName: OnLoading
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5693,12 +5500,33 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  onTitleSequenceCompleted:
-    m_PersistentCalls:
-      m_Calls:
       - m_Target: {fileID: 413326916}
         m_TargetAssemblyTypeName: SimulationSummary, Assembly-CSharp
-        m_MethodName: ShowFirstTime
+        m_MethodName: HideAnimate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1660856123}
+        m_TargetAssemblyTypeName: CardShelf, Assembly-CSharp
+        m_MethodName: Hide
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 930856743}
+        m_TargetAssemblyTypeName: SimulationBar, Assembly-CSharp
+        m_MethodName: HideAnimate
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5710,7 +5538,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 889842852}
         m_TargetAssemblyTypeName: SystemBar, Assembly-CSharp
-        m_MethodName: ShowFirstTime
+        m_MethodName: HideAnimate
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5720,6 +5548,108 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 893339561}
+        m_TargetAssemblyTypeName: MapManager, Assembly-CSharp
+        m_MethodName: Destroy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 570201677}
+        m_TargetAssemblyTypeName: EntityManager`1[[QCity, Assembly-CSharp
+        m_MethodName: Destroy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1752998127}
+        m_TargetAssemblyTypeName: EntityManager`1[[QProducer, Assembly-CSharp
+        m_MethodName: Destroy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 837692214}
+        m_TargetAssemblyTypeName: EntityManager`1[[QHub, Assembly-CSharp
+        m_MethodName: Destroy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 700448671}
+        m_TargetAssemblyTypeName: EntityManager`1[[QVehicle, Assembly-CSharp
+        m_MethodName: Destroy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onReady:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 413326916}
+        m_TargetAssemblyTypeName: SimulationSummary, Assembly-CSharp
+        m_MethodName: ShowAnimate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 889842852}
+        m_TargetAssemblyTypeName: SystemBar, Assembly-CSharp
+        m_MethodName: ShowAnimate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1660856123}
+        m_TargetAssemblyTypeName: CardShelf, Assembly-CSharp
+        m_MethodName: Show
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onNotReady:
+    m_PersistentCalls:
+      m_Calls: []
   isWorldInteractable: {fileID: 11400000, guid: 920cbbaa0092b4a65a3a5a38163bc040, type: 2}
   backdrop: {fileID: 470229110}
   dialogHost: {fileID: 693181117}
@@ -5727,8 +5657,8 @@ MonoBehaviour:
   errorDialogPrefab: {fileID: 7205866365075391678, guid: b70ae01f397c0494e841a6b9f1a0dd6b, type: 3}
   infoDialogPrefab: {fileID: 5605028586716688968, guid: cdac350fb8fb4451cbced1606b7af056, type: 3}
   helpDialogPrefab: {fileID: 6800102140368413942, guid: c883b1f6b4727430da5c2a828e31a13a, type: 3}
-  spinnerPrefab: {fileID: 6956737672676198564, guid: bbbe7daa2e998431c964622d8ff7ccc9, type: 3}
   cardShelf: {fileID: 1660856122}
+  spinnerPrefab: {fileID: 6956737672676198564, guid: bbbe7daa2e998431c964622d8ff7ccc9, type: 3}
 --- !u!1001 &1318383669
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7112,7 +7042,7 @@ GameObject:
   - component: {fileID: 1603518359}
   - component: {fileID: 1603518360}
   m_Layer: 5
-  m_Name: Titles
+  m_Name: Loading Screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7150,7 +7080,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac1462672cef24227b67dee711279605, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onTitlesComplete:
+  onLoadingScreenComplete:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1616018755}
@@ -7165,21 +7095,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 120076566}
-        m_TargetAssemblyTypeName: MapBoard, Assembly-CSharp
-        m_MethodName: Show
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 893339561}
         m_TargetAssemblyTypeName: MapManager, Assembly-CSharp
-        m_MethodName: OkToSpawn
+        m_MethodName: Spawn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7989,10 +7907,9 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   uiManager: {fileID: 1316288417}
-  connectionManager: {fileID: 1056472702}
-  simName: {fileID: 11400000, guid: d27adb3f676cf46de9db2ed0b4080e9b, type: 2}
+  simulationManager: {fileID: 82198423}
   tileSize: {fileID: 11400000, guid: 2b2cfc7108f50497a8f3d5c4318e37c6, type: 2}
-  tileDropHeight: {fileID: 11400000, guid: a5b0373571464403b8f12fd2b4bb5c27, type: 2}
+  spawnHeight: {fileID: 11400000, guid: a5b0373571464403b8f12fd2b4bb5c27, type: 2}
   spawnDelay: {fileID: 11400000, guid: d9406173a3339405d96b5cfaf8644123, type: 2}
   coalMinePrefab: {fileID: 6717905333322449257, guid: bb24fd48dd23e4169b763a02ae2b782e, type: 3}
   cottonPrefab: {fileID: 9044567978901827154, guid: 133217cd5d2c54466b9a1a04982c1086, type: 3}

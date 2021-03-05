@@ -21,8 +21,8 @@ public static class QCityFragment
 
 public class QCity : QEntity
 {
-    public float population;
-    public float populationGrowthRate;
-    public float populationDeclineRate;
-    public List<QResource> demand;
+    [UsedImplicitly] public float population;
+    [UsedImplicitly] public float populationGrowthRate;
+    [UsedImplicitly] public float populationDeclineRate;
+    [UsedImplicitly] public List<QResource> demand;
 }

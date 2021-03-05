@@ -9,38 +9,18 @@ public class SimulationBar : UIElement
         SetVisible(true);
     }
 
+    public void ShowAnimate()
+    {
+        SetVisible(true, Effect.Animate);
+    }
+
     public void Hide()
     {
         SetVisible(false);
     }
-    
-    // Connection state
-    // ----------------
-    
-    public void OnConnectionReady()
-    {
-    }
 
-    public void OnConnectionNotReady()
+    public void HideAnimate()
     {
-    }
-
-    public void OnConnectionError(string error)
-    {
-    }
-    
-    // Simulation state
-    // ----------------
-    
-    public void OnSimulationReady()
-    {
-    }
-
-    public void OnSimulationNotReady()
-    {
-    }
-   
-    public void OnSimulationError(string error)
-    {
+        SetVisible(false, Effect.Animate);
     }
 }

@@ -21,14 +21,14 @@ public static class QProducerFragment
 
 public class QProducerTypeEnum
 {
-    public string id;
+    [UsedImplicitly] public string id;
 }
 
 [UsedImplicitly]
 public class QProducer : QEntity
 {
-    public QProducerTypeEnum type;
-    public List<QResource> material;
-    public List<QResource> products;
-    public float stoppageSurchargeFactor;
+    [UsedImplicitly] public QProducerTypeEnum type;
+    [UsedImplicitly] public List<QResource> material;
+    [UsedImplicitly] public List<QResource> products;
+    [UsedImplicitly] public float stoppageSurchargeFactor;
 }

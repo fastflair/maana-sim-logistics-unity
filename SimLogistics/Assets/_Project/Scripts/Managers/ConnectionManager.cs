@@ -124,6 +124,7 @@ public class ConnectionManager : MonoBehaviour
 
     private void UpdateConnectionStatus()
     {
+        print("onConnected()");
         onConnected.Invoke();
     }
 }

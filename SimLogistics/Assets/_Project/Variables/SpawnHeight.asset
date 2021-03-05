@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b47769ced173741c89261855cd4ea02d, type: 3}
-  m_Name: TileDropHeight
+  m_Name: SpawnHeight
   m_EditorClassIdentifier: 
   defaultValue: 10

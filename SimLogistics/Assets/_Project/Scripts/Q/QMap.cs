@@ -15,7 +15,7 @@ public static class QMapFragment
 
 public class QMap
 {
-    public string id;
-    public float tilesX;
-    public float tilesY;
+    [UsedImplicitly] public string id;
+    [UsedImplicitly] public float tilesX;
+    [UsedImplicitly] public float tilesY;
 }

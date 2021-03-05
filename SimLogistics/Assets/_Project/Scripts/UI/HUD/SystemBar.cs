@@ -3,9 +3,6 @@ using UnityEngine.UI;
 
 public class SystemBar : UIElement
 {
-    [SerializeField] private float initialShowDelay;
-    private bool _hasShown;
-    
     // Managers
     [SerializeField] private UIManager uiManager;
     [SerializeField] private ConnectionManager connectionManager;
@@ -21,89 +18,44 @@ public class SystemBar : UIElement
     [SerializeField] private Button loadSimulationButton;
     [SerializeField] private Button deleteSimulationButton;
     [SerializeField] private Button simulationButton;
-
-    public void ShowFirstTime()
-    {
-        if (_hasShown) return;
-        _hasShown = true;
-        SetVisible(true, Effect.Animate).setDelay(initialShowDelay);
-    }
     
     public void Show()
     {
-        if (!_hasShown) return;
-        
+        UpdateButtons();
         SetVisible(true);
+    }
+
+    public void ShowAnimate()
+    {
+        UpdateButtons();
+        SetVisible(true, Effect.Animate);
     }
 
     public void Hide()
     {
         SetVisible(false);
     }
-    
-    // Connection state
-    // ----------------
-    
-    public void OnConnectionReady()
+
+    public void HideAnimate()
     {
-        EnableSimulationManagementButtons();
+        SetVisible(false, Effect.Animate);
     }
 
-    public void OnConnectionNotReady()
+    public void UpdateButtons()
     {
-        DisableSimulationManagementButtons();
-    }
-
-    public void OnConnectionError(string error)
-    {
-        DisableSimulationManagementButtons();
-        SetVisible(true, Effect.Animate);
-    }
-    
-    // Simulation state
-    // ----------------
-    
-    public void OnDefaultSimulation()
-    {
-        EnableSimulationManagementButtons();
-        DisableSimulationButton();
-        Show();
-    }
-    
-    public void OnNewSimulation()
-    {
-        EnableSimulationManagementButtons();
-        EnableSimulationButton();
-        Hide();
-    }
-
-    public void OnSimulationNotReady()
-    {
-        DisableDeleteSimulationButton();
-        DisableSimulationButton();
-    }
-   
-    public void OnSimulationError(string error)
-    {
-    }
-
-    public void EnableSimulationManagementButtons()
-    {
-        EnableNewSimulationButton();
-        EnableLoadSimulationButton();
         if (simulationManager.IsDefaultCurrent)
+        {
             DisableDeleteSimulationButton();
+            DisableSimulationButton();
+        }
         else
+        {
             EnableDeleteSimulationButton();
+            EnableSimulationButton();
+        }
     }
-    
-    public void DisableSimulationManagementButtons()
-    {
-        DisableNewSimulationButton();
-        DisableLoadSimulationButton();
-        DisableDeleteSimulationButton();
-    }
-    
+
+
     // Connections
     // -----------
 
@@ -158,18 +110,16 @@ public class SystemBar : UIElement
 
     public void OnDeleteSimulationPressed()
     {
-        var dialog = uiManager.ShowConfirmationDialog(@$"Are you sure you want to delete ""{simulationManager.CurrentSimulation.name}""?");
+        var dialog =
+            uiManager.ShowConfirmationDialog(
+                @$"Are you sure you want to delete ""{simulationManager.CurrentSimulation.name}""?");
         dialog.okayEvent.AddListener(() =>
         {
-            var spinner = uiManager.ShowSpinner();
             simulationManager.Delete(simulationManager.CurrentSimulation.id,
-                simulation =>
-                {
-                    spinner.Hide();
-                });
-        });    
+                sim => { });
+        });
     }
-    
+
     public void EnableDeleteSimulationButton()
     {
         deleteSimulationButton.interactable = true;
@@ -182,7 +132,7 @@ public class SystemBar : UIElement
 
     // Simulation
     // ----------
-    
+
     public void EnableSimulationButton()
     {
         simulationButton.interactable = true;
@@ -192,10 +142,10 @@ public class SystemBar : UIElement
     {
         simulationButton.interactable = false;
     }
-    
+
     // Exit
     // ------
-    
+
     public void OnExit()
     {
         Application.Quit();

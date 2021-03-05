@@ -16,14 +16,14 @@ public static class QTileFragment
 
 public class QTileTypeEnum
 {
-    public string id;
+    [UsedImplicitly] public string id;
 }
 
 public class QTile
 {
-    public string id;
-    public string map;
-    public QTileTypeEnum type;
-    public float x;
-    public float y;
+    [UsedImplicitly] public string id;
+    [UsedImplicitly] public string map;
+    [UsedImplicitly] public QTileTypeEnum type;
+    [UsedImplicitly] public float x;
+    [UsedImplicitly] public float y;
 }

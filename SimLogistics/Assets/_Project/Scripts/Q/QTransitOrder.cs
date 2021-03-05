@@ -18,16 +18,16 @@ public static class QTransitOrderFragment
 
 public class QTransitStatusEnum
 {
-    public string id;
+    [UsedImplicitly] public string id;
 }
 
 public class QTransitOrder
 {
-    public string id;
-    public string sim;
-    public string vehicle;
-    public int steps;
-    public QTransitStatusEnum status;
-    public float destX;
-    public float destY;
+    [UsedImplicitly] public string id;
+    [UsedImplicitly] public string sim;
+    [UsedImplicitly] public string vehicle;
+    [UsedImplicitly] public int steps;
+    [UsedImplicitly] public QTransitStatusEnum status;
+    [UsedImplicitly] public float destX;
+    [UsedImplicitly] public float destY;
 }

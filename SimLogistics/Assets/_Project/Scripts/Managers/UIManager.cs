@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class UIManager : MonoBehaviour
 {
     // Events
-    [SerializeField] private UnityEvent onTitleSequenceStart;
-    [SerializeField] private UnityEvent onTitleSequenceCompleted;
-
+    [SerializeField] private UnityEvent onLoading;
+    [SerializeField] private UnityEvent onReady;
+    [SerializeField] private UnityEvent onNotReady;
+    
     // Interaction
     [SerializeField] private BoolVariable isWorldInteractable;
 
@@ -20,7 +20,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private ErrorDialog errorDialogPrefab;
     [SerializeField] private InfoDialog infoDialogPrefab;
     [SerializeField] private HelpDialog helpDialogPrefab;
-    [SerializeField] private Spinner spinnerPrefab;
 
     private readonly Queue<Dialog> _dialogQueue = new Queue<Dialog>();
 
@@ -29,38 +28,20 @@ public class UIManager : MonoBehaviour
     private Card _currentCard;
     private string _currentCardId;
     
-    public bool IsTitleSequenceTriggered { get; private set; }
-
+    // Spinner
+    [SerializeField] private Spinner spinnerPrefab;
+    private Spinner _spinner;
+    
     private void Start()
     {
+        _spinner = Instantiate(spinnerPrefab, dialogHost, false);
+        
         DisableWorldInteraction();
     }
-
-    // Title Sequence
-    // --------------
     
-    [UsedImplicitly]
-    public void StartTitleSequence()
-    {
-        if (IsTitleSequenceTriggered) return;
-        IsTitleSequenceTriggered = true;
-        onTitleSequenceStart.Invoke();
-    }
-
-    public void EndTitleSequence()
-    {
-        onTitleSequenceCompleted.Invoke();
-        EnableWorldInteraction();
-    }
-
     // Connection state
     // ----------------
     
-    public void OnDisconnected()
-    {
-        DisableWorldInteraction();
-    }
-
     public void OnConnectionError(string error)
     {
         DisableWorldInteraction();
@@ -70,6 +51,27 @@ public class UIManager : MonoBehaviour
     // Interaction state
     // -----------------
 
+    public void Loading()
+    {
+        print("Loading");
+        NotReady();
+        onLoading.Invoke();
+    }
+
+    public void Ready()
+    {
+        print("Ready");
+        onReady.Invoke();
+        EnableWorldInteraction();
+    }
+    
+    public void NotReady()
+    {
+        print("NotReady");
+        DisableWorldInteraction();
+        onNotReady.Invoke();
+    }
+    
     public void EnableWorldInteraction()
     {
         isWorldInteractable.Value = true;
@@ -176,9 +178,15 @@ public class UIManager : MonoBehaviour
     // Spinner
     // -------
 
-    public Spinner ShowSpinner()
+    public void ShowSpinner()
     {
-        return ShowDialogPrefab<Spinner>(spinnerPrefab);
+        _spinner.transform.SetAsLastSibling();
+        _spinner.SetVisible(true, UIElement.Effect.None);
+    }
+
+    public void HideSpinner()
+    {
+        _spinner.SetVisible(false, UIElement.Effect.None);
     }
     
     // Cards

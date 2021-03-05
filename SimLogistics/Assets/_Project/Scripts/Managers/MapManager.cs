@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using JetBrains.Annotations;
 using Maana.GraphQL;
 using UnityEngine;
@@ -9,41 +10,42 @@ using Object = UnityEngine.Object;
 
 public class MapManager : MonoBehaviour
 { 
-    [SerializeField] private UnityEvent onMapTilesSpawned;
+    [SerializeField] private UnityEvent onLoaded;
+    [SerializeField] private UnityEvent onSpawned;
     
     [SerializeField] private ConnectionManager connectionManager;
     [SerializeField] private StringVariable mapName;
     [SerializeField] private FloatVariable tileSize;
-    [SerializeField] private FloatVariable tileDropHeight;
+    [SerializeField] private FloatVariable spawnHeight;
     [SerializeField] private FloatVariable spawnDelay;
     [SerializeField] private GameObject landTilePrefab;
     [SerializeField] private GameObject waterTilePrefab;
-
-    public bool IsOkToSpawn { get; set; }
     
     private QMapAndTiles QMapAndTiles { get; set; }
-    private List<GameObject> TileGameObjects { get; set; }
+    private List<GameObject> _tileGameObjects = new List<GameObject>();
 
-    public void OkToSpawn()
-    {
-        if (IsOkToSpawn) return;
-        IsOkToSpawn = true;
-        TrySpawn();
-    }
-    
-    public void Spawn()
+    public void Load()
     {
         QueryQ();
     }
     
+    public void Spawn()
+    {
+        Destroy();
+
+        StartCoroutine(Co_Spawn());
+    }
+    
     public void Destroy()
     {
-        if (TileGameObjects is null) return;
+        if (_tileGameObjects is null) return;
         
-        foreach (var tile in TileGameObjects)
+        foreach (var tile in _tileGameObjects)
         {
             Object.Destroy(tile);
-        }    
+        }
+        
+        _tileGameObjects = new List<GameObject>();
     }
 
     private void QueryQ()
@@ -66,24 +68,12 @@ public class MapManager : MonoBehaviour
             queryName,
             qMapAndTiles =>
         {
-            Destroy();
-            
-            TileGameObjects = new List<GameObject>();
-
             QMapAndTiles = qMapAndTiles;
-
-            TrySpawn();
+            
+            onLoaded.Invoke();
         });
     }
 
-    private void TrySpawn()
-    {
-        if (IsOkToSpawn && QMapAndTiles != null)
-        {
-            StartCoroutine(Co_Spawn());
-        }
-    }
-    
     private IEnumerator Co_Spawn()
     {
         foreach (var qTile in QMapAndTiles.tiles)
@@ -94,12 +84,12 @@ public class MapManager : MonoBehaviour
             var posX = tileSize.Value * qTile.x;
             var posZ = -tileSize.Value * qTile.y;
             
-            var tile = Instantiate(tilePrefab, new Vector3(posX, tileDropHeight.Value * tileSize.Value, posZ), Quaternion.identity);
-            TileGameObjects.Add(tile);
+            var tile = Instantiate(tilePrefab, new Vector3(posX, spawnHeight.Value * tileSize.Value, posZ), Quaternion.identity);
+            _tileGameObjects.Add(tile);
             
             yield return new WaitForSeconds(spawnDelay.Value);
         }
         
-        onMapTilesSpawned.Invoke();
+        onSpawned.Invoke();
     }
 }

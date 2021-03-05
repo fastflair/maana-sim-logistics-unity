@@ -20,23 +20,23 @@ public static class QResourceTransferFragment
 
 public class QResourceTransferTypeEnum
 {
-    public string id;
+    [UsedImplicitly] public string id;
 }
 
 public class QResourceTransferStatusEnum
 {
-    public string id;
+    [UsedImplicitly] public string id;
 }
 
 public class QResourceTransfer
 {
-    public string id;
-    public string sim;
-    public string vehicle;
-    public string counterparty;
-    public QResourceTransferTypeEnum transferType;
-    public QResourceTypeEnum resourceType;
-    public float quantity;
-    public float price;
-    public QResourceTransferStatusEnum status;
+    [UsedImplicitly] public string id;
+    [UsedImplicitly] public string sim;
+    [UsedImplicitly] public string vehicle;
+    [UsedImplicitly] public string counterparty;
+    [UsedImplicitly] public QResourceTransferTypeEnum transferType;
+    [UsedImplicitly] public QResourceTypeEnum resourceType;
+    [UsedImplicitly] public float quantity;
+    [UsedImplicitly] public float price;
+    [UsedImplicitly] public QResourceTransferStatusEnum status;
 }

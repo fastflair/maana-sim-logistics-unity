@@ -21,19 +21,19 @@ public static class QResourceFragment
 
 public class QResourceTypeEnum
 {
-    public string id;
+    [UsedImplicitly] public string id;
 }
 
 public class QResource
 {
-    public string id;
-    public string sim;
-    public QResourceTypeEnum type;
-    public float capacity;
-    public float quantity;
-    public float basePricePerUnit;
-    public float adjustedPricePerUnit;
-    public float scarcitySurchargeFactor;
-    public float replenishRate;
-    public float consumptionRate;
+    [UsedImplicitly] public string id;
+    [UsedImplicitly] public string sim;
+    [UsedImplicitly] public QResourceTypeEnum type;
+    [UsedImplicitly] public float capacity;
+    [UsedImplicitly] public float quantity;
+    [UsedImplicitly] public float basePricePerUnit;
+    [UsedImplicitly] public float adjustedPricePerUnit;
+    [UsedImplicitly] public float scarcitySurchargeFactor;
+    [UsedImplicitly] public float replenishRate;
+    [UsedImplicitly] public float consumptionRate;
 }
