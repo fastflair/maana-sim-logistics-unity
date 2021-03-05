@@ -10,7 +10,8 @@ public static class QResourceTransferFragment
           sim
           vehicle
           counterparty
-          type { id }
+          transferType { id }
+          resourceType { id }
           quantity
           price
           status { id }
@@ -33,7 +34,8 @@ public class QResourceTransfer
     public string sim;
     public string vehicle;
     public string counterparty;
-    public QResourceTransferTypeEnum type;
+    public QResourceTransferTypeEnum transferType;
+    public QResourceTypeEnum resourceType;
     public float quantity;
     public float price;
     public QResourceTransferStatusEnum status;

@@ -46,6 +46,7 @@ public class SimulationManager : MonoBehaviour
         var query = @$"
           {QTransitOrderFragment.data}
           {QResourceTransferFragment.data}
+          {QResourceFragment.data}
           {QVehicleFragment.data}
           {QHubFragment.data}
           {QProducerFragment.data}
@@ -77,6 +78,7 @@ public class SimulationManager : MonoBehaviour
         var query = @$"
           {QTransitOrderFragment.data}
           {QResourceTransferFragment.data}
+          {QResourceFragment.data}
           {QVehicleFragment.data}
           {QHubFragment.data}
           {QProducerFragment.data}

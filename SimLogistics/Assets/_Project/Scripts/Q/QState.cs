@@ -8,7 +8,7 @@ public static class QStateFragment
     public const string data = @"
         fragment stateData on State {
           id
-          simulation { ...simulationData }
+          sim { ...simulationData }
           cities { ...cityData }
           producers { ...producerData }
           hubs { ...hubData }
