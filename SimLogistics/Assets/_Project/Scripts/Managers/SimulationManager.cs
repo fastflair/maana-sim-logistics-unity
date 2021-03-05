@@ -28,6 +28,9 @@ public class SimulationManager : MonoBehaviour
 
     public bool IsDefaultCurrent => CurrentState == null || CurrentSimulation.id == DefaultSimulation.id;
 
+    // TODO: get from simulation
+    public static string MapName => "Default";
+    
     public void OnConnected()
     {
         LoadDefault();

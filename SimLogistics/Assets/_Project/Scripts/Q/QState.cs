@@ -38,4 +38,9 @@ public class QState
     [UsedImplicitly] public List<QHub> hubs;
     [UsedImplicitly] public List<QVehicle> vehicles;
     [UsedImplicitly] public List<QResourceTransfer> transfers;
+
+    public override string ToString()
+    {
+        return $"{{QState: {{ id: {id}, cities: {cities}}} }}";
+    }
 }

@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,11 +17,21 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
     [SerializeField] private FloatVariable spawnHeight;
     [SerializeField] private FloatVariable spawnDelay;
 
-    private List<Entity> _uEntities = new List<Entity>();
+    protected List<Entity> UEntities = new List<Entity>();
 
     // Interface
     protected abstract IEnumerable<TQEntity> QEntities { get; }
     protected abstract Entity EntityPrefab(TQEntity qEntity);
+
+    private float TilePosX(float value)
+    {
+        return tileSize.Value * value;
+    }
+
+    private float TilePosZ(float value)
+    {
+        return -TilePosX(value);
+    }
 
     public virtual void Spawn()
     {
@@ -29,26 +41,55 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
 
     public virtual void Destroy()
     {
-        if (_uEntities is null) return;
+        if (UEntities is null) return;
 
-        foreach (var entity in _uEntities) Destroy(entity.gameObject);
+        foreach (var entity in UEntities) Destroy(entity.gameObject);
 
-        _uEntities = new List<Entity>();
+        UEntities = new List<Entity>();
+    }
+
+    public void OnUpdate()
+    {
+        foreach (var entity in UEntities)
+        {
+            entity.QEntity = QEntities.First(qCity => qCity.id == entity.QEntity.id);
+            var entityTransform = entity.transform;
+            var newPosX = TilePosX(entity.QEntity.x);
+            var newPosZ = TilePosZ(entity.QEntity.y);
+            if (!(Math.Abs(newPosX - entityTransform.position.x) > float.Epsilon) &&
+                !(Math.Abs(newPosZ - entityTransform.position.z) > float.Epsilon)) continue;
+
+            var newPosition = new Vector3(newPosX, entityTransform.position.y, newPosZ);
+            StartCoroutine(LerpPosition(entityTransform, newPosition, 5));
+        }
+    }
+
+    private IEnumerator LerpPosition(Transform entityTransform, Vector3 targetPosition, float duration)
+    {
+        float time = 0;
+        var startPosition = entityTransform.position;
+
+        while (time < duration)
+        {
+            entityTransform.position = Vector3.Lerp(startPosition, targetPosition, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        entityTransform.position = targetPosition;
     }
 
     private IEnumerator Co_Spawn()
     {
         foreach (var qEntity in QEntities)
         {
-            var posX = tileSize.Value * qEntity.x;
-            var posZ = -tileSize.Value * qEntity.y;
-
             var prefab = EntityPrefab(qEntity);
-            var entity = Instantiate(prefab, new Vector3(posX, spawnHeight.Value * tileSize.Value, posZ),
+            var entity = Instantiate(prefab,
+                new Vector3(TilePosX(qEntity.x), spawnHeight.Value * tileSize.Value, TilePosZ(qEntity.y)),
                 Quaternion.identity);
             entity.uiManager = uiManager;
             entity.QEntity = qEntity;
-            _uEntities.Add(entity);
+            UEntities.Add(entity);
 
             yield return new WaitForSeconds(spawnDelay.Value);
         }

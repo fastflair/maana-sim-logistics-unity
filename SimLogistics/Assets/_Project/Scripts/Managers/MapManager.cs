@@ -14,7 +14,8 @@ public class MapManager : MonoBehaviour
     [SerializeField] private UnityEvent onSpawned;
     
     [SerializeField] private ConnectionManager connectionManager;
-    [SerializeField] private StringVariable mapName;
+    [SerializeField] private SimulationManager simulationManager;
+    
     [SerializeField] private FloatVariable tileSize;
     [SerializeField] private FloatVariable spawnHeight;
     [SerializeField] private FloatVariable spawnDelay;
@@ -48,6 +49,10 @@ public class MapManager : MonoBehaviour
         _tileGameObjects = new List<GameObject>();
     }
 
+    public void OnUpdate()
+    {
+    }
+    
     private void QueryQ()
     {
         const string queryName = "mapAndTiles";
@@ -56,7 +61,7 @@ public class MapManager : MonoBehaviour
           {QTileFragment.data}
           {QMapAndTilesFragment.data}
           query {{
-            {queryName}(map: ""{mapName.Value}"") {{
+            {queryName}(map: ""{SimulationManager.MapName}"") {{
               ...mapAndTilesData
             }}
           }}

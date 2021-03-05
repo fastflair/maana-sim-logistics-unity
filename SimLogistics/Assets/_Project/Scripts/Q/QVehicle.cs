@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 public static class QVehicleFragment
 {
     public const string data = @"
-        fragment vehicleData on VehicleOutput {
+        fragment vehicleData on Vehicle {
           id
           sim
           steps
