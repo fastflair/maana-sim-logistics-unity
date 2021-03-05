@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SimulationBar : UIElement
 {
+    [SerializeField] private SimulationManager simulationManager;
+    
     public void Show()
     {
         SetVisible(true);
@@ -22,5 +24,10 @@ public class SimulationBar : UIElement
     public void HideAnimate()
     {
         SetVisible(false, Effect.Animate);
+    }
+    
+    public void OnReady()
+    {
+        if (!simulationManager.IsDefaultCurrent) ShowAnimate();
     }
 }

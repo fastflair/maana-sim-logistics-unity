@@ -41,7 +41,12 @@ public class SystemBar : UIElement
         SetVisible(false, Effect.Animate);
     }
 
-    public void UpdateButtons()
+    public void OnReady()
+    {
+        if (simulationManager.IsDefaultCurrent) ShowAnimate();
+    }
+
+    private void UpdateButtons()
     {
         if (simulationManager.IsDefaultCurrent)
         {

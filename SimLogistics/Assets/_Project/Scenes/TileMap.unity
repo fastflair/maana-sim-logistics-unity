@@ -4112,6 +4112,7 @@ MonoBehaviour:
   animDelay: 0.3
   fadeDuration: 0.2
   fadeDelay: 0.2
+  simulationManager: {fileID: 82198423}
 --- !u!225 &930856744
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -5625,7 +5626,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 889842852}
         m_TargetAssemblyTypeName: SystemBar, Assembly-CSharp
-        m_MethodName: ShowAnimate
+        m_MethodName: OnReady
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5638,6 +5639,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1660856123}
         m_TargetAssemblyTypeName: CardShelf, Assembly-CSharp
         m_MethodName: Show
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 930856743}
+        m_TargetAssemblyTypeName: SimulationBar, Assembly-CSharp
+        m_MethodName: OnReady
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
