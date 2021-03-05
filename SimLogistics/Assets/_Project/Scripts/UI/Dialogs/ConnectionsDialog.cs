@@ -88,10 +88,18 @@ public class ConnectionsDialog : Dialog
 
     public void OnSave()
     {
+        var apiEndpoint = _fieldMap["API Endpoint"].Value;
+
+        if (!ConnectionManager.IsValidUrl(apiEndpoint))
+        {
+            UIManager.ShowErrorDialog("Invalid URL for API Endpoint.");
+            return;
+        }
+        
         _currentState = new ConnectionState
         {
             id = _fieldMap["Name"].Value,
-            apiEndpoint = _fieldMap["API Endpoint"].Value,
+            apiEndpoint = apiEndpoint,
             authDomain = _fieldMap["Auth Domain"].Value,
             authClientId = _fieldMap["Auth Client ID"].Value,
             authClientSecret = _fieldMap["Auth Client Secret"].Value,

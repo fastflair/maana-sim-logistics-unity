@@ -72,6 +72,7 @@ public class SimulationBar : UIElement
     public void OnSimulatePressed()
     {
         print($"[{name}] OnSimulatePressed");
+        simulationManager.Step(state => { });
     }
 
     public void OnThinkPressed()

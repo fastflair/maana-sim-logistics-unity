@@ -58,6 +58,19 @@ public class ConnectionManager : MonoBehaviour
     public static bool IsAgentEndpointValid =>
         // TODO
         false;
+
+    public static bool IsValidUrl(string url)
+    {
+        try
+        {
+            var validUrl = new Uri(url);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
     
     public IEnumerable<string> AvailableConnections
     {
