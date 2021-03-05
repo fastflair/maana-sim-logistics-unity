@@ -6,11 +6,11 @@ using UnityEngine;
 using UnityEngine.Events;
 using Object = UnityEngine.Object;
 
-public class VehicleManager : EntityManager<QVehicle, Vehicle>
+public class VehicleManager : EntityManager<QVehicle>
 {
-    [SerializeField] private Vehicle truckPrefab;
-    [SerializeField] private Vehicle planePrefab;
-    [SerializeField] private Vehicle shipPrefab;
+    [SerializeField] private Entity truckPrefab;
+    [SerializeField] private Entity planePrefab;
+    [SerializeField] private Entity shipPrefab;
 
     protected override string QueryName => "selectVehicle";
     protected override string Query => @$"
@@ -23,7 +23,7 @@ public class VehicleManager : EntityManager<QVehicle, Vehicle>
             }}
           }}
         ";
-    protected override Vehicle EntityPrefab(QVehicle qVehicle)
+    protected override Entity EntityPrefab(QVehicle qVehicle)
     {
         return qVehicle.type.id switch
         {

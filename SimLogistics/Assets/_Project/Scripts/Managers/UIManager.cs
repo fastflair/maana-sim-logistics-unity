@@ -24,6 +24,11 @@ public class UIManager : MonoBehaviour
 
     private readonly Queue<Dialog> _dialogQueue = new Queue<Dialog>();
 
+    // Cards
+    [SerializeField] private Transform cardShelf;
+    private Card _currentCard;
+    private string _currentCardId;
+    
     public bool IsTitleSequenceTriggered { get; private set; }
 
     private void Start()
@@ -104,7 +109,6 @@ public class UIManager : MonoBehaviour
             backdrop.SetVisible(true, UIElement.Effect.Fade);
         }
         
-        print($"showing {_dialogQueue.Count}: " + dialog);
         dialog.UIManager = this;
         dialog.SetVisible(true, UIElement.Effect.Animate);
     }
@@ -175,5 +179,26 @@ public class UIManager : MonoBehaviour
     public Spinner ShowSpinner()
     {
         return ShowDialogPrefab<Spinner>(spinnerPrefab);
+    }
+    
+    // Cards
+    // -----
+    public Card SpawnCard(Card cardPrefab, string id)
+    {
+        return _currentCardId == id ? null : Instantiate(cardPrefab, cardShelf, false);
+    }
+    
+    public void ShowCard(Card card, string id)
+    {
+        if (_currentCardId == id) return;
+        if (_currentCard != null)
+        {
+            _currentCard.SetVisible(false, UIElement.Effect.Animate)
+                .destroyOnComplete = true;
+        }
+
+        _currentCard = card;
+        _currentCardId = id;
+        _currentCard.SetVisible(true, UIElement.Effect.Animate);
     }
 }

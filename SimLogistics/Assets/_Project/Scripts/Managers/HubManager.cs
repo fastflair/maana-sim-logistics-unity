@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class HubManager : EntityManager<QHub, Hub>
+public class HubManager : EntityManager<QHub>
 {
-  [SerializeField] private Hub portPrefab;
-  [SerializeField] private Hub airportPrefab;
-  [SerializeField] private Hub truckDepotPrefab;
+  [SerializeField] private Entity portPrefab;
+  [SerializeField] private Entity airportPrefab;
+  [SerializeField] private Entity truckDepotPrefab;
 
     protected override string QueryName => "selectHub";
     protected override string Query => @$"
@@ -16,7 +16,7 @@ public class HubManager : EntityManager<QHub, Hub>
             }}
           }}
         ";
-    protected override Hub EntityPrefab(QHub qHub)
+    protected override Entity EntityPrefab(QHub qHub)
     {
       return qHub.type.id switch
       {

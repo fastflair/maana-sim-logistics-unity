@@ -24,7 +24,6 @@ public class SystemBar : UIElement
 
     public void ShowFirstTime()
     {
-        print($"[{name}] ShowFirstTime: _hasShown={_hasShown}");
         if (_hasShown) return;
         _hasShown = true;
         SetVisible(true, Effect.Animate).setDelay(initialShowDelay);
@@ -32,7 +31,6 @@ public class SystemBar : UIElement
     
     public void Show()
     {
-        print($"[{name}] Show: _hasShown={_hasShown}");
         if (!_hasShown) return;
         
         SetVisible(true);
@@ -40,7 +38,6 @@ public class SystemBar : UIElement
 
     public void Hide()
     {
-        print($"[{name}] Hide");
         SetVisible(false);
     }
     
@@ -49,19 +46,16 @@ public class SystemBar : UIElement
     
     public void OnConnectionReady()
     {
-        print($"[{name}] OnConnectionReady");
         EnableSimulationManagementButtons();
     }
 
     public void OnConnectionNotReady()
     {
-        print($"[{name}] OnConnectionNotReady");
         DisableSimulationManagementButtons();
     }
 
     public void OnConnectionError(string error)
     {
-        print($"[{name}] OnConnectionError");
         DisableSimulationManagementButtons();
         SetVisible(true, Effect.Animate);
     }
@@ -71,7 +65,6 @@ public class SystemBar : UIElement
     
     public void OnDefaultSimulation()
     {
-        print($"[{name}] OnDefaultSimulation");
         EnableSimulationManagementButtons();
         DisableSimulationButton();
         Show();
@@ -79,7 +72,6 @@ public class SystemBar : UIElement
     
     public void OnNewSimulation()
     {
-        print($"[{name}] OnNewSimulation");
         EnableSimulationManagementButtons();
         EnableSimulationButton();
         Hide();
@@ -87,14 +79,12 @@ public class SystemBar : UIElement
 
     public void OnSimulationNotReady()
     {
-        print("OnSimulationNotReady");
         DisableDeleteSimulationButton();
         DisableSimulationButton();
     }
    
     public void OnSimulationError(string error)
     {
-        print($"OnSimulationError: {error}");
     }
 
     public void EnableSimulationManagementButtons()

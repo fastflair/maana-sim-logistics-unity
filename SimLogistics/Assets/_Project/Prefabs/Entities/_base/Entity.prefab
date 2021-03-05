@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1037320008980597808}
   - component: {fileID: 5499130640715547544}
   - component: {fileID: 2337182279868832959}
-  - component: {fileID: 4729353294401577086}
+  - component: {fileID: 638549375780002876}
   - component: {fileID: -7962626133438165135}
   m_Layer: 6
   m_Name: Entity
@@ -63,7 +63,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.5, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4729353294401577086
+--- !u!114 &638549375780002876
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -75,6 +75,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b82b76a176f74d9da9ace41f9e55e12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardPrefab: {fileID: 4666222738989444397, guid: 7001c1d38339d4ef2b9a7e6d578f5a04, type: 3}
+  uiManager: {fileID: 0}
 --- !u!114 &-7962626133438165135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,7 +91,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onHoverEnter:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 638549375780002876}
+        m_TargetAssemblyTypeName: Entity, Assembly-CSharp
+        m_MethodName: OnHoverEnter
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onHoverLeave:
     m_PersistentCalls:
       m_Calls: []
@@ -100,5 +114,5 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   meshRendererSource: {fileID: 0}
-  highlightColor: {r: 1, g: 0, b: 0.9143152, a: 0.49803922}
-  selectColor: {r: 0.9930594, g: 0.514151, b: 1, a: 1}
+  highlightColor: {r: 0.745283, g: 0.25663045, b: 0.70312494, a: 1}
+  selectColor: {r: 1, g: 0, b: 0.9143152, a: 1}

@@ -79,7 +79,6 @@ public class SelectionManager : MonoBehaviour
         if (_curSelectableObject == null) return;
         if (_curSelectedObjects.Contains(_curSelectableObject)) return;
 
-        print($"[name] Leave {_curSelectableObject.name}");
         _curSelectableObject.onHoverLeave.Invoke();
 
         _curSelectableObject = null;

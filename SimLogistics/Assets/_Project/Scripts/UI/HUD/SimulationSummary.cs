@@ -19,7 +19,6 @@ public class SimulationSummary : UIElement
     
     public void ShowFirstTime()
     {
-        print($"[{name}] ShowFirstTime: _hasShown={_hasShown}");
         if (_hasShown) return;
         _hasShown = true;
         SetVisible(true, Effect.Animate).setDelay(initialShowDelay);
@@ -29,19 +28,16 @@ public class SimulationSummary : UIElement
     {
         if (!_hasShown) return;
         
-        print($"[{name}] Show");
         SetVisible(true, Effect.Animate);
     }
     
     public void Hide()
     {
-        print($"[{name}] Hide");
         SetVisible(false, Effect.Animate);
     }
 
     public void UpdateSummary()
     {
-        print($"[{name}] UpdateSummary");
         var sim = simulationManager.CurrentSimulation;
         simName.text = sim.name;
         steps.text = sim.steps.ToString();

@@ -1,18 +1,18 @@
 using UnityEngine;
 
-public class ProducerManager : EntityManager<QProducer, Producer>
+public class ProducerManager : EntityManager<QProducer>
 {
-    [SerializeField] private Producer coalMinePrefab;
-    [SerializeField] private Producer cottonPrefab;
-    [SerializeField] private Producer factoryPrefab;
-    [SerializeField] private Producer farmPrefab;
-    [SerializeField] private Producer forestPrefab;
-    [SerializeField] private Producer lumberMillPrefab;
-    [SerializeField] private Producer powerPlantPrefab;
-    [SerializeField] private Producer textileMillPrefab;
-    [SerializeField] private Producer oilRefineryPrefab;
-    [SerializeField] private Producer oilWellPrefab;
-    [SerializeField] private Producer warehousePrefab;
+    [SerializeField] private Entity coalMinePrefab;
+    [SerializeField] private Entity cottonPrefab;
+    [SerializeField] private Entity factoryPrefab;
+    [SerializeField] private Entity farmPrefab;
+    [SerializeField] private Entity forestPrefab;
+    [SerializeField] private Entity lumberMillPrefab;
+    [SerializeField] private Entity powerPlantPrefab;
+    [SerializeField] private Entity textileMillPrefab;
+    [SerializeField] private Entity oilRefineryPrefab;
+    [SerializeField] private Entity oilWellPrefab;
+    [SerializeField] private Entity warehousePrefab;
 
     protected override string QueryName => "selectProducer";
     protected override string Query => @$"
@@ -24,7 +24,7 @@ public class ProducerManager : EntityManager<QProducer, Producer>
             }}
           }}
         ";
-    protected override Producer EntityPrefab(QProducer qProducer)
+    protected override Entity EntityPrefab(QProducer qProducer)
     {
         return qProducer.type.id switch
         {

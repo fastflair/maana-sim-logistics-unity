@@ -7,12 +7,12 @@ using UnityEngine;
 using UnityEngine.Events;
 using Object = UnityEngine.Object;
 
-public abstract class EntityManager<TQEntity, TUEntity> : MonoBehaviour 
+public abstract class EntityManager<TQEntity> : MonoBehaviour 
     where TQEntity : QEntity
-    where TUEntity : Entity
 {
     [SerializeField] private UnityEvent onSpawned;
 
+    [SerializeField] protected UIManager uiManager;
     [SerializeField] protected ConnectionManager connectionManager;
     [SerializeField] protected StringVariable simName;
     [SerializeField] private FloatVariable tileSize;
@@ -20,11 +20,11 @@ public abstract class EntityManager<TQEntity, TUEntity> : MonoBehaviour
     [SerializeField] private FloatVariable spawnDelay;
 
     protected List<TQEntity> QEntities { get; private set; }
-    protected List<TUEntity> UEntities { get; private set; }
+    protected List<Entity> UEntities { get; private set; }
 
     protected abstract string QueryName { get; }
     protected abstract string Query { get; }
-    protected abstract TUEntity EntityPrefab(TQEntity qEntity);
+    protected abstract Entity EntityPrefab(TQEntity qEntity);
     
     public virtual void Spawn()
     {
@@ -34,12 +34,17 @@ public abstract class EntityManager<TQEntity, TUEntity> : MonoBehaviour
 
     public virtual void Destroy()
     {
+        print("OnDestroy: " + name);
+        
         if (UEntities is null) return;
         
         foreach (var entity in UEntities)
         {
-            Object.Destroy(entity);
-        }    
+            print("Destroying: " + entity.name);
+            Object.Destroy(entity.gameObject);
+        }
+
+        UEntities = null;
     }
     
     private void QueryQ()
@@ -52,7 +57,7 @@ public abstract class EntityManager<TQEntity, TUEntity> : MonoBehaviour
             {
                 Destroy();
 
-                UEntities = new List<TUEntity>();
+                UEntities = new List<Entity>();
 
                 QEntities = qEntities;
 
@@ -68,8 +73,10 @@ public abstract class EntityManager<TQEntity, TUEntity> : MonoBehaviour
             var posZ = -tileSize.Value * qEntity.y;
 
             var prefab = EntityPrefab(qEntity);
-            var uEntity = Instantiate(prefab, new Vector3(posX, tileDropHeight.Value * tileSize.Value, posZ), Quaternion.identity);
-            UEntities.Add(uEntity);
+            var entity = Instantiate(prefab, new Vector3(posX, tileDropHeight.Value * tileSize.Value, posZ), Quaternion.identity);
+            entity.uiManager = uiManager;
+            entity.QEntity = qEntity;
+            UEntities.Add(entity);
             
             yield return new WaitForSeconds(spawnDelay.Value);
         }

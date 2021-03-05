@@ -20,7 +20,6 @@ public class MessageDialog : Dialog
     
     public virtual void OnOkay()
     {
-        print("OnOkay");
         Hide();
     }
 }

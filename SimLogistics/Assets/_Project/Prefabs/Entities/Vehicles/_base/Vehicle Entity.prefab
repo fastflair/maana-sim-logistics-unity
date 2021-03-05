@@ -81,18 +81,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &-4628212567946666539
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1022013092247113582}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a01f4a4aac4964e2abf5a0867adc116f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &6115499524005917674
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -104,6 +92,10 @@ PrefabInstance:
       propertyPath: meshRendererSource
       value: 
       objectReference: {fileID: 3059407568187204088}
+    - target: {fileID: 638549375780002876, guid: 7d1ef87fdd3ce4c9e94c11a19ba44565, type: 3}
+      propertyPath: cardPrefab
+      value: 
+      objectReference: {fileID: 7069440871330414988, guid: bf90af36e169042a3a0c7b03ed1b3c9a, type: 3}
     - target: {fileID: 1037320008980597808, guid: 7d1ef87fdd3ce4c9e94c11a19ba44565, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -158,11 +150,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d1ef87fdd3ce4c9e94c11a19ba44565, type: 3}
---- !u!1 &1022013092247113582 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6552866188316212356, guid: 7d1ef87fdd3ce4c9e94c11a19ba44565, type: 3}
-  m_PrefabInstance: {fileID: 6115499524005917674}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6538051724161122266 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1037320008980597808, guid: 7d1ef87fdd3ce4c9e94c11a19ba44565, type: 3}

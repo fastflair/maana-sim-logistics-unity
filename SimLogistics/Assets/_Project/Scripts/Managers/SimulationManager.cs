@@ -44,6 +44,13 @@ public class SimulationManager : MonoBehaviour
     {
         const string queryName = "newSimulation";
         var query = @$"
+          {QTransitOrderFragment.data}
+          {QResourceTransferFragment.data}
+          {QVehicleFragment.data}
+          {QHubFragment.data}
+          {QProducerFragment.data}
+          {QCityFragment.data}
+          {QSimulationFragment.data}
           {QStateFragment.data}
           mutation {{
             {queryName}(name: ""{simName}"", agentEndpoint: ""{agentEndpoint}"") {{
@@ -68,6 +75,13 @@ public class SimulationManager : MonoBehaviour
     {
         const string queryName = "overwriteSimulation";
         var query = @$"
+          {QTransitOrderFragment.data}
+          {QResourceTransferFragment.data}
+          {QVehicleFragment.data}
+          {QHubFragment.data}
+          {QProducerFragment.data}
+          {QCityFragment.data}
+          {QSimulationFragment.data}
           {QStateFragment.data}
           mutation {{
             {queryName}(name: ""{simName}"", agentEndpoint: ""{agentEndpoint}"") {{

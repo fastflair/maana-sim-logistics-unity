@@ -1,17 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &696569933516245611
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5723313747719917193}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85762332dfc534b8fa6c409b4b80201d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1334745421736826214
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -85,6 +73,10 @@ PrefabInstance:
       propertyPath: meshRendererSource
       value: 
       objectReference: {fileID: 5172104373974728064}
+    - target: {fileID: 638549375780002876, guid: 7d1ef87fdd3ce4c9e94c11a19ba44565, type: 3}
+      propertyPath: cardPrefab
+      value: 
+      objectReference: {fileID: -4910131562852917370, guid: a3197315f0db648eda4214615ad8a71d, type: 3}
     - target: {fileID: 1037320008980597808, guid: 7d1ef87fdd3ce4c9e94c11a19ba44565, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -135,15 +127,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6552866188316212356, guid: 7d1ef87fdd3ce4c9e94c11a19ba44565, type: 3}
       propertyPath: m_Name
-      value: HubEntity
+      value: Hub Entity
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d1ef87fdd3ce4c9e94c11a19ba44565, type: 3}
---- !u!1 &5723313747719917193 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6552866188316212356, guid: 7d1ef87fdd3ce4c9e94c11a19ba44565, type: 3}
-  m_PrefabInstance: {fileID: 1557469850739536397}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2015487958039428669 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1037320008980597808, guid: 7d1ef87fdd3ce4c9e94c11a19ba44565, type: 3}

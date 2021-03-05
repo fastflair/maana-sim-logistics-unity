@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class CityManager : EntityManager<QCity, City>
+public class CityManager : EntityManager<QCity>
 {
-    [SerializeField] private City cityPrefab;
+    [SerializeField] private Entity cityPrefab;
 
     protected override string QueryName => "selectCity";
     protected override string Query => @$"
@@ -14,7 +14,7 @@ public class CityManager : EntityManager<QCity, City>
             }}
           }}
         ";
-    protected override City EntityPrefab(QCity qCity)
+    protected override Entity EntityPrefab(QCity qCity)
     {
       return cityPrefab;
     }
