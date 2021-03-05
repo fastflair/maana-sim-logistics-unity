@@ -22,9 +22,7 @@ public class SimulationManager : MonoBehaviour
     public UnityEvent onBusy;
     public UnityEvent onNotBusy;
     public UnityEvent<string> onSimulationError;
-
-    public GraphQLManager agentEndpointClient;
-
+    
     public QState CurrentState { get; private set; }
     public QSimulation CurrentSimulation => CurrentState == null ? DefaultSimulation : CurrentState.sim;
 
@@ -115,7 +113,7 @@ public class SimulationManager : MonoBehaviour
     public void Think()
     {
         Busy();
-        Debug.Assert(agentEndpointClient != null);
+        // Debug.Assert(agentEndpointClient != null);
         NotBusy();
     }
 

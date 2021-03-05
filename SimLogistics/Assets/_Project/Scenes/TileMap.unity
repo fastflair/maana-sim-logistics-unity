@@ -394,7 +394,6 @@ MonoBehaviour:
   onSimulationError:
     m_PersistentCalls:
       m_Calls: []
-  agentEndpointClient: {fileID: 0}
 --- !u!4 &82198424
 Transform:
   m_ObjectHideFlags: 0
@@ -2149,6 +2148,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 930856742}
     m_Modifications:
+    - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 930856743}
+    - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnThinkPressed
+      objectReference: {fileID: 0}
+    - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SimulationBar, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7895333813858996923, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3348,6 +3375,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 930856742}
     m_Modifications:
+    - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 930856743}
+    - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnTransferPressed
+      objectReference: {fileID: 0}
+    - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SimulationBar, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7895333813858996923, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3909,18 +3964,18 @@ PrefabInstance:
     - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 930856743}
     - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
+      value: OnSimulatePressed
       objectReference: {fileID: 0}
     - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UIManager, Assembly-CSharp
+      value: SimulationBar, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -4113,6 +4168,8 @@ MonoBehaviour:
   fadeDuration: 0.2
   fadeDelay: 0.2
   simulationManager: {fileID: 82198423}
+  connectionManager: {fileID: 1056472702}
+  thinkButton: {fileID: 1788699404}
 --- !u!225 &930856744
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -4470,6 +4527,7 @@ MonoBehaviour:
     authIdentifier: 
     refreshMinutes: 0
   apiEndpoint: {fileID: 557266249}
+  agentEndpoint: {fileID: 0}
 --- !u!1 &1099789498
 GameObject:
   m_ObjectHideFlags: 0
@@ -5297,6 +5355,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 930856742}
     m_Modifications:
+    - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 930856743}
+    - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnMovePressed
+      objectReference: {fileID: 0}
+    - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SimulationBar, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7895333813858996923, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -7417,6 +7503,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 930856742}
     m_Modifications:
+    - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 930856743}
+    - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnRepairPressed
+      objectReference: {fileID: 0}
+    - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SimulationBar, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7895333813858996923, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -7991,6 +8105,17 @@ MonoBehaviour:
   tileSize: {fileID: 11400000, guid: 2b2cfc7108f50497a8f3d5c4318e37c6, type: 2}
   mapTilesX: {fileID: 11400000, guid: ae7b2de7954914ffdbc87c3334ef8ee7, type: 2}
   mapTilesY: {fileID: 11400000, guid: be6f14be92b3442df8b453436da559f8, type: 2}
+--- !u!114 &1788699404 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7895333813858996920, guid: 54f32e497156448cdbed10eeee47cfa1, type: 3}
+  m_PrefabInstance: {fileID: 575337891}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1821283954
 GameObject:
   m_ObjectHideFlags: 0

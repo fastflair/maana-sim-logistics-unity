@@ -24,6 +24,7 @@ public class ConnectionManager : MonoBehaviour
     private ConnectionState _bootstrapConnectionState;
     
     public GraphQLManager apiEndpoint;
+    public GraphQLManager agentEndpoint;
 
     private void Start()
     {
@@ -52,6 +53,11 @@ public class ConnectionManager : MonoBehaviour
     {
         return id == _bootstrapConnectionState.id;
     }
+
+
+    public static bool IsAgentEndpointValid =>
+        // TODO
+        false;
     
     public IEnumerable<string> AvailableConnections
     {
