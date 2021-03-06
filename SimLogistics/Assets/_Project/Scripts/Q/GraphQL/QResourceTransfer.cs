@@ -18,28 +18,6 @@ public static class QResourceTransferFragment
         }";
 }
 
-public class QResourceTransferTypeEnum
-{
-    [UsedImplicitly] public string id;
-    public override string ToString()
-    {
-        return @$"
-            id: ""{id}""
-        ";
-    }
-}
-
-public class QResourceTransferStatusEnum
-{
-    [UsedImplicitly] public string id;
-    public override string ToString()
-    {
-        return @$"{{
-            id: ""{id}""
-        }}";
-    }
-}
-
 public class QResourceTransfer
 {
     [UsedImplicitly] public string id;

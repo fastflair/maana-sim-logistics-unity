@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections;
+using System.Diagnostics;
+using System.Globalization;
 using System.Text;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
-using UnityEngine;
 using UnityEngine.Networking;
+using Debug = UnityEngine.Debug;
 
 namespace Maana.GraphQL
 {
@@ -51,7 +53,10 @@ namespace Maana.GraphQL
             return request;
         }
 
-        private IEnumerator SendRequest(string endpoint, string query, object variables = null,
+        private IEnumerator SendRequest(
+            string endpoint,
+            string query,
+            object variables = null,
             Action<GraphQLResponse> callback = null,
             string token = null)
         {
@@ -59,7 +64,13 @@ namespace Maana.GraphQL
 
             using (var www = request)
             {
+                var stopwatch = new Stopwatch();
+                stopwatch.Start();
+
                 yield return www.SendWebRequest();
+
+                stopwatch.Stop();
+                Debug.Log($"[GraphQL] {stopwatch.Elapsed}");
 
                 if (www.result == UnityWebRequest.Result.ConnectionError)
                 {

@@ -20,14 +20,19 @@ public class SimulationManager : MonoBehaviour
     public UnityEvent onLoaded;
     public UnityEvent onBusy;
     public UnityEvent onNotBusy;
+    public UnityEvent onActionsUpdated;
     public UnityEvent onUpdated;
     public UnityEvent<string> onSimulationError;
-    
+
     public QState CurrentState { get; private set; }
     public QSimulation CurrentSimulation => CurrentState == null ? DefaultSimulation : CurrentState.sim;
     public string AgentEndpoint => CurrentSimulation.agentEndpoint;
-    
     public bool IsCurrentDefault => CurrentState == null || CurrentSimulation.id == DefaultSimulation.id;
+
+    public QActions Actions { get; private set; }
+
+    // TODO: get from simulation
+    public static string MapName => "Default";
 
     public static string FormatDisplayText(QSimulation simulation)
     {
@@ -39,12 +44,10 @@ public class SimulationManager : MonoBehaviour
         return agentEndpoint ?? "Interactive";
     }
 
-    // TODO: get from simulation
-    public static string MapName => "Default";
-    
     public void OnConnected()
     {
         LoadDefault();
+        ResetActions();
     }
 
     public void New(string simName, string agentEndpoint, Action<QState> callback)
@@ -77,7 +80,7 @@ public class SimulationManager : MonoBehaviour
     public void List(string simName, string agentEndpoint, Action<List<QSimulation>> callback)
     {
         Busy();
-        
+
         const string queryName = "selectSimulation";
         var query = @$"
           {QSimulationFragment.data}
@@ -95,7 +98,7 @@ public class SimulationManager : MonoBehaviour
             res =>
             {
                 print($"List of simulations: {string.Join(",", res)}");
-                
+
                 NotBusy();
                 callback(res);
             });
@@ -104,7 +107,7 @@ public class SimulationManager : MonoBehaviour
     public void Delete(string id, Action<QSimulation> callback)
     {
         Busy();
-        
+
         const string queryName = "deleteSimulation";
         var query = @$"
           mutation {{
@@ -121,109 +124,119 @@ public class SimulationManager : MonoBehaviour
             simulation =>
             {
                 print($"Deleted simulation: {simulation}");
-                
+
                 NotBusy();
                 if (id == CurrentSimulation.id) LoadDefault();
                 callback(simulation);
             });
     }
 
-    public void MoveVehicleTo(string vehicle, float destX, float destY, Action<string> callback)
+    public QTransitAction AddTransitAction(string vehicle, float destX, float destY)
     {
-        Busy();
-        
-        const string queryName = "moveVehicleTo";
-        var query = @$"
-          {QVehicleFragment.withIncludes}
-          mutation {{
-            {queryName}(
-              sim: ""{CurrentSimulation.id}""
-              vehicle: ""{vehicle}""
-              destX: {destX}
-              destY: {destY}
-            ) {{
-              ...vehicleData
-            }}
-          }}
-        ";
-
-        connectionManager.QueryRaiseOnError<QVehicle>(
-            connectionManager.ApiEndpoint,
-            query,
-            queryName,
-            updatedVehicle =>
-            {
-                // print($"Moved vehicle: {vehicle}");
-                
-                NotBusy();
-                callback(updatedVehicle.transitOrder.status.id);
-            });
-    }
-
-    public void Transfer()
-    {
-        
-    }
-
-    public void Repair()
-    {
-        
-    }
-    
-    public void Step(Action<QState> callback)
-    {
-        const string queryName = "stepSimulation";
-        var query = @$"
-          {QStateFragment.withIncludes}
-          mutation {{
-            {queryName}(sim: ""{CurrentSimulation.id}"") {{
-              ...stateData
-            }}
-          }}
-        ";
-
-        InternalStateQueryWithBusy(queryName, query, state =>
+        var transitAction = new QTransitAction
         {
-            // print($"Step results: {state}");
-            
-            CurrentState = state;
-            onUpdated.Invoke();
-        });
+            id = $"{CurrentSimulation.id}:{vehicle}",
+            vehicle = vehicle,
+            destX = destX,
+            destY = destY
+        };
+        Actions.transitActions.Add(transitAction);
+        onActionsUpdated.Invoke();
+        return transitAction;
     }
 
-    public void Think()
+    public void Think(string agentEndpoint, QState state, Action<QActions> callback)
     {
         Busy();
-        print($"Agent endpoint: {AgentEndpoint}");
-        print($"Think about: {CurrentState}");
-        
+        print($"Agent endpoint: {agentEndpoint}");
+        print($"Think about: {state}");
+
         const string queryName = "think";
         var query = @$"
           {QActionsFragment.withIncludes}
           mutation {{
-            {queryName}(state: {CurrentState}) {{
+            {queryName}(state: {state}) {{
               ...actionsData
             }}
           }}
         ";
-        
+
         connectionManager.QueryRaiseOnError<QActions>(
-            AgentEndpoint,
+            agentEndpoint,
             query,
             queryName,
             actions =>
             {
-                print($"Think actions: {actions}");
-                
                 NotBusy();
-                // callback(updatedVehicle.transitOrder.status.id);
-            });
 
-        NotBusy();
+                print($"Think actions: {actions}");
+
+                Actions = actions;
+                
+                callback.Invoke(actions);
+            });
+    }
+
+    public void Simulate(Action<QState> callback)
+    {
+        Busy();
+        
+        IssueActions(Actions, success =>
+        {
+            if (!success)
+            {
+                NotBusy();
+                callback.Invoke(null);
+            }
+            
+            const string queryName = "stepSimulation";
+            var query = @$"
+              {QStateFragment.withIncludes}
+              mutation {{
+                {queryName}(sim: ""{CurrentSimulation.id}"") {{
+                  ...stateData
+                }}
+              }}
+            ";
+
+            InternalStateQuery(queryName, query, state =>
+            {
+                // print($"Step results: {state}");
+                NotBusy();
+                CurrentState = state;
+                onUpdated.Invoke();
+            });
+        });
+    }
+
+    public void ResetActions()
+    {
+        Actions = new QActions();
+    }
+
+    private void IssueActions(QActions actions, Action<bool> callback)
+    {
+        const string queryName = "issueActions";
+        var query = @$"
+          mutation {{
+            {queryName}(actions: {actions})
+          }}
+        ";
+
+        connectionManager.QueryRaiseOnError<bool>(
+            connectionManager.ApiEndpoint,
+            query,
+            queryName,
+            success =>
+            {
+                print($"Issue actions: {success}");
+
+                callback.Invoke(success);
+            });
     }
 
     // --- Internal
-    
+
     private void LoadDefault()
     {
         Load(DefaultSimulation.id, state => { });
@@ -256,7 +269,7 @@ public class SimulationManager : MonoBehaviour
                 callback(CurrentState);
             });
     }
-    
+
     private void InternalStateQueryWithBusy(string queryName, string query, Action<QState> callback)
     {
         Busy();
@@ -279,7 +292,7 @@ public class SimulationManager : MonoBehaviour
             state =>
             {
                 print($"{queryName} results: {state}");
-                
+
                 CurrentState = state;
                 callback(CurrentState);
             });
@@ -289,7 +302,7 @@ public class SimulationManager : MonoBehaviour
     {
         onBusy.Invoke();
     }
-    
+
     private void NotBusy()
     {
         onNotBusy.Invoke();

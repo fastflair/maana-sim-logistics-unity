@@ -50,6 +50,12 @@ public class SimulationBar : UIElement
             DisableThinkButton();
     }
 
+    private class VehicleStructurePair
+    {
+        public QEntity Structure;
+        public QEntity Vehicle;
+    }
+
     private VehicleStructurePair GetSelectedVehicleStructurePair()
     {
         var selectableObjects = selectionManager.SelectedObjects.ToArray();
@@ -81,6 +87,9 @@ public class SimulationBar : UIElement
         };
     }
 
+    // Buttons
+    // -------
+    
     public void OnMovePressed()
     {
         var vehicleStructurePair = GetSelectedVehicleStructurePair();
@@ -90,11 +99,13 @@ public class SimulationBar : UIElement
             return;
         }
 
-        simulationManager.MoveVehicleTo(
-            vehicleStructurePair.Vehicle.id,
+        var vehicleId = vehicleStructurePair.Vehicle.id;
+
+        simulationManager.AddTransitAction(
+            vehicleId,
             vehicleStructurePair.Structure.x,
-            vehicleStructurePair.Structure.y,
-            status => { uiManager.ShowInfoDialog($"Transit order status: {status}"); });
+            vehicleStructurePair.Structure.y
+        );
     }
 
     public void OnRepairPressed()
@@ -105,18 +116,32 @@ public class SimulationBar : UIElement
     public void OnTransferPressed()
     {
         print($"[{name}] OnTransferPressed");
+        // Actions.transferActions.Add(
+        //     new QTransferAction()
+        //     {
+        //         id = $"{CurrentSimulation.id}:{vehicle}",
+        //         vehicle = vehicle,
+        //         counterparty = counterParty,
+        //         resourceType = res
+        //     });
     }
 
     public void OnSimulatePressed()
     {
-        simulationManager.Step(state => { });
+        simulationManager.Simulate(state => { });
     }
 
     public void OnThinkPressed()
     {
-        simulationManager.Think();
+        simulationManager.Think(
+            simulationManager.AgentEndpoint,
+            simulationManager.CurrentState,
+            actions =>
+            {
+                // TODO: add to actions queue
+            });
     }
-
+    
     public void EnableThinkButton()
     {
         thinkButton.interactable = true;
@@ -125,14 +150,5 @@ public class SimulationBar : UIElement
     public void DisableThinkButton()
     {
         thinkButton.interactable = false;
-    }
-
-    // Button actions
-    // --------------
-
-    private class VehicleStructurePair
-    {
-        public QEntity Structure;
-        public QEntity Vehicle;
     }
 }

@@ -14,10 +14,10 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
 
     [SerializeField] protected UIManager uiManager;
     [SerializeField] protected SimulationManager simulationManager;
-
     [SerializeField] private FloatVariable tileSize;
     [SerializeField] private FloatVariable spawnHeight;
     [SerializeField] private FloatVariable spawnDelay;
+    [SerializeField] private float lerpSpeed = 3;
 
     protected List<Entity> UEntities = new List<Entity>();
 
@@ -62,7 +62,7 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
                 !(Math.Abs(newPosZ - entityTransform.position.z) > float.Epsilon)) continue;
 
             var newPosition = new Vector3(newPosX, entityTransform.position.y, newPosZ);
-            StartCoroutine(LerpPosition(entityTransform, newPosition, 5));
+            StartCoroutine(LerpPosition(entityTransform, newPosition, lerpSpeed));
         }
     }
 

@@ -19,18 +19,6 @@ public static class QProducerFragment
         }";
 }
 
-public class QProducerTypeEnum
-{
-    [UsedImplicitly] public string id;
-    
-    public override string ToString()
-    {
-        return @$"{{
-            id: ""{id}""
-        }}";
-    }
-}
-
 [UsedImplicitly]
 public class QProducer : QEntity
 {

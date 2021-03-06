@@ -33,17 +33,6 @@ public static class QVehicleFragment
         }";
 }
 
-public class QVehicleTypeEnum
-{
-    [UsedImplicitly] public string id;
-    public override string ToString()
-    {
-        return @$"{{
-            id: ""{id}""
-        }}";
-    }
-}
-
 public class QVehicle : QEntity
 {
     [UsedImplicitly] public string hub;

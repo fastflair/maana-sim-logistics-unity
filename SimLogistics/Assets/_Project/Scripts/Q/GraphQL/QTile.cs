@@ -14,17 +14,6 @@ public static class QTileFragment
         }";
 }
 
-public class QTileTypeEnum
-{
-    [UsedImplicitly] public string id;
-    public override string ToString()
-    {
-        return @$"{{
-            id: ""{id}""
-        }}";
-    }
-}
-
 public class QTile
 {
     [UsedImplicitly] public string id;

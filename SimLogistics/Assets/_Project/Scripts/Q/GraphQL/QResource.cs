@@ -19,17 +19,6 @@ public static class QResourceFragment
         }";
 }
 
-public class QResourceTypeEnum
-{
-    [UsedImplicitly] public string id;
-    public override string ToString()
-    {
-        return @$"{{
-            id: ""{id}""
-        }}";
-    }
-}
-
 public class QResource
 {
     [UsedImplicitly] public string id;

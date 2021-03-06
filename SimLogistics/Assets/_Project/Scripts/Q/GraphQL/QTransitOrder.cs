@@ -16,17 +16,6 @@ public static class QTransitOrderFragment
         }";
 }
 
-public class QTransitStatusEnum
-{
-    [UsedImplicitly] public string id;
-    public override string ToString()
-    {
-        return @$"{{
-            id: ""{id}""
-        }}";
-    }
-}
-
 public class QTransitOrder
 {
     [UsedImplicitly] public string id;
