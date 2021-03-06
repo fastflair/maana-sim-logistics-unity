@@ -68,7 +68,7 @@ public class MapManager : MonoBehaviour
         ";
 
         connectionManager.QueryRaiseOnError<QMapAndTiles>(
-            connectionManager.apiEndpoint,
+            connectionManager.ApiEndpoint,
             query, 
             queryName,
             qMapAndTiles =>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ namespace Maana.GraphQL
         {
             Exception = ex;
             Raw = text;
-            
+
             var data = string.IsNullOrEmpty(text) ? null : JObject.Parse(text);
             if (data == null) return;
             

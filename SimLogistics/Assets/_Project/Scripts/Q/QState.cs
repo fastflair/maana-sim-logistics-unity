@@ -5,18 +5,6 @@ using JetBrains.Annotations;
 
 public static class QStateFragment
 {
-    public static readonly string withIncludes = @$"
-      {QTransitOrderFragment.data}
-      {QResourceTransferFragment.data}
-      {QResourceFragment.data}
-      {QVehicleFragment.data}
-      {QHubFragment.data}
-      {QProducerFragment.data}
-      {QCityFragment.data}
-      {QSimulationFragment.data}
-      {data}
-        ";
-
     public const string data = @"
         fragment stateData on State {
           id
@@ -27,6 +15,18 @@ public static class QStateFragment
           vehicles { ...vehicleData }
           transfers { ...resourceTransferData }
         }";
+
+    public static readonly string withIncludes = @$"
+      {QTransitOrderFragment.data}
+      {QResourceTransferFragment.data}
+      {QResourceFragment.data}
+      {QVehicleFragment.data}
+      {QHubFragment.data}
+      {QProducerFragment.data}
+      {QCityFragment.data}
+      {QSimulationFragment.data}
+      {data}
+    ";
 }
 
 public class QState
@@ -34,13 +34,22 @@ public class QState
     [UsedImplicitly] public string id;
     [UsedImplicitly] public QSimulation sim;
     [UsedImplicitly] public List<QCity> cities;
-    [UsedImplicitly] public List<QProducer> producers;
     [UsedImplicitly] public List<QHub> hubs;
-    [UsedImplicitly] public List<QVehicle> vehicles;
+    [UsedImplicitly] public List<QProducer> producers;
     [UsedImplicitly] public List<QResourceTransfer> transfers;
+    [UsedImplicitly] public List<QVehicle> vehicles;
 
     public override string ToString()
     {
-        return $"{{QState: {{ id: {id}, cities: {cities}}} }}";
+        return @$"
+            {{
+                id: ""{id}""
+                sim: ""{sim}""
+                cities: {cities}
+                hubs: {hubs}
+                producers: {producers}
+                vehicles: {vehicles}
+                transfers: {transfers}
+            }}";
     }
 }

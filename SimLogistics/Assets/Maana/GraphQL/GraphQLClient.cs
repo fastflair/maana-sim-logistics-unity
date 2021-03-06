@@ -25,7 +25,12 @@ namespace Maana.GraphQL
             [UsedImplicitly] public object variables;
         }
 
-        private UnityWebRequest QueryRequest(string query, object variables, string token = null)
+        public string CkglUrl(string endpoint)
+        {
+            return $"{_url}/service/{endpoint}/graphql";
+        }
+        
+        private UnityWebRequest QueryRequest(string endpoint, string query, object variables, string token = null)
         {
             var fullQuery = new GraphQLQuery()
             {
@@ -35,7 +40,7 @@ namespace Maana.GraphQL
 
             var json = JsonConvert.SerializeObject(fullQuery);
             
-            var request = UnityWebRequest.Post(_url, UnityWebRequest.kHttpVerbPOST);
+            var request = UnityWebRequest.Post(CkglUrl(endpoint), UnityWebRequest.kHttpVerbPOST);
 
             var payload = Encoding.UTF8.GetBytes(json);
 
@@ -46,11 +51,11 @@ namespace Maana.GraphQL
             return request;
         }
 
-        private IEnumerator SendRequest(string query, object variables = null,
+        private IEnumerator SendRequest(string endpoint, string query, object variables = null,
             Action<GraphQLResponse> callback = null,
             string token = null)
         {
-            var request = QueryRequest(query, variables, token);
+            var request = QueryRequest(endpoint, query, variables, token);
 
             using (var www = request)
             {
@@ -73,13 +78,14 @@ namespace Maana.GraphQL
         }
 
         public void Query(
+            string endpoint,
             string query,
             object variables = null,
             string sToken = null,
             Action<GraphQLResponse> callback = null)
         {
-            Debug.Log($"GraphQL query: {query} {variables}");
-            Coroutiner.StartCoroutine(SendRequest(query, variables, callback, sToken));
+            Debug.Log($"GraphQL Query: {endpoint} {query} {variables}");
+            Coroutiner.StartCoroutine(SendRequest(endpoint, query, variables, callback, sToken));
         }
     }
 }

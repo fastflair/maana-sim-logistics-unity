@@ -25,7 +25,8 @@ public class SimulationManager : MonoBehaviour
     
     public QState CurrentState { get; private set; }
     public QSimulation CurrentSimulation => CurrentState == null ? DefaultSimulation : CurrentState.sim;
-
+    public string AgentEndpoint => CurrentSimulation.agentEndpoint;
+    
     public bool IsDefaultCurrent => CurrentState == null || CurrentSimulation.id == DefaultSimulation.id;
 
     // TODO: get from simulation
@@ -78,7 +79,7 @@ public class SimulationManager : MonoBehaviour
         ";
 
         connectionManager.QueryRaiseOnError<List<QSimulation>>(
-            connectionManager.apiEndpoint,
+            connectionManager.ApiEndpoint,
             query,
             queryName,
             res =>
@@ -102,7 +103,7 @@ public class SimulationManager : MonoBehaviour
         ";
 
         connectionManager.QueryRaiseOnError<QSimulation>(
-            connectionManager.apiEndpoint,
+            connectionManager.ApiEndpoint,
             query,
             queryName,
             simulation =>
@@ -133,7 +134,7 @@ public class SimulationManager : MonoBehaviour
         ";
 
         connectionManager.QueryRaiseOnError<QVehicle>(
-            connectionManager.apiEndpoint,
+            connectionManager.ApiEndpoint,
             query,
             queryName,
             updatedVehicle =>
@@ -141,6 +142,16 @@ public class SimulationManager : MonoBehaviour
                 NotBusy();
                 callback(updatedVehicle.transitOrder.status.id);
             });
+    }
+
+    public void Transfer()
+    {
+        
+    }
+
+    public void Repair()
+    {
+        
     }
     
     public void Step(Action<QState> callback)
@@ -165,7 +176,7 @@ public class SimulationManager : MonoBehaviour
     public void Think()
     {
         Busy();
-        // Debug.Assert(agentEndpointClient != null);
+        
         NotBusy();
     }
 
@@ -220,7 +231,7 @@ public class SimulationManager : MonoBehaviour
     private void InternalStateQuery(string queryName, string query, Action<QState> callback)
     {
         connectionManager.QueryRaiseOnError<QState>(
-            connectionManager.apiEndpoint,
+            connectionManager.ApiEndpoint,
             query,
             queryName,
             state =>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -60,7 +59,7 @@ namespace Maana.GraphQL
                 foreach (var queuedQuery in _queuedQueries)
                 {
                     // Query(queuedQuery.Query, queuedQuery.Variables, queuedQuery.Callback);
-                    _client.Query(queuedQuery.Query, queuedQuery.Variables, _fetcher.Token.access_token, queuedQuery.Callback);
+                    _client.Query(queuedQuery.Endpoint, queuedQuery.Query, queuedQuery.Variables, _fetcher.Token.access_token, queuedQuery.Callback);
                 }
 
                 _queuedQueries.Clear();
@@ -73,25 +72,27 @@ namespace Maana.GraphQL
             connectionErrorEvent.Invoke(error);
         }
 
-        public void Query(string query, object variables = null, Action<GraphQLResponse> callback = null)
+        public void Query(string endpoint, string query, object variables = null, Action<GraphQLResponse> callback = null)
         {
             if (HasToken)
-                _client.Query(query, variables, _fetcher.Token.access_token, callback);
+                _client.Query(endpoint, query, variables, _fetcher.Token.access_token, callback);
             else
                 lock (_queuedQueries)
                 {
-                    _queuedQueries.Add(new QueuedQuery(query, variables, callback));
+                    _queuedQueries.Add(new QueuedQuery(endpoint, query, variables, callback));
                 }
         }
 
         private class QueuedQuery
         {
             public readonly Action<GraphQLResponse> Callback;
+            public readonly string Endpoint;
             public readonly string Query;
             public readonly object Variables;
 
-            public QueuedQuery(string query, object variables = null, Action<GraphQLResponse> callback = null)
+            public QueuedQuery(string endpoint, string query, object variables = null, Action<GraphQLResponse> callback = null)
             {
+                Endpoint = endpoint;
                 Query = query;
                 Variables = variables;
                 Callback = callback;

@@ -34,6 +34,7 @@ public class ConnectionsDialog : Dialog
     {
         AddField("Name");
         AddField("API Endpoint");
+        AddField("URL");
         AddField("Auth Domain");
         AddField("Auth Client ID");
         AddField("Auth Client Secret");
@@ -52,6 +53,7 @@ public class ConnectionsDialog : Dialog
     {
         _fieldMap["Name"].Value = state.id;
         _fieldMap["API Endpoint"].Value = state.apiEndpoint;
+        _fieldMap["URL"].Value = state.url;
         _fieldMap["Auth Domain"].Value = state.authDomain;
         _fieldMap["Auth Client ID"].Value = state.authClientId;
         _fieldMap["Auth Client Secret"].Value = state.authClientSecret;
@@ -88,18 +90,11 @@ public class ConnectionsDialog : Dialog
 
     public void OnSave()
     {
-        var apiEndpoint = _fieldMap["API Endpoint"].Value;
-
-        if (!ConnectionManager.IsValidUrl(apiEndpoint))
-        {
-            UIManager.ShowErrorDialog("Invalid URL for API Endpoint.");
-            return;
-        }
-        
         _currentState = new ConnectionState
         {
             id = _fieldMap["Name"].Value,
-            apiEndpoint = apiEndpoint,
+            apiEndpoint = _fieldMap["API Endpoint"].Value,
+            url = _fieldMap["URL"].Value,
             authDomain = _fieldMap["Auth Domain"].Value,
             authClientId = _fieldMap["Auth Client ID"].Value,
             authClientSecret = _fieldMap["Auth Client Secret"].Value,

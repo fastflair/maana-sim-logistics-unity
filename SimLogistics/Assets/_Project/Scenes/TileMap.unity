@@ -2148,17 +2148,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5940945553469092076, guid: 875546c8571c3ce4e915520e42d0374b, type: 3}
   m_PrefabInstance: {fileID: 710080734}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &557266249 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3313465577940156256, guid: 875546c8571c3ce4e915520e42d0374b, type: 3}
-  m_PrefabInstance: {fileID: 710080734}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 557266248}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb14be6d254be5749ac6a31bb6a2ddee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &557266250 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7542523749730095619, guid: 875546c8571c3ce4e915520e42d0374b, type: 3}
@@ -4605,18 +4594,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  server: {fileID: 3313465577940156256, guid: 875546c8571c3ce4e915520e42d0374b, type: 3}
   saveManager: {fileID: 2017251495}
   bootstrapConnection: {fileID: 4900000, guid: 15e7304bb38e545ca9f092251d717be6, type: 3}
-  currentConnectionState:
-    id: 
-    apiEndpoint: 
-    authDomain: 
-    authClientId: 
-    authClientSecret: 
-    authIdentifier: 
-    refreshMinutes: 0
-  apiEndpoint: {fileID: 557266249}
-  agentEndpoint: {fileID: 0}
 --- !u!1 &1099789498
 GameObject:
   m_ObjectHideFlags: 0

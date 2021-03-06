@@ -53,21 +53,18 @@ public class UIManager : MonoBehaviour
 
     public void Loading()
     {
-        print("Loading");
         NotReady();
         onLoading.Invoke();
     }
 
     public void Ready()
     {
-        print("Ready");
         onReady.Invoke();
         EnableWorldInteraction();
     }
     
     public void NotReady()
     {
-        print("NotReady");
         DisableWorldInteraction();
         onNotReady.Invoke();
     }

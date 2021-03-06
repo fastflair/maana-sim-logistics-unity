@@ -27,9 +27,7 @@ public class LoadingScreen : MonoBehaviour
     }
 
     public void OnLoading()
-    {
-        print("OnLoading");
-        
+    {        
         background.GetComponent<CanvasGroup>().alpha = 1f;
         background.SetActive(true);
         title.GetComponent<CanvasGroup>().alpha = 0f;
