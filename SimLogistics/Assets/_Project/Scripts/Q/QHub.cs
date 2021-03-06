@@ -21,6 +21,13 @@ public static class QHubFragment
 public class QHubTypeEnum
 {
     [UsedImplicitly] public string id;
+    
+    public override string ToString()
+    {
+        return @$"{{
+            id: ""{id}""
+        }}";
+    }
 }
 
 public class QHub : QEntity
@@ -28,4 +35,14 @@ public class QHub : QEntity
     [UsedImplicitly] public QHubTypeEnum type;
     [UsedImplicitly] public List<QResource> supplies;
     [UsedImplicitly] public QVehicleTypeEnum vehicleType;
+    
+    public override string ToString()
+    {
+        return @$"
+            {base.ToString()}
+            type: {type}
+            supplies: [{string.Join(",", supplies)}]
+            vehicle: {vehicleType}
+        ";
+    }
 }

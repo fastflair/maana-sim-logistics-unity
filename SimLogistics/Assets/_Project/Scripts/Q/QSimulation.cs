@@ -25,4 +25,17 @@ public class QSimulation
     [UsedImplicitly] public float balance;
     [UsedImplicitly] public float income;
     [UsedImplicitly] public float expenses;
+
+    public override string ToString()
+    {
+        return @$"{{
+            id: ""{id}""
+            name: ""{name}""
+            agentEndpoint: ""{agentEndpoint}""
+            steps: {steps}
+            balance: {balance}
+            income: {income}
+            expenses: {expenses}
+        }}";
+    }
 }

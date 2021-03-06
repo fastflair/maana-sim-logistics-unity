@@ -15,7 +15,16 @@ public static class QMapAndTilesFragment
 
 public class QMapAndTiles
 {
-    public string id;
-    public QMap map;
-    public List<QTile> tiles;
+    [UsedImplicitly] public string id;
+    [UsedImplicitly] public QMap map;
+    [UsedImplicitly] public List<QTile> tiles;
+
+    public override string ToString()
+    {
+        return @$"{{
+            id: ""{id}""
+            map: {map}
+            tiles: [{string.Join(",", tiles)}]
+        }}";
+    }
 }

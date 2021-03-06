@@ -35,6 +35,12 @@ public static class QVehicleFragment
 public class QVehicleTypeEnum
 {
     [UsedImplicitly] public string id;
+    public override string ToString()
+    {
+        return @$"{{
+            id: ""{id}""
+        }}";
+    }
 }
 
 public class QVehicle : QEntity
@@ -50,4 +56,22 @@ public class QVehicle : QEntity
     [UsedImplicitly] public int lastServiceStep;    
     [UsedImplicitly] public bool cargoModeAND;
     [UsedImplicitly] public QTransitOrder transitOrder;
+    
+    public override string ToString()
+    {
+        return @$"{{
+            {base.ToString()}
+            hub: ""{type}""
+            type: {type}
+            cargo: [{string.Join(",", cargo)}]
+            speed: {speed}
+            maxDistance: {maxDistance}
+            efficiency: {efficiency}
+            durability: {durability}
+            serviceInterval: {serviceInterval}
+            lastServiceStep: {lastServiceStep}
+            cargoModeAND: {cargoModeAND}
+            transitOrder: {transitOrder}
+        }}";
+    }
 }

@@ -22,6 +22,13 @@ public static class QProducerFragment
 public class QProducerTypeEnum
 {
     [UsedImplicitly] public string id;
+    
+    public override string ToString()
+    {
+        return @$"{{
+            id: ""{id}""
+        }}";
+    }
 }
 
 [UsedImplicitly]
@@ -31,4 +38,14 @@ public class QProducer : QEntity
     [UsedImplicitly] public List<QResource> material;
     [UsedImplicitly] public List<QResource> products;
     [UsedImplicitly] public float stoppageSurchargeFactor;
+    public override string ToString()
+    {
+        return @$"{{
+            {base.ToString()}
+            type: {type}
+            material: [{string.Join(",", material)}]
+            products: [{string.Join(",", products)}]
+            stoppageSurchargeFactor: {stoppageSurchargeFactor}
+        }}";
+    }
 }

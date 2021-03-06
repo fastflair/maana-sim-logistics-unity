@@ -1,3 +1,5 @@
+// using System;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -83,6 +85,8 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
     {
         foreach (var qEntity in QEntities)
         {
+            // print($"Spawning entity: {qEntity}");
+            
             var prefab = EntityPrefab(qEntity);
             var entity = Instantiate(prefab,
                 new Vector3(TilePosX(qEntity.x), spawnHeight.Value * tileSize.Value, TilePosZ(qEntity.y)),

@@ -114,6 +114,7 @@ public class SimulationBar : UIElement
 
     public void OnThinkPressed()
     {
+        simulationManager.Think();
     }
 
     public void EnableThinkButton()

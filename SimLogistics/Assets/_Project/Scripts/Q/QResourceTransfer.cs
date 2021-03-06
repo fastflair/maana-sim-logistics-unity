@@ -21,11 +21,23 @@ public static class QResourceTransferFragment
 public class QResourceTransferTypeEnum
 {
     [UsedImplicitly] public string id;
+    public override string ToString()
+    {
+        return @$"
+            id: ""{id}""
+        ";
+    }
 }
 
 public class QResourceTransferStatusEnum
 {
     [UsedImplicitly] public string id;
+    public override string ToString()
+    {
+        return @$"{{
+            id: ""{id}""
+        }}";
+    }
 }
 
 public class QResourceTransfer
@@ -39,4 +51,18 @@ public class QResourceTransfer
     [UsedImplicitly] public float quantity;
     [UsedImplicitly] public float price;
     [UsedImplicitly] public QResourceTransferStatusEnum status;
+    public override string ToString()
+    {
+        return @$"{{
+            id: ""{id}""
+            sim: ""{sim}""
+            vehicle: ""{vehicle}""
+            counterparty: ""{counterparty}""
+            transferType: {transferType}
+            resourceType: {resourceType}
+            quantity: {quantity}
+            price: {price}
+            status: {status}
+        }}";
+    }
 }

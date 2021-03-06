@@ -14,6 +14,12 @@ public class QEntity
 
     public override string ToString()
     {
-        return $"QEntity {{ id: {id}, sim: {sim}, steps: {steps}, x: {x}, y: {y} }}";
+        return @$"
+            id: ""{id}""
+            sim: ""{sim}""
+            steps: {steps}
+            x: {x}
+            y: {y}
+        ";
     }
 }

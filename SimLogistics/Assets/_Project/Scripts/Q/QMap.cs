@@ -18,4 +18,13 @@ public class QMap
     [UsedImplicitly] public string id;
     [UsedImplicitly] public float tilesX;
     [UsedImplicitly] public float tilesY;
+
+    public override string ToString()
+    {
+        return @$"{{
+            id: ""{id}""
+            tilesX: {tilesX}
+            tilesY: {tilesY}
+        }}";
+    }
 }

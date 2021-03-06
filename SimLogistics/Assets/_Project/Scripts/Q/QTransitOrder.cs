@@ -19,6 +19,12 @@ public static class QTransitOrderFragment
 public class QTransitStatusEnum
 {
     [UsedImplicitly] public string id;
+    public override string ToString()
+    {
+        return @$"{{
+            id: ""{id}""
+        }}";
+    }
 }
 
 public class QTransitOrder
@@ -30,4 +36,17 @@ public class QTransitOrder
     [UsedImplicitly] public QTransitStatusEnum status;
     [UsedImplicitly] public float destX;
     [UsedImplicitly] public float destY;
+
+    public override string ToString()
+    {
+        return @$"{{
+            id: ""{id}""
+            sim: ""{sim}""
+            vehicle: ""{vehicle}""
+            steps: {steps}
+            status: {status}
+            destX: {destX}
+            destY: {destY}
+        }}";
+    }
 }

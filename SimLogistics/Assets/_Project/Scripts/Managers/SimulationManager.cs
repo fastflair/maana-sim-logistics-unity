@@ -84,6 +84,8 @@ public class SimulationManager : MonoBehaviour
             queryName,
             res =>
             {
+                print($"List of simulations: {string.Join(",", res)}");
+                
                 NotBusy();
                 callback(res);
             });
@@ -108,6 +110,8 @@ public class SimulationManager : MonoBehaviour
             queryName,
             simulation =>
             {
+                print($"Deleted simulation: {simulation}");
+                
                 NotBusy();
                 if (id == CurrentSimulation.id) LoadDefault();
                 callback(simulation);
@@ -139,6 +143,8 @@ public class SimulationManager : MonoBehaviour
             queryName,
             updatedVehicle =>
             {
+                // print($"Moved vehicle: {vehicle}");
+                
                 NotBusy();
                 callback(updatedVehicle.transitOrder.status.id);
             });
@@ -168,6 +174,8 @@ public class SimulationManager : MonoBehaviour
 
         InternalStateQueryWithBusy(queryName, query, state =>
         {
+            // print($"Step results: {state}");
+            
             CurrentState = state;
             onUpdated.Invoke();
         });
@@ -176,7 +184,9 @@ public class SimulationManager : MonoBehaviour
     public void Think()
     {
         Busy();
-        
+        print($"Agent endpoint: {AgentEndpoint}");
+        print($"Think about: {CurrentState}");
+
         NotBusy();
     }
 
@@ -236,6 +246,8 @@ public class SimulationManager : MonoBehaviour
             queryName,
             state =>
             {
+                print($"{queryName} results: {state}");
+                
                 CurrentState = state;
                 callback(CurrentState);
             });

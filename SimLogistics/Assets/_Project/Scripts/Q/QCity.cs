@@ -26,19 +26,14 @@ public class QCity : QEntity
     [UsedImplicitly] public float populationDeclineRate;
     [UsedImplicitly] public List<QResource> demand;
     
-    // public override string ToString()
-    // {
-    //     return @$"
-    //         {{
-    //             id: ""{id}""
-    //             sim: ""{sim}""
-    //             steps: {steps}
-    //             x: {x}
-    //             y: {y}
-    //             population: {population}
-    //             population: {population}
-    //             population: {population}
-    //             demand: {demand.ForEach(x => x.ToString())}
-    //         }}";
-    // }
+    public override string ToString()
+    {
+        return @$"{{
+            {base.ToString()}
+            population: {population}
+            population: {populationGrowthRate}
+            population: {populationDeclineRate}
+            demand: [{string.Join(",", demand)}]
+        }}";
+    }
 }

@@ -73,6 +73,8 @@ public class MapManager : MonoBehaviour
             queryName,
             qMapAndTiles =>
         {
+            // print($"MapAndTiles query result: {qMapAndTiles}");
+
             QMapAndTiles = qMapAndTiles;
             
             onLoaded.Invoke();

@@ -41,15 +41,14 @@ public class QState
 
     public override string ToString()
     {
-        return @$"
-            {{
-                id: ""{id}""
-                sim: ""{sim}""
-                cities: {cities}
-                hubs: {hubs}
-                producers: {producers}
-                vehicles: {vehicles}
-                transfers: {transfers}
-            }}";
+        return @$"{{
+            id: ""{id}""
+            sim: {sim}
+            cities: [{string.Join(",", cities)}]
+            hubs: [{string.Join(",", hubs)}]
+            producers: [{string.Join(",", producers)}]
+            transfers: [{string.Join(",", transfers)}]
+            vehicles: [{string.Join(",", vehicles)}]
+        }}";
     }
 }

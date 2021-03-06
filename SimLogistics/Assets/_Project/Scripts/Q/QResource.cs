@@ -22,6 +22,12 @@ public static class QResourceFragment
 public class QResourceTypeEnum
 {
     [UsedImplicitly] public string id;
+    public override string ToString()
+    {
+        return @$"{{
+            id: ""{id}""
+        }}";
+    }
 }
 
 public class QResource
@@ -36,4 +42,19 @@ public class QResource
     [UsedImplicitly] public float scarcitySurchargeFactor;
     [UsedImplicitly] public float replenishRate;
     [UsedImplicitly] public float consumptionRate;
+    public override string ToString()
+    {
+        return @$"{{
+            id: ""{id}""
+            sim: ""{sim}""
+            type: {type}
+            capacity: {capacity}
+            quantity: {quantity}
+            basePricePerUnit: {basePricePerUnit}
+            adjustedPricePerUnit: {adjustedPricePerUnit}
+            scarcitySurchargeFactor: {scarcitySurchargeFactor}
+            replenishRate: {replenishRate}
+            consumptionRate: {consumptionRate}
+        }}";
+    }
 }

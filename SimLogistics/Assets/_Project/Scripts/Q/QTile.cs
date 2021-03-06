@@ -17,6 +17,12 @@ public static class QTileFragment
 public class QTileTypeEnum
 {
     [UsedImplicitly] public string id;
+    public override string ToString()
+    {
+        return @$"{{
+            id: ""{id}""
+        }}";
+    }
 }
 
 public class QTile
@@ -26,4 +32,14 @@ public class QTile
     [UsedImplicitly] public QTileTypeEnum type;
     [UsedImplicitly] public float x;
     [UsedImplicitly] public float y;
+    public override string ToString()
+    {
+        return @$"{{
+            id: ""{id}""
+            map: ""{map}""
+            type: {type}
+            x: {x}
+            y: {y}
+        }}";
+    }
 }
