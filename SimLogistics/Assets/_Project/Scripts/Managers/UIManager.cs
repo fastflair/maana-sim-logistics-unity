@@ -165,14 +165,24 @@ public class UIManager : MonoBehaviour
 
     public void OnInfo()
     {
+        ShowInfoDialog("TODO: Change this to Info dialog");
+    }
+
+    public void ShowInfoDialog(string message)
+    {
         var infoDialog = ShowDialogPrefab<InfoDialog>(infoDialogPrefab);
-        infoDialog.SetText("TODO: Change this to Info dialog");
+        infoDialog.SetText(message);
     }
 
     public void OnHelp()
     {
+        ShowHelpDialog("TODO: Change this to Help dialog");
+    }
+
+    public void ShowHelpDialog(string message)
+    {
         var helpDialog = ShowDialogPrefab<HelpDialog>(helpDialogPrefab);
-        helpDialog.SetText("TODO: Change this to Help dialog");
+        helpDialog.SetText(message);
     }
     
     // Spinner

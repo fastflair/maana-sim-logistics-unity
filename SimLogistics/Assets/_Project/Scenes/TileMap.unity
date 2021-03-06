@@ -361,6 +361,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2126323610}
+        m_TargetAssemblyTypeName: SelectionManager, Assembly-CSharp
+        m_MethodName: OnLoaded
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onBusy:
     m_PersistentCalls:
       m_Calls:
@@ -496,7 +508,7 @@ GameObject:
   - component: {fileID: 120076563}
   - component: {fileID: 120076562}
   - component: {fileID: 120076566}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Map Board
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4242,8 +4254,10 @@ MonoBehaviour:
   animDelay: 0.3
   fadeDuration: 0.2
   fadeDelay: 0.2
+  uiManager: {fileID: 1316288417}
   simulationManager: {fileID: 82198423}
   connectionManager: {fileID: 1056472702}
+  selectionManager: {fileID: 2126323610}
   thinkButton: {fileID: 1788699404}
 --- !u!225 &930856744
 CanvasGroup:
@@ -9171,6 +9185,7 @@ MonoBehaviour:
   camera: {fileID: 1227292944}
   layer: 6
   maxHitDistance: 1000
+  maxSelectedObjects: 2
 --- !u!1001 &2143712537
 PrefabInstance:
   m_ObjectHideFlags: 0

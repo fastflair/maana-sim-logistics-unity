@@ -5,6 +5,12 @@ using JetBrains.Annotations;
 
 public static class QVehicleFragment
 {
+    public static readonly string withIncludes = @$"
+      {QTransitOrderFragment.data}
+      {QResourceFragment.data}
+      {data}
+        ";
+    
     public const string data = @"
         fragment vehicleData on Vehicle {
           id

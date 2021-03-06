@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class SelectionManager : MonoBehaviour
 {
@@ -8,10 +7,18 @@ public class SelectionManager : MonoBehaviour
     [SerializeField] private new Camera camera;
     [SerializeField] private int layer;
     [SerializeField] private float maxHitDistance = 1000f;
+    [SerializeField] private int maxSelectedObjects = 2;
 
     private SelectableObject _curSelectableObject;
     private readonly List<SelectableObject> _curSelectedObjects = new List<SelectableObject>();
-    
+
+    public IEnumerable<SelectableObject> SelectedObjects => _curSelectedObjects;
+
+    public void OnLoaded()
+    {
+        _curSelectedObjects.Clear();
+    }
+
     private void Update()
     {
         if (Pointer.IsOverUIObject())
@@ -22,9 +29,12 @@ public class SelectionManager : MonoBehaviour
         
         if (!isWorldInteractable.Value) return;
         
+        var isMouseDown = Input.GetMouseButtonDown(0);
+
         var ray = camera.ScreenPointToRay(Input.mousePosition);
         if (!Physics.Raycast(ray, out var hitInfo, maxHitDistance, 1 << layer))
         {
+            if (isMouseDown) DeselectAll();
             Leave();
             return;
         }
@@ -37,9 +47,7 @@ public class SelectionManager : MonoBehaviour
             Leave();
             return;
         }
-
-        var isMouseDown = Input.GetMouseButtonDown(0);
-
+        
         if (selectableObject != _curSelectableObject)
         {
             Leave();
@@ -86,14 +94,27 @@ public class SelectionManager : MonoBehaviour
 
     private void Select()
     {
+        if (_curSelectedObjects.Count == maxSelectedObjects) return;
+        
         _curSelectedObjects.Add(_curSelectableObject);
         _curSelectableObject.onSelect.Invoke();
     }
     
     private void Deselect()
     {
+        if (_curSelectedObjects.Count == 0) return;
+        
         _curSelectableObject.onDeselect.Invoke();
         _curSelectedObjects.Remove(_curSelectableObject);
         Enter();
+    }
+    
+    private void DeselectAll()
+    {
+        foreach (var selectedObject in _curSelectedObjects)
+        {
+            selectedObject.onDeselect.Invoke();
+        }
+        _curSelectedObjects.Clear();
     }
 }

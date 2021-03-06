@@ -113,6 +113,36 @@ public class SimulationManager : MonoBehaviour
             });
     }
 
+    public void MoveVehicleTo(string vehicle, float destX, float destY, Action<string> callback)
+    {
+        Busy();
+        
+        const string queryName = "moveVehicleTo";
+        var query = @$"
+          {QVehicleFragment.withIncludes}
+          mutation {{
+            {queryName}(
+              sim: ""{CurrentSimulation.id}""
+              vehicle: ""{vehicle}""
+              destX: {destX}
+              destY: {destY}
+            ) {{
+              ...vehicleData
+            }}
+          }}
+        ";
+
+        connectionManager.QueryRaiseOnError<QVehicle>(
+            connectionManager.apiEndpoint,
+            query,
+            queryName,
+            updatedVehicle =>
+            {
+                NotBusy();
+                callback(updatedVehicle.transitOrder.status.id);
+            });
+    }
+    
     public void Step(Action<QState> callback)
     {
         const string queryName = "stepSimulation";
