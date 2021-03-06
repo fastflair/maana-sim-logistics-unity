@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private BoolVariable isWorldInteractable;
 
     // Dialogs
+    [SerializeField] private DepthOfFieldController dofController;
     [SerializeField] private UIElement backdrop;
     [SerializeField] private Transform dialogHost;
     [SerializeField] private ConfirmationDialog confirmationDialogPrefab;
@@ -107,6 +108,8 @@ public class UIManager : MonoBehaviour
 
             backdrop.gameObject.SetActive(true);
             backdrop.SetVisible(true, UIElement.Effect.Fade);
+            
+            dofController.BlurBackground();
         }
         
         dialog.UIManager = this;
@@ -127,6 +130,8 @@ public class UIManager : MonoBehaviour
                         backdrop.gameObject.SetActive(false));
 
                     EnableWorldInteraction();
+
+                    dofController.UnblurBackground();
                 }
             )
             .destroyOnComplete = true;

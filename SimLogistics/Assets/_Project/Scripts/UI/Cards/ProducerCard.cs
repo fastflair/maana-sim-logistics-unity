@@ -19,13 +19,12 @@ public class ProducerCard : Card
     
     public override void Populate(Card card, QEntity qEntity)
     {
-        var qProducer = qEntity as QProducer;
         var producerCard = card as ProducerCard;
 
-        if (qProducer == null) throw new Exception("QEntity is not of the expected type.");
+        if (!(qEntity is QProducer qProducer)) throw new Exception("QEntity is not of the expected type.");
         if (producerCard == null) throw new Exception("Card is not of the expected type.");
 
-        SetTitle(qProducer.id);
+        SetEntityId(qProducer.id);
         SetThumbnail(ResolveThumbnail(qProducer.type.id));
 
         AddPropertyToGroup(propertyGroup1, "Stoppage Surcharge Factor", qProducer.stoppageSurchargeFactor.ToString(CultureInfo.CurrentCulture));

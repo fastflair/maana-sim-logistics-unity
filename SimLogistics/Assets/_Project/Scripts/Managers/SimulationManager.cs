@@ -29,10 +29,27 @@ public class SimulationManager : MonoBehaviour
     public string AgentEndpoint => CurrentSimulation.agentEndpoint;
     public bool IsCurrentDefault => CurrentState == null || CurrentSimulation.id == DefaultSimulation.id;
 
-    public QActions Actions { get; private set; }
+    public QActions Actions { get; private set; } = new QActions();
 
     // TODO: get from simulation
     public static string MapName => "Default";
+
+    public static string FormatEntityId(string id)
+    {
+        var parts = id.Split('/');
+        if (parts.Length > 1)
+        {
+            id = parts[1];
+        }
+
+        parts = id.Split(':');
+        if (parts.Length > 1)
+        {
+            id = $"{parts[0]} {parts[1]}";
+        }
+
+        return id;
+    }
 
     public static string FormatDisplayText(QSimulation simulation)
     {
@@ -43,13 +60,99 @@ public class SimulationManager : MonoBehaviour
     {
         return agentEndpoint ?? "Interactive";
     }
+    
+    // Actions
+    // -------
+    
+    public void ResetActions()
+    {
+        Actions = new QActions();
+        onActionsUpdated.Invoke();
+    }
+    
+    public QTransitAction AddTransitAction(string vehicle, float destX, float destY)
+    {
+        var transitAction = new QTransitAction
+        {
+            id = $"{CurrentSimulation.id}:{vehicle}",
+            vehicle = vehicle,
+            destX = destX,
+            destY = destY
+        };
+        Actions.transitActions.Add(transitAction);
+        onActionsUpdated.Invoke();
+        return transitAction;
+    }
 
+    public void RemoveTransitAction(QTransitAction transitAction)
+    {
+        Actions.transitActions.Remove(transitAction);
+        onActionsUpdated.Invoke();
+    }
+    
+    public QRepairAction AddRepairAction(
+        string vehicle,
+        string hub)
+    {
+        var repairAction = new QRepairAction()
+        {
+            id = $"{CurrentSimulation.id}:{vehicle}",
+            sim = CurrentSimulation.id,
+            vehicle = vehicle,
+            hub = hub
+        };
+        Actions.repairActions.Add(repairAction);
+        onActionsUpdated.Invoke();
+        return repairAction;
+    }
+
+    public void RemoveRepairAction(QRepairAction repairAction)
+    {
+        Actions.repairActions.Remove(repairAction);
+        onActionsUpdated.Invoke();
+    }
+
+    public QTransferAction AddTransferAction(
+        string vehicle,
+        string counterparty,
+        QResourceTypeEnum resourceType,
+        float quantity,
+        QResourceTransferTypeEnum transferType)
+    {
+        var transferAction = new QTransferAction()
+        {
+            id = $"{CurrentSimulation.id}:{vehicle}:{counterparty}",
+            sim = CurrentSimulation.id,
+            vehicle = vehicle,
+            counterparty =  counterparty,
+            resourceType = resourceType,
+            quantity = quantity,
+            transferType = transferType
+        };
+        
+        Actions.transferActions.Add(transferAction);
+        onActionsUpdated.Invoke();
+        return transferAction;
+    }
+    
+    public void RemoveTransferAction(QTransferAction transferAction)
+    {
+        Actions.transferActions.Remove(transferAction);
+        onActionsUpdated.Invoke();    
+    }
+
+    // Event handlers
+    // --------------
+    
     public void OnConnected()
     {
         LoadDefault();
         ResetActions();
     }
 
+    // Simulation management
+    // ---------------------
+    
     public void New(string simName, string agentEndpoint, Action<QState> callback)
     {
         const string queryName = "newSimulation";
@@ -130,21 +233,7 @@ public class SimulationManager : MonoBehaviour
                 callback(simulation);
             });
     }
-
-    public QTransitAction AddTransitAction(string vehicle, float destX, float destY)
-    {
-        var transitAction = new QTransitAction
-        {
-            id = $"{CurrentSimulation.id}:{vehicle}",
-            vehicle = vehicle,
-            destX = destX,
-            destY = destY
-        };
-        Actions.transitActions.Add(transitAction);
-        onActionsUpdated.Invoke();
-        return transitAction;
-    }
-
+    
     public void Think(string agentEndpoint, QState state, Action<QActions> callback)
     {
         Busy();
@@ -172,7 +261,8 @@ public class SimulationManager : MonoBehaviour
                 print($"Think actions: {actions}");
 
                 Actions = actions;
-                
+                onActionsUpdated.Invoke();
+
                 callback.Invoke(actions);
             });
     }
@@ -209,10 +299,7 @@ public class SimulationManager : MonoBehaviour
         });
     }
 
-    public void ResetActions()
-    {
-        Actions = new QActions();
-    }
+    // --- Internal
 
     private void IssueActions(QActions actions, Action<bool> callback)
     {
@@ -231,12 +318,12 @@ public class SimulationManager : MonoBehaviour
             {
                 print($"Issue actions: {success}");
 
+                if (success) ResetActions();
+                
                 callback.Invoke(success);
             });
     }
-
-    // --- Internal
-
+    
     private void LoadDefault()
     {
         Load(DefaultSimulation.id, state => { });

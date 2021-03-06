@@ -343,7 +343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.13333334, g: 0.16470589, b: 0.20784314, a: 1}
+  m_Color: {r: 0.13333334, g: 0.16470589, b: 0.20784314, a: 0.6117647}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -521,9 +521,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Header
       objectReference: {fileID: 0}
+    - target: {fileID: 961003366191539661, guid: af3ba6e06a05c44ab8b7d3084db710d0, type: 3}
+      propertyPath: m_MinHeight
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 961003366191539661, guid: af3ba6e06a05c44ab8b7d3084db710d0, type: 3}
+      propertyPath: m_PreferredHeight
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 1576044557441873733, guid: af3ba6e06a05c44ab8b7d3084db710d0, type: 3}
       propertyPath: m_text
       value: Dialog Title
+      objectReference: {fileID: 0}
+    - target: {fileID: 1576044557441873733, guid: af3ba6e06a05c44ab8b7d3084db710d0, type: 3}
+      propertyPath: m_fontSize
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 1576044557441873733, guid: af3ba6e06a05c44ab8b7d3084db710d0, type: 3}
       propertyPath: m_fontStyle
@@ -540,6 +552,10 @@ PrefabInstance:
     - target: {fileID: 1576044557441873733, guid: af3ba6e06a05c44ab8b7d3084db710d0, type: 3}
       propertyPath: m_fontColor.r
       value: 0.8392157
+      objectReference: {fileID: 0}
+    - target: {fileID: 1576044557441873733, guid: af3ba6e06a05c44ab8b7d3084db710d0, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 1576044557441873733, guid: af3ba6e06a05c44ab8b7d3084db710d0, type: 3}
       propertyPath: m_fontColor32.rgba

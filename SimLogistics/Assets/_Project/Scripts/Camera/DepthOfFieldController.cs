@@ -9,6 +9,7 @@ public class DepthOfFieldController : MonoBehaviour
 {
     [SerializeField] private GameObject volumeObject;
     [SerializeField] private float maxFocusDistance;
+    [SerializeField] private float blurFocusDistance = 0.1f;
     [SerializeField] private float focusSpeed;
     [SerializeField] private int layer;
     
@@ -16,6 +17,7 @@ public class DepthOfFieldController : MonoBehaviour
     private RaycastHit _hit;
     private float _hitDistance;
     private DepthOfField _dof;
+    private bool _isBlurred;
     
     private void Start()
     {
@@ -29,17 +31,33 @@ public class DepthOfFieldController : MonoBehaviour
 
     private void Update()
     {
+        if (_isBlurred)
+        {
+            SetFocus(blurFocusDistance);
+            return;
+        }
+
         var localTransform = transform;
         var position = localTransform.position;
         
         _raycast = new Ray(position, localTransform.forward * maxFocusDistance);
         _hitDistance = Physics.Raycast(_raycast, out _hit, maxFocusDistance, 1 << layer) ? Vector3.Distance(position, _hit.point) : maxFocusDistance;
 
-        SetFocus();
+        SetFocus(_hitDistance);
     }
 
-    private void SetFocus()
+    private void SetFocus(float focusDistance)
     {
-        _dof.focusDistance.value = Mathf.Lerp(_dof.focusDistance.value, _hitDistance, Time.deltaTime * focusSpeed);
+        _dof.focusDistance.value = Mathf.Lerp(_dof.focusDistance.value, focusDistance, Time.deltaTime * focusSpeed);
+    }
+
+    public void BlurBackground()
+    {
+        _isBlurred = true;
+    }
+
+    public void UnblurBackground()
+    {
+        _isBlurred = false;
     }
 }

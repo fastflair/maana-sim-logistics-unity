@@ -190,7 +190,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1640286077916361080, guid: 5ea301a0e9a7c475fad28aaa1417768d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000030517578
+      value: 0.000043140724
       objectReference: {fileID: 0}
     - target: {fileID: 1664359141931799234, guid: 5ea301a0e9a7c475fad28aaa1417768d, type: 3}
       propertyPath: animDelay
@@ -435,6 +435,10 @@ PrefabInstance:
     - target: {fileID: 6662484348453740158, guid: 5ea301a0e9a7c475fad28aaa1417768d, type: 3}
       propertyPath: m_text
       value: GraphQL
+      objectReference: {fileID: 0}
+    - target: {fileID: 7916180879366587416, guid: 5ea301a0e9a7c475fad28aaa1417768d, type: 3}
+      propertyPath: m_Color.a
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8066130625800232287, guid: 5ea301a0e9a7c475fad28aaa1417768d, type: 3}
       propertyPath: m_AnchorMax.x

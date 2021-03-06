@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using UnityEngine;
 
 // ReSharper disable InconsistentNaming
 
@@ -27,7 +28,14 @@ public class QActions
     [UsedImplicitly] public List<QTransitAction> transitActions;
     [UsedImplicitly] public List<QRepairAction> repairActions;
     [UsedImplicitly] public List<QTransferAction> transferActions;
-  
+
+    public QActions()
+    {
+        transitActions = new List<QTransitAction>(); 
+        repairActions = new List<QRepairAction>();
+        transferActions = new List<QTransferAction>();
+    }
+    
     public override string ToString()
     {
         return @$"{{

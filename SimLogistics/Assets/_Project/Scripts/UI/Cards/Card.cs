@@ -17,9 +17,9 @@ public abstract class Card : UIElement
     
     public abstract void Populate(Card card, QEntity entity);
 
-    protected void SetTitle(string text)
+    protected void SetEntityId(string id)
     {
-        title.text = text;
+        title.text = SimulationManager.FormatEntityId(id);
     }
 
     protected void SetThumbnail(Sprite thumbnailSprite)

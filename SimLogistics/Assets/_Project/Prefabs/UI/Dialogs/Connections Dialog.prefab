@@ -34,7 +34,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputFieldPrefab: {fileID: 7629442598875263535, guid: a4aceaf57534e481abc377beba95bba6, type: 3}
   fieldHost: {fileID: 7830806721260773312}
-  buttonItemPrefab: {fileID: 1813455481702785544, guid: 0d6633eb3f32b4d6da6d9edda942be81, type: 3}
+  buttonItemPrefab: {fileID: -8417021970772368567, guid: 0d6633eb3f32b4d6da6d9edda942be81, type: 3}
   listHost: {fileID: 2278711577104073403}
   newButton: {fileID: 2399212169237130439}
   deleteButton: {fileID: 2247895824101346314}

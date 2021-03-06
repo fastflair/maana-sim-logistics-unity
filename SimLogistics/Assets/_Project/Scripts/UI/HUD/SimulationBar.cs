@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class SimulationBar : UIElement
 {
     private const string MoveHelpSelection = "At least one vehicle and one structure must be selected.";
+    private const string RepairHelpSelection = "One vehicle must be selected for repair.";
 
     // Managers
     [SerializeField] private UIManager uiManager;
@@ -87,6 +88,14 @@ public class SimulationBar : UIElement
         };
     }
 
+    private QVehicle GetSelectedVehicle()
+    {
+        var selectableObjects = selectionManager.SelectedObjects.ToArray();
+        if (selectableObjects.Length != 1) return null;
+
+        return selectableObjects[0].GetComponent<Entity>().QEntity as QVehicle;
+    }
+    
     // Buttons
     // -------
     
@@ -106,11 +115,22 @@ public class SimulationBar : UIElement
             vehicleStructurePair.Structure.x,
             vehicleStructurePair.Structure.y
         );
+        
+        selectionManager.DeselectAll();
     }
 
     public void OnRepairPressed()
     {
-        print($"[{name}] OnRepairPressed");
+        var vehicle = GetSelectedVehicle();
+        if (vehicle == null)
+        {
+            uiManager.ShowHelpDialog(RepairHelpSelection);
+            return;
+        }
+
+        simulationManager.AddRepairAction(vehicle.id, vehicle.hub);
+        
+        selectionManager.DeselectAll();
     }
 
     public void OnTransferPressed()

@@ -9,7 +9,7 @@ public class LoadSimulationDialog : Dialog
     [SerializeField] private TMP_InputField agentEndpointInputField;
     [SerializeField] private Button clearFiltersButton;
     [SerializeField] private TMP_Text resultCountText;
-    [SerializeField] private Button buttonItemPrefab;
+    [SerializeField] private ButtonItem buttonItemPrefab;
     [SerializeField] private Transform listHost;
 
     public ConnectionManager ConnectionManager { get; set; }
@@ -73,7 +73,7 @@ public class LoadSimulationDialog : Dialog
 
                     var text = SimulationManager.FormatDisplayText(simulation);
                     var buttonItem = Instantiate(buttonItemPrefab, listHost.transform, false);
-                    buttonItem.GetComponentInChildren<TMP_Text>().text = text;
+                    buttonItem.Label = text;
                     buttonItem.onClick.AddListener(() =>
                     {
                         SimulationManager.Load(simulation.id, loaded =>
@@ -90,5 +90,6 @@ public class LoadSimulationDialog : Dialog
     private void ClearList()
     {
         foreach (Transform buttonItem in listHost) Destroy(buttonItem.gameObject);
+        resultCountText.text = 0.ToString();
     }
 }

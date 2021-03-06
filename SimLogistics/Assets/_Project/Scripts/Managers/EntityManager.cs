@@ -20,7 +20,7 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
     [SerializeField] private float lerpSpeed = 3;
 
     protected List<Entity> UEntities = new List<Entity>();
-
+    
     // Interface
     protected abstract IEnumerable<TQEntity> QEntities { get; }
     protected abstract Entity EntityPrefab(TQEntity qEntity);

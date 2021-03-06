@@ -11,14 +11,12 @@ public class ConfirmationDialog : MessageDialog
 
     public void OnCancel()
     {
-        print("OnCancel");
         cancelEvent.Invoke();
         Hide();
     }
 
     public override void OnOkay()
     {
-        print("OnOkay");
         okayEvent.Invoke();
         base.OnOkay();
     }

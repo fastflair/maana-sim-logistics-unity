@@ -11,13 +11,12 @@ public class VehicleCard : Card
     
     public override void Populate(Card card, QEntity qEntity)
     {
-        var qVehicle = qEntity as QVehicle;
         var vehicleCard = card as VehicleCard;
 
-        if (qVehicle == null) throw new Exception("QEntity is not of the expected type.");
+        if (!(qEntity is QVehicle qVehicle)) throw new Exception("QEntity is not of the expected type.");
         if (vehicleCard == null) throw new Exception("Card is not of the expected type.");
 
-        SetTitle(qVehicle.id);
+        SetEntityId(qVehicle.id);
         SetThumbnail(ResolveThumbnail(qVehicle.type.id));
 
         // Properties

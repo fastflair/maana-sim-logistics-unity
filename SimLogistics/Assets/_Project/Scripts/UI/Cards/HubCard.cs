@@ -12,13 +12,12 @@ public class HubCard : Card
 
     public override void Populate(Card card, QEntity qEntity)
     {
-        var qHub = qEntity as QHub;
         var hubCard = card as HubCard;
 
-        if (qHub == null) throw new Exception("QEntity is not of the expected type.");
+        if (!(qEntity is QHub qHub)) throw new Exception("QEntity is not of the expected type.");
         if (hubCard == null) throw new Exception("Card is not of the expected type.");
 
-        SetTitle(qHub.id);
+        SetEntityId(qHub.id);
         SetThumbnail(ResolveThumbnail(qHub.type.id));
 
         AddPropertyToGroup(propertyGroup1, "(none)", "");

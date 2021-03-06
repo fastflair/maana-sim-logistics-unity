@@ -18,7 +18,7 @@ public class SelectionManager : MonoBehaviour
     {
         _curSelectedObjects.Clear();
     }
-
+    
     private void Update()
     {
         if (Pointer.IsOverUIObject())
@@ -109,7 +109,7 @@ public class SelectionManager : MonoBehaviour
         Enter();
     }
     
-    private void DeselectAll()
+    public void DeselectAll()
     {
         foreach (var selectedObject in _curSelectedObjects)
         {

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1026213109844953181}
   - component: {fileID: 4285362087533101523}
   - component: {fileID: 4697259206275552903}
-  - component: {fileID: 1813455481702785544}
+  - component: {fileID: -8417021970772368567}
   m_Layer: 5
   m_Name: Button Item
   m_TagString: Untagged
@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.13333334, g: 0.16470589, b: 0.20784314, a: 1}
+  m_Color: {r: 0.13333334, g: 0.16470589, b: 0.20784314, a: 0.5019608}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1813455481702785544
+--- !u!114 &-8417021970772368567
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -86,7 +86,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5260997888476385401}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 81fdd742cc43740328a77716aceb4332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -121,6 +121,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+  buttonText: {fileID: 0}
 --- !u!1 &5454657311685180147
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,8 +214,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22
-  m_fontSizeBase: 22
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

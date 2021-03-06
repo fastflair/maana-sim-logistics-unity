@@ -8,7 +8,7 @@ public class ConnectionsDialog : Dialog
 {
     [SerializeField] private InputField inputFieldPrefab;
     [SerializeField] private Transform fieldHost;
-    [SerializeField] private Button buttonItemPrefab;
+    [SerializeField] private ButtonItem buttonItemPrefab;
     [SerializeField] private Transform listHost;
     [SerializeField] private Button newButton;
     [SerializeField] private Button deleteButton;
@@ -144,7 +144,7 @@ public class ConnectionsDialog : Dialog
         foreach (var connection in ConnectionManager.AvailableConnections)
         {
             var buttonItem = Instantiate(buttonItemPrefab, listHost.transform, false);
-            buttonItem.GetComponentInChildren<TMP_Text>().text = connection;
+            buttonItem.Label = connection;
             buttonItem.onClick.AddListener(() =>
             {
                 _currentState = ConnectionManager.Load(connection);
