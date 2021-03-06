@@ -43,12 +43,12 @@ public class SystemBar : UIElement
 
     public void OnReady()
     {
-        if (simulationManager.IsDefaultCurrent) ShowAnimate();
+        if (simulationManager.IsCurrentDefault) ShowAnimate();
     }
 
     private void UpdateButtons()
     {
-        if (simulationManager.IsDefaultCurrent)
+        if (simulationManager.IsCurrentDefault)
         {
             DisableDeleteSimulationButton();
             DisableSimulationButton();

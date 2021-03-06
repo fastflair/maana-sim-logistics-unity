@@ -39,7 +39,7 @@ public class SimulationBar : UIElement
 
     public void OnReady()
     {
-        if (!simulationManager.IsDefaultCurrent) ShowAnimate();
+        if (!simulationManager.IsCurrentDefault) ShowAnimate();
     }
 
     private void UpdateButtons()

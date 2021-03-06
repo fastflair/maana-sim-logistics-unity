@@ -42,6 +42,7 @@ public class QResource
     [UsedImplicitly] public float scarcitySurchargeFactor;
     [UsedImplicitly] public float replenishRate;
     [UsedImplicitly] public float consumptionRate;
+
     public override string ToString()
     {
         return @$"{{

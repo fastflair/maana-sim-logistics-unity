@@ -31,8 +31,8 @@ public class QCity : QEntity
         return @$"{{
             {base.ToString()}
             population: {population}
-            population: {populationGrowthRate}
-            population: {populationDeclineRate}
+            populationGrowthRate: {populationGrowthRate}
+            populationDeclineRate: {populationDeclineRate}
             demand: [{string.Join(",", demand)}]
         }}";
     }

@@ -38,11 +38,11 @@ public class QHub : QEntity
     
     public override string ToString()
     {
-        return @$"
+        return @$"{{
             {base.ToString()}
             type: {type}
             supplies: [{string.Join(",", supplies)}]
-            vehicle: {vehicleType}
-        ";
+            vehicleType: {vehicleType}
+        }}";
     }
 }

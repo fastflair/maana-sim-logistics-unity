@@ -18,6 +18,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Transform dialogHost;
     [SerializeField] private ConfirmationDialog confirmationDialogPrefab;
     [SerializeField] private ErrorDialog errorDialogPrefab;
+    [SerializeField] private ErrorDialog graphQlDialogPrefab;
     [SerializeField] private InfoDialog infoDialogPrefab;
     [SerializeField] private HelpDialog helpDialogPrefab;
 
@@ -155,6 +156,12 @@ public class UIManager : MonoBehaviour
 
         errorDialog = ShowDialogPrefab<ErrorDialog>(errorDialogPrefab);
         errorDialog.SetText(message);
+    }
+
+    public void ShowGraphQlDialog(string message)
+    {
+        var dialog = ShowDialogPrefab<ErrorDialog>(graphQlDialogPrefab);
+        dialog.SetText(message);
     }
 
     // Info and Help

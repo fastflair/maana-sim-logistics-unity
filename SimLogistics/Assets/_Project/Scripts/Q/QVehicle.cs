@@ -9,7 +9,7 @@ public static class QVehicleFragment
       {QTransitOrderFragment.data}
       {QResourceFragment.data}
       {data}
-        ";
+    ";
     
     public const string data = @"
         fragment vehicleData on Vehicle {
@@ -24,6 +24,7 @@ public static class QVehicleFragment
           speed
           maxDistance
           efficiency
+          reliability
           durability
           serviceInterval
           lastServiceStep
@@ -51,6 +52,7 @@ public class QVehicle : QEntity
     [UsedImplicitly] public float speed;
     [UsedImplicitly] public float maxDistance;
     [UsedImplicitly] public float efficiency;
+    [UsedImplicitly] public float reliability;
     [UsedImplicitly] public float durability;
     [UsedImplicitly] public int serviceInterval;    
     [UsedImplicitly] public int lastServiceStep;    
@@ -61,16 +63,17 @@ public class QVehicle : QEntity
     {
         return @$"{{
             {base.ToString()}
-            hub: ""{type}""
+            hub: ""{hub}""
             type: {type}
             cargo: [{string.Join(",", cargo)}]
             speed: {speed}
             maxDistance: {maxDistance}
             efficiency: {efficiency}
+            reliability: {reliability}
             durability: {durability}
             serviceInterval: {serviceInterval}
             lastServiceStep: {lastServiceStep}
-            cargoModeAND: {cargoModeAND}
+            cargoModeAND: {cargoModeAND.ToString().ToLower()}
             transitOrder: {transitOrder}
         }}";
     }

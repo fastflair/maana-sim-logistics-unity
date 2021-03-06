@@ -17,7 +17,7 @@ public class LoadSimulationDialog : Dialog
 
     private void Start()
     {
-        if (!SimulationManager.IsDefaultCurrent &&
+        if (!SimulationManager.IsCurrentDefault &&
             SimulationManager.CurrentSimulation.agentEndpoint != null)
             agentEndpointInputField.text = SimulationManager.CurrentSimulation.agentEndpoint;
 
@@ -39,7 +39,7 @@ public class LoadSimulationDialog : Dialog
 
         PopulateList();
     }
-
+    
     private void PopulateList()
     {
         ClearList();
@@ -71,7 +71,7 @@ public class LoadSimulationDialog : Dialog
                         continue;
                     }
 
-                    var text = $"{simulation.name} @ {AgentEndpointDisplayName(simulation.agentEndpoint)}";
+                    var text = SimulationManager.FormatDisplayText(simulation);
                     var buttonItem = Instantiate(buttonItemPrefab, listHost.transform, false);
                     buttonItem.GetComponentInChildren<TMP_Text>().text = text;
                     buttonItem.onClick.AddListener(() =>
@@ -86,16 +86,7 @@ public class LoadSimulationDialog : Dialog
                 resultCountText.text = resultCount.ToString(CultureInfo.CurrentCulture);
             });
     }
-
-    private static string AgentEndpointDisplayName(string agentEndpoint)
-    {
-        if (agentEndpoint == null) return "Interactive";
-
-        // "agentEndpoint": "https://lastknowngood.knowledge.maana.io:8443/service/maana-sim-logistics-ai-agent-v3/graphql",
-        var parts = agentEndpoint.Split('/');
-        return parts.Length == 6 ? parts[4] : agentEndpoint;
-    }
-
+    
     private void ClearList()
     {
         foreach (Transform buttonItem in listHost) Destroy(buttonItem.gameObject);

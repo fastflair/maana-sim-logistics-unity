@@ -27,7 +27,17 @@ public class SimulationManager : MonoBehaviour
     public QSimulation CurrentSimulation => CurrentState == null ? DefaultSimulation : CurrentState.sim;
     public string AgentEndpoint => CurrentSimulation.agentEndpoint;
     
-    public bool IsDefaultCurrent => CurrentState == null || CurrentSimulation.id == DefaultSimulation.id;
+    public bool IsCurrentDefault => CurrentState == null || CurrentSimulation.id == DefaultSimulation.id;
+
+    public static string FormatDisplayText(QSimulation simulation)
+    {
+        return $"{simulation.name} @ {AgentEndpointDisplayName(simulation.agentEndpoint)} - Steps: {simulation.steps}";
+    }
+
+    public static string AgentEndpointDisplayName(string agentEndpoint)
+    {
+        return agentEndpoint ?? "Interactive";
+    }
 
     // TODO: get from simulation
     public static string MapName => "Default";
@@ -186,6 +196,28 @@ public class SimulationManager : MonoBehaviour
         Busy();
         print($"Agent endpoint: {AgentEndpoint}");
         print($"Think about: {CurrentState}");
+        
+        const string queryName = "think";
+        var query = @$"
+          {QActionsFragment.withIncludes}
+          mutation {{
+            {queryName}(state: {CurrentState}) {{
+              ...actionsData
+            }}
+          }}
+        ";
+        
+        connectionManager.QueryRaiseOnError<QActions>(
+            AgentEndpoint,
+            query,
+            queryName,
+            actions =>
+            {
+                print($"Think actions: {actions}");
+                
+                NotBusy();
+                // callback(updatedVehicle.transitOrder.status.id);
+            });
 
         NotBusy();
     }
