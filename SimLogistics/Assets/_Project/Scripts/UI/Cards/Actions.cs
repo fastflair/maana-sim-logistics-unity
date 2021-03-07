@@ -1,21 +1,27 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Remoting.Messaging;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Actions : UIElement
 {
-    [SerializeField] private ButtonItem buttonItemPrefab;
+    [SerializeField] private CheckItem checkItemPrefab;
     [SerializeField] private Transform transitActionsListHost;
     [SerializeField] private Transform repairActionsListHost;
     [SerializeField] private Transform transferActionsListHost;
     [SerializeField] private UIManager uiManager;
     [SerializeField] private SimulationManager simulationManager;
-    [SerializeField] private Button removeAllButton;
-    [SerializeField] private Button removeAllSelected;
+    [SerializeField] private Button clearAllButton;
+    [SerializeField] private Button clearUncheckedButton;
+
+    private readonly List<CheckItem> _checkItems = new List<CheckItem>();
 
     private void Start()
     {
+        UpdateButtons();
         Show();
     }
 
@@ -39,90 +45,94 @@ public class Actions : UIElement
         SetVisible(false, Effect.Animate);
     }
 
-    public void OnActionsUpdate()
+    public void OnReady()
     {
-        Populate();
+        if (!simulationManager.IsCurrentDefault) ShowAnimate();
+    }
+    
+    public void OnNewAction(SimulationManager.ActionInfo info)
+    {
+        var host = GetActionHost(info.Type);
+        var item = Instantiate(checkItemPrefab, host.transform, false);
+        item.data = info;
+        item.Label = info.DisplayText;
+        item.onValueChanged.AddListener(UpdateButtons);
+        _checkItems.Add(item);
+        UpdateButtons();
     }
 
-    public void OnRemoveSelected()
+    public void UpdateButtons()
     {
+        clearAllButton.interactable = _checkItems.Count > 0;
+        clearUncheckedButton.interactable = GetUncheckedItems().Any();
+    }
+    
+    public void OnClearUnchecked()
+    {
+        var items = GetUncheckedItems();
+        var enumerable = items.ToList();
+        var dialog = uiManager.ShowConfirmationDialog(
+            $"Are you sure you want remove {enumerable.Count} {(enumerable.Count > 1 ? "actions" : "action")}?");
+        dialog.okayEvent.AddListener(() =>
+        {
+            foreach (var item in enumerable)
+            {
+                var info = (SimulationManager.ActionInfo) item.data;
+                switch (info.Type)
+                {
+                    case SimulationManager.ActionType.Transit:
+                        simulationManager.RemoveTransitAction(info.ID);
+                        break;
+                    case SimulationManager.ActionType.Repair:
+                        simulationManager.RemoveRepairAction(info.ID);
+                        break;
+                    case SimulationManager.ActionType.Transfer:
+                        simulationManager.RemoveTransferAction(info.ID);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+                _checkItems.Remove(item);
+                Destroy(item.gameObject);
+            }
+            
+            UpdateButtons();
+        });
     }
 
-    public void OnRemoveAll()
+    public void OnClearAll()
     {
         var dialog = uiManager.ShowConfirmationDialog("Are you sure you want remove all pending actions?");
-        dialog.okayEvent.AddListener(() => { simulationManager.ResetActions(); });
-    }
-
-    private static string TransitActionFormatter(QTransitAction action)
-    {
-        var vehicle = SimulationManager.FormatEntityId(action.vehicle);
-        return $"{vehicle} → ({action.destX}, {action.destY})";
-    }
-
-    private static string RepairActionFormatter(QRepairAction action)
-    {
-        var vehicle = SimulationManager.FormatEntityId(action.vehicle);
-        var hub = SimulationManager.FormatEntityId(action.hub);
-        return $"{vehicle} → {hub})";
-    }
-
-    private static string TransferActionFormatter(QTransferAction action)
-    {
-        var vehicle = SimulationManager.FormatEntityId(action.vehicle);
-        var counterparty = SimulationManager.FormatEntityId(action.counterparty);
-        var resource = SimulationManager.FormatEntityId(action.resourceType.id);
-        var dir = action.transferType.id == "Withdrawal" ? "←" : "→";
-        return $"{vehicle} {dir} {counterparty}: {resource} x {action.quantity})";
-    }
-
-    private void Populate()
-    {
-        ClearList(transitActionsListHost);
-        PopulateList(
-            transitActionsListHost,
-            simulationManager.Actions.transitActions,
-            TransitActionFormatter);
-
-        ClearList(repairActionsListHost);
-        PopulateList(
-            repairActionsListHost,
-            simulationManager.Actions.repairActions,
-            RepairActionFormatter);
-
-        ClearList(transferActionsListHost);
-        PopulateList(
-            transferActionsListHost,
-            simulationManager.Actions.transferActions,
-            TransferActionFormatter);
-
-        removeAllButton.interactable =
-            removeAllButton.interactable = AnyActionsInList();
-    }
-
-    private void PopulateList<T>(
-        Component host,
-        IEnumerable<T> list,
-        Formatter<T> formatter)
-    {
-        foreach (var action in list)
+        dialog.okayEvent.AddListener(() =>
         {
-            var buttonItem = Instantiate(buttonItemPrefab, host.transform, false);
-            buttonItem.Label = formatter(action);
-        }
+            simulationManager.ResetActions(); 
+            ClearList();
+        });
     }
 
-    private bool AnyActionsInList()
+    // --- Internal
+    
+    private IEnumerable<CheckItem> GetUncheckedItems()
     {
-        return simulationManager.Actions.transitActions.Count > 0 ||
-               simulationManager.Actions.repairActions.Count > 0 ||
-               simulationManager.Actions.transferActions.Count > 0;
+        return _checkItems.Where(x => !x.IsChecked);
     }
 
-    private static void ClearList(IEnumerable host)
+    private Transform GetActionHost(SimulationManager.ActionType type)
     {
-        foreach (Transform buttonItem in host) Destroy(buttonItem.gameObject);
+        return type switch
+        {
+            SimulationManager.ActionType.Transit => transitActionsListHost,
+            SimulationManager.ActionType.Repair => repairActionsListHost,
+            SimulationManager.ActionType.Transfer => transferActionsListHost,
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+        };
     }
 
-    private delegate string Formatter<in T>(T action);
+    private void ClearList()
+    {
+        _checkItems.ForEach(x => Destroy(x.gameObject));
+        _checkItems.Clear();
+        UpdateButtons();
+    }
 }

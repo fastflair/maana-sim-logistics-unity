@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,6 +8,13 @@ using UnityEngine.Events;
 
 public class SimulationManager : MonoBehaviour
 {
+    public enum ActionType
+    {
+        Transit,
+        Repair,
+        Transfer
+    }
+
     public static readonly QSimulation DefaultSimulation = new QSimulation
     {
         id = "Default",
@@ -20,8 +28,9 @@ public class SimulationManager : MonoBehaviour
     public UnityEvent onLoaded;
     public UnityEvent onBusy;
     public UnityEvent onNotBusy;
-    public UnityEvent onActionsUpdated;
     public UnityEvent onUpdated;
+    public UnityEvent<ActionInfo> onNewAction;
+    public UnityEvent onActionsReset;
     public UnityEvent<string> onSimulationError;
 
     public QState CurrentState { get; private set; }
@@ -37,16 +46,10 @@ public class SimulationManager : MonoBehaviour
     public static string FormatEntityId(string id)
     {
         var parts = id.Split('/');
-        if (parts.Length > 1)
-        {
-            id = parts[1];
-        }
+        if (parts.Length > 1) id = parts[1];
 
         parts = id.Split(':');
-        if (parts.Length > 1)
-        {
-            id = $"{parts[0]} {parts[1]}";
-        }
+        if (parts.Length > 1) id = $"{parts[0]} {parts[1]}";
 
         return id;
     }
@@ -60,16 +63,16 @@ public class SimulationManager : MonoBehaviour
     {
         return agentEndpoint ?? "Interactive";
     }
-    
+
     // Actions
     // -------
-    
+
     public void ResetActions()
     {
         Actions = new QActions();
-        onActionsUpdated.Invoke();
+        onActionsReset.Invoke();
     }
-    
+
     public QTransitAction AddTransitAction(string vehicle, float destX, float destY)
     {
         var transitAction = new QTransitAction
@@ -80,21 +83,24 @@ public class SimulationManager : MonoBehaviour
             destY = destY
         };
         Actions.transitActions.Add(transitAction);
-        onActionsUpdated.Invoke();
+        onNewAction.Invoke(TransitActionInfo(transitAction));
         return transitAction;
     }
 
-    public void RemoveTransitAction(QTransitAction transitAction)
+    public void RemoveTransitAction(string id)
     {
-        Actions.transitActions.Remove(transitAction);
-        onActionsUpdated.Invoke();
+        Actions.transitActions =
+            Actions
+                .transitActions
+                .Where(x => x.id != id)
+                .ToList();
     }
-    
+
     public QRepairAction AddRepairAction(
         string vehicle,
         string hub)
     {
-        var repairAction = new QRepairAction()
+        var repairAction = new QRepairAction
         {
             id = $"{CurrentSimulation.id}:{vehicle}",
             sim = CurrentSimulation.id,
@@ -102,14 +108,17 @@ public class SimulationManager : MonoBehaviour
             hub = hub
         };
         Actions.repairActions.Add(repairAction);
-        onActionsUpdated.Invoke();
+        onNewAction.Invoke(RepairActionInfo(repairAction));
         return repairAction;
     }
 
-    public void RemoveRepairAction(QRepairAction repairAction)
+    public void RemoveRepairAction(string id)
     {
-        Actions.repairActions.Remove(repairAction);
-        onActionsUpdated.Invoke();
+        Actions.repairActions =
+            Actions
+                .repairActions
+                .Where(x => x.id != id)
+                .ToList();
     }
 
     public QTransferAction AddTransferAction(
@@ -119,31 +128,71 @@ public class SimulationManager : MonoBehaviour
         float quantity,
         QResourceTransferTypeEnum transferType)
     {
-        var transferAction = new QTransferAction()
+        var transferAction = new QTransferAction
         {
             id = $"{CurrentSimulation.id}:{vehicle}:{counterparty}",
             sim = CurrentSimulation.id,
             vehicle = vehicle,
-            counterparty =  counterparty,
+            counterparty = counterparty,
             resourceType = resourceType,
             quantity = quantity,
             transferType = transferType
         };
-        
+
         Actions.transferActions.Add(transferAction);
-        onActionsUpdated.Invoke();
+        onNewAction.Invoke(TransferActionInfo(transferAction));
         return transferAction;
     }
-    
-    public void RemoveTransferAction(QTransferAction transferAction)
+
+    public void RemoveTransferAction(string id)
     {
-        Actions.transferActions.Remove(transferAction);
-        onActionsUpdated.Invoke();    
+        Actions.transferActions =
+            Actions
+                .transferActions
+                .Where(x => x.id != id)
+                .ToList();
+    }
+
+    private static ActionInfo TransitActionInfo(QTransitAction action)
+    {
+        var vehicle = FormatEntityId(action.vehicle);
+        return new ActionInfo
+        {
+            ID = action.id,
+            Type = ActionType.Transit,
+            DisplayText = $"{vehicle} → ({action.destX}, {action.destY})"
+        };
+    }
+
+    private static ActionInfo RepairActionInfo(QRepairAction action)
+    {
+        var vehicle = FormatEntityId(action.vehicle);
+        var hub = FormatEntityId(action.hub);
+        return new ActionInfo
+        {
+            ID = action.id,
+            Type = ActionType.Repair,
+            DisplayText = $"{vehicle} → {hub})"
+        };
+    }
+
+    private static ActionInfo TransferActionInfo(QTransferAction action)
+    {
+        var vehicle = FormatEntityId(action.vehicle);
+        var counterparty = FormatEntityId(action.counterparty);
+        var resource = FormatEntityId(action.resourceType.id);
+        var dir = action.transferType.id == "Withdrawal" ? "←" : "→";
+        return new ActionInfo
+        {
+            ID = action.id,
+            Type = ActionType.Transfer,
+            DisplayText = $"{vehicle} {dir} {counterparty}: {resource} x {action.quantity})"
+        };
     }
 
     // Event handlers
     // --------------
-    
+
     public void OnConnected()
     {
         LoadDefault();
@@ -152,7 +201,7 @@ public class SimulationManager : MonoBehaviour
 
     // Simulation management
     // ---------------------
-    
+
     public void New(string simName, string agentEndpoint, Action<QState> callback)
     {
         const string queryName = "newSimulation";
@@ -233,7 +282,7 @@ public class SimulationManager : MonoBehaviour
                 callback(simulation);
             });
     }
-    
+
     public void Think(string agentEndpoint, QState state, Action<QActions> callback)
     {
         Busy();
@@ -261,7 +310,10 @@ public class SimulationManager : MonoBehaviour
                 print($"Think actions: {actions}");
 
                 Actions = actions;
-                onActionsUpdated.Invoke();
+
+                actions.transitActions.ForEach(x => { onNewAction.Invoke(TransitActionInfo(x)); });
+                actions.repairActions.ForEach(x => { onNewAction.Invoke(RepairActionInfo(x)); });
+                actions.transferActions.ForEach(x => { onNewAction.Invoke(TransferActionInfo(x)); });
 
                 callback.Invoke(actions);
             });
@@ -270,15 +322,16 @@ public class SimulationManager : MonoBehaviour
     public void Simulate(Action<QState> callback)
     {
         Busy();
-        
+
         IssueActions(Actions, success =>
         {
+            print("Issue: " + Actions);
             if (!success)
             {
                 NotBusy();
                 callback.Invoke(null);
             }
-            
+
             const string queryName = "stepSimulation";
             var query = @$"
               {QStateFragment.withIncludes}
@@ -319,11 +372,11 @@ public class SimulationManager : MonoBehaviour
                 print($"Issue actions: {success}");
 
                 if (success) ResetActions();
-                
+
                 callback.Invoke(success);
             });
     }
-    
+
     private void LoadDefault()
     {
         Load(DefaultSimulation.id, state => { });
@@ -393,5 +446,12 @@ public class SimulationManager : MonoBehaviour
     private void NotBusy()
     {
         onNotBusy.Invoke();
+    }
+
+    public class ActionInfo
+    {
+        public string DisplayText;
+        public string ID;
+        public ActionType Type;
     }
 }
