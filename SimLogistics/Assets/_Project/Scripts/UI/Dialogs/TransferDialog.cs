@@ -64,14 +64,14 @@ public class TransferDialog : Dialog
     public string TransferType =>
         transferTypeToggleGroup
             .GetFirstActiveToggle()
-            .GetComponent<ToggleItem>()
-            .Label;
+            ?.GetComponent<ToggleItem>()
+            ?.Label;
 
     public string ResourceType =>
         resourceTypeToggleGroup
             .GetFirstActiveToggle()
-            .GetComponent<ToggleItem>()
-            .data as string;
+            ?.GetComponent<ToggleItem>()
+            ?.data as string;
 
     private void Start()
     {

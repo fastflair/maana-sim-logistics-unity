@@ -16,8 +16,8 @@ MonoBehaviour:
   slideToScreenEdge: 3
   animDuration: 0.3
   animDelay: 0.5
-  fadeDuration: 2
-  fadeDelay: 2
+  fadeDuration: 0.1
+  fadeDelay: 0.1
   title: {fileID: 4997794514219669235}
   thumbnail: {fileID: 4997794514506253425}
   propertyGroup1: {fileID: 541998949273194205}
@@ -529,7 +529,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6022947142163900339, guid: 7001c1d38339d4ef2b9a7e6d578f5a04, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 772
+      value: 555
       objectReference: {fileID: 0}
     - target: {fileID: 6022947142163900339, guid: 7001c1d38339d4ef2b9a7e6d578f5a04, type: 3}
       propertyPath: m_LocalPosition.x

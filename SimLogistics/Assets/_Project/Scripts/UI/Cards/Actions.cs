@@ -62,6 +62,11 @@ public class Actions : UIElement
         UpdateButtons();
     }
 
+    public void OnActionsReset()
+    {
+        ClearList();
+    }
+    
     public void UpdateButtons()
     {
         clearAllButton.interactable = _toggleItems.Count > 0;

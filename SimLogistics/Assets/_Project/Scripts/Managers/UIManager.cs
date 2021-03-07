@@ -225,12 +225,12 @@ public class UIManager : MonoBehaviour
 
         if (_currentCard != null)
         {
-            _currentCard.SetVisible(false, UIElement.Effect.Animate)
+            _currentCard.SetVisible(false, UIElement.Effect.Fade)
                 .destroyOnComplete = true;
         }
 
         _currentCard = card;
         _currentCardId = id;
-        _currentCard.SetVisible(true, UIElement.Effect.Animate);
+        _currentCard.SetVisible(true, UIElement.Effect.Fade);
     }
 }

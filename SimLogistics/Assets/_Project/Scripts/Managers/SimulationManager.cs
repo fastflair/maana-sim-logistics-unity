@@ -209,7 +209,7 @@ public class SimulationManager : MonoBehaviour
         {
             ID = action.id,
             Type = ActionType.Repair,
-            DisplayText = $"{vehicle} → {hub})"
+            DisplayText = $"{vehicle} → {hub}"
         };
     }
 
@@ -223,7 +223,7 @@ public class SimulationManager : MonoBehaviour
         {
             ID = action.id,
             Type = ActionType.Transfer,
-            DisplayText = $"{vehicle} {dir} {counterparty}: {resource} x {action.quantity})"
+            DisplayText = $"{vehicle} {dir} {counterparty}: {resource} x {action.quantity}"
         };
     }
 
