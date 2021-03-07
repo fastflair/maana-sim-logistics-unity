@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.5
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 665342620}
-  m_IndirectSpecularColor: {r: 0.64129514, g: 0.51425964, b: 0.53020614, a: 0.5}
+  m_IndirectSpecularColor: {r: 0.6415012, g: 0.5145716, b: 0.530336, a: 0.5}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5546,7 +5546,7 @@ MonoBehaviour:
         m_CallState: 2
   server: {fileID: 3313465577940156256, guid: 875546c8571c3ce4e915520e42d0374b, type: 3}
   saveManager: {fileID: 2017251495}
-  bootstrapConnection: {fileID: 4900000, guid: 302222a2a88fbdf45b5e293fde5dcda0, type: 3}
+  bootstrapConnection: {fileID: 4900000, guid: 15e7304bb38e545ca9f092251d717be6, type: 3}
 --- !u!1 &1099789498
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,7 +17,9 @@ public class SaveManager : MonoBehaviour
     
     public static string FullPath(string fileName)
     {
-        return Path.Combine(SavePath, fileName) + ".save";
+        var path = Path.Combine(SavePath, fileName) + ".save";
+        print($"FullPath: {path}");
+        return path;
     }
 
     public class SaveFile

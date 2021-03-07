@@ -72,7 +72,7 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # EXTRAS
-/[Aa]ssets/BootstrapConnection.*
+/[Aa]ssets/BootstrapConnection.json
 
 # 3rd-party packages
 /[Aa]ssets/AssetStoreOriginals*
