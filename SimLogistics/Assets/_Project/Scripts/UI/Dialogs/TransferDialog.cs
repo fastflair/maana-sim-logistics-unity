@@ -118,7 +118,6 @@ public class TransferDialog : Dialog
             }
             item.Group = resourceTypeToggleGroup;
             item.onValueChanged.AddListener(ValidateForm);
-            print($"resource: {item.data} {item.Label}");
         }
 
         ValidateForm();
@@ -126,7 +125,6 @@ public class TransferDialog : Dialog
 
     public void ValidateForm()
     {
-        print($"Validate: resourceType = [{ResourceType}], Quantity: [{Quantity}]");
         okayButton.interactable = Quantity > 0f && ResourceType != null;
     }
 

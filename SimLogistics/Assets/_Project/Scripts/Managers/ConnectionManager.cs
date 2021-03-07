@@ -74,7 +74,15 @@ public class ConnectionManager : MonoBehaviour
 
     public ConnectionState Load(string id)
     {
-        return saveManager.Load<ConnectionState>(id);
+        try
+        {
+            return saveManager.Load<ConnectionState>(id);
+        }
+        catch
+        {
+            saveManager.Delete(id);
+            return saveManager.Load<ConnectionState>(_bootstrapConnectionState.id);
+        }
     }
 
     public ConnectionState LoadAndConnect(string id)
@@ -116,10 +124,7 @@ public class ConnectionManager : MonoBehaviour
             state.refreshMinutes);
         server.connectionReadyEvent.AddListener(UpdateConnectionStatus);
         server.connectionNotReadyEvent.AddListener(() => onDisconnected.Invoke());
-        server.connectionErrorEvent.AddListener(error =>
-        {
-            onConnectionError.Invoke(error);
-        });
+        server.connectionErrorEvent.AddListener(error => { onConnectionError.Invoke(error); });
     }
 
     private void UpdateConnectionStatus()

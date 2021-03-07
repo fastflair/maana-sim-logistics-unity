@@ -1,5 +1,4 @@
 using Unity.Mathematics;
-using UnityEditorInternal;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
