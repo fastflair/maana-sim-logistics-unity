@@ -1,9 +1,10 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class CheckItem : MonoBehaviour
+public class ToggleItem : MonoBehaviour
 {
     public UnityEvent onValueChanged = new UnityEvent();
     
@@ -12,9 +13,15 @@ public class CheckItem : MonoBehaviour
     [SerializeField] private TMP_Text labelText;
     [SerializeField] private Color checkedColor;
     [SerializeField] private Color uncheckedColor;
-    public bool IsChecked => toggle.isOn;
+
+    public bool IsOn => toggle.isOn;
 
     public object data;
+
+    private void Awake()
+    {
+        UpdateColor();
+    }
 
     public string Label
     {
@@ -24,10 +31,15 @@ public class CheckItem : MonoBehaviour
 
     public void OnValueChange(bool value)
     {
-        var newColor = value ? checkedColor : uncheckedColor;
-        toggleBackground.color =
-            labelText.color = newColor;
-
+        print($"OnValueChange: {value}");
+        UpdateColor();
         onValueChanged.Invoke();
+    }
+
+    private void UpdateColor()
+    {
+        var newColor = IsOn ? checkedColor : uncheckedColor;
+        print($"newColor: {newColor}");
+        toggleBackground.color = labelText.color = newColor;
     }
 }

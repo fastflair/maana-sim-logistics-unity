@@ -42,14 +42,14 @@ public class NewSimulationDialog : Dialog
             if (existing.Count != 0)
             {
                 var dialog = UIManager.ShowConfirmationDialog($"A simulation with this name (and agent endpoint) already exists.{Environment.NewLine}Do you want to overwrite it?");
-                dialog.okayEvent.AddListener(() =>
+                dialog.onOkay.AddListener(() =>
                 {
                     SimulationManager.Overwrite(simName.Value, agentEndpoint.Value, simulation =>
                     {
                         Hide();
                     });
                 });
-                dialog.cancelEvent.AddListener(() =>
+                dialog.onCancel.AddListener(() =>
                 {
                 });
             }

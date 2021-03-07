@@ -118,7 +118,7 @@ public class SystemBar : UIElement
         var dialog =
             uiManager.ShowConfirmationDialog(
                 @$"Are you sure you want to delete ""{simulationManager.CurrentSimulation.name}""?");
-        dialog.okayEvent.AddListener(() =>
+        dialog.onOkay.AddListener(() =>
         {
             simulationManager.Delete(simulationManager.CurrentSimulation.id,
                 sim => { });

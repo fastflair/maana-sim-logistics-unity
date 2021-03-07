@@ -8,6 +8,7 @@ public class LoadSimulationDialog : Dialog
     [SerializeField] private TMP_InputField nameInputField;
     [SerializeField] private TMP_InputField agentEndpointInputField;
     [SerializeField] private Button clearFiltersButton;
+    [SerializeField] private Button applyFiltersButton;
     [SerializeField] private TMP_Text resultCountText;
     [SerializeField] private ButtonItem buttonItemPrefab;
     [SerializeField] private Transform listHost;
@@ -40,16 +41,26 @@ public class LoadSimulationDialog : Dialog
         PopulateList();
     }
     
-    private void PopulateList()
+    public void UpdateButtons(string text)
+    {
+        applyFiltersButton.interactable = 
+            clearFiltersButton.interactable = 
+                !string.IsNullOrEmpty(text) || 
+                !string.IsNullOrEmpty(nameInputField.text) || 
+                !string.IsNullOrEmpty(agentEndpointInputField.text);
+        
+        print($"UpdateButtons: {text} {clearFiltersButton.interactable}");
+    }
+
+    public void PopulateList()
     {
         ClearList();
         
         var nameFilter = nameInputField.text;
         var agentEndpointFilter = agentEndpointInputField.text;
 
-        clearFiltersButton.interactable = !string.IsNullOrEmpty(nameFilter) ||
-                                          !string.IsNullOrEmpty(agentEndpointFilter);
-
+        UpdateButtons(null);
+        
         SimulationManager.List(
             nameFilter,
             agentEndpointFilter,

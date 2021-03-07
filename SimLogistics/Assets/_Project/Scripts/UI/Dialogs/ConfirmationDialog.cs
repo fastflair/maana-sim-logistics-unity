@@ -6,18 +6,18 @@ using UnityEngine.Events;
 
 public class ConfirmationDialog : MessageDialog
 {
-    public UnityEvent cancelEvent = new UnityEvent();
-    public UnityEvent okayEvent = new UnityEvent();
+    public UnityEvent onCancel = new UnityEvent();
+    public UnityEvent onOkay = new UnityEvent();
 
     public void OnCancel()
     {
-        cancelEvent.Invoke();
+        onCancel.Invoke();
         Hide();
     }
 
     public override void OnOkay()
     {
-        okayEvent.Invoke();
+        onOkay.Invoke();
         base.OnOkay();
     }
 }

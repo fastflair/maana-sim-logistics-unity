@@ -8,16 +8,16 @@ using UnityEngine.UI;
 
 public class Actions : UIElement
 {
-    [SerializeField] private CheckItem checkItemPrefab;
+    [SerializeField] private ToggleItem toggleItemPrefab;
     [SerializeField] private Transform transitActionsListHost;
     [SerializeField] private Transform repairActionsListHost;
     [SerializeField] private Transform transferActionsListHost;
     [SerializeField] private UIManager uiManager;
     [SerializeField] private SimulationManager simulationManager;
     [SerializeField] private Button clearAllButton;
-    [SerializeField] private Button clearUncheckedButton;
+    [SerializeField] private Button clearUntoggledButton;
 
-    private readonly List<CheckItem> _checkItems = new List<CheckItem>();
+    private readonly List<ToggleItem> _toggleItems = new List<ToggleItem>();
 
     private void Start()
     {
@@ -53,27 +53,27 @@ public class Actions : UIElement
     public void OnNewAction(SimulationManager.ActionInfo info)
     {
         var host = GetActionHost(info.Type);
-        var item = Instantiate(checkItemPrefab, host.transform, false);
+        var item = Instantiate(toggleItemPrefab, host.transform, false);
         item.data = info;
         item.Label = info.DisplayText;
         item.onValueChanged.AddListener(UpdateButtons);
-        _checkItems.Add(item);
+        _toggleItems.Add(item);
         UpdateButtons();
     }
 
     public void UpdateButtons()
     {
-        clearAllButton.interactable = _checkItems.Count > 0;
-        clearUncheckedButton.interactable = GetUncheckedItems().Any();
+        clearAllButton.interactable = _toggleItems.Count > 0;
+        clearUntoggledButton.interactable = GetUntoggledItems().Any();
     }
     
-    public void OnClearUnchecked()
+    public void OnClearUntoggled()
     {
-        var items = GetUncheckedItems();
+        var items = GetUntoggledItems();
         var enumerable = items.ToList();
         var dialog = uiManager.ShowConfirmationDialog(
             $"Are you sure you want remove {enumerable.Count} {(enumerable.Count > 1 ? "actions" : "action")}?");
-        dialog.okayEvent.AddListener(() =>
+        dialog.onOkay.AddListener(() =>
         {
             foreach (var item in enumerable)
             {
@@ -93,7 +93,7 @@ public class Actions : UIElement
                         throw new ArgumentOutOfRangeException();
                 }
 
-                _checkItems.Remove(item);
+                _toggleItems.Remove(item);
                 Destroy(item.gameObject);
             }
             
@@ -104,7 +104,7 @@ public class Actions : UIElement
     public void OnClearAll()
     {
         var dialog = uiManager.ShowConfirmationDialog("Are you sure you want remove all pending actions?");
-        dialog.okayEvent.AddListener(() =>
+        dialog.onOkay.AddListener(() =>
         {
             simulationManager.ResetActions(); 
             ClearList();
@@ -113,9 +113,14 @@ public class Actions : UIElement
 
     // --- Internal
     
-    private IEnumerable<CheckItem> GetUncheckedItems()
+    private IEnumerable<ToggleItem> GetUntoggledItems()
     {
-        return _checkItems.Where(x => !x.IsChecked);
+        _toggleItems.ForEach(x =>
+        {
+            print($"ToggleItem: {x.Label} = {x.IsOn}");
+        });
+
+        return _toggleItems.Where(x => !x.IsOn);
     }
 
     private Transform GetActionHost(SimulationManager.ActionType type)
@@ -131,8 +136,8 @@ public class Actions : UIElement
 
     private void ClearList()
     {
-        _checkItems.ForEach(x => Destroy(x.gameObject));
-        _checkItems.Clear();
+        _toggleItems.ForEach(x => Destroy(x.gameObject));
+        _toggleItems.Clear();
         UpdateButtons();
     }
 }

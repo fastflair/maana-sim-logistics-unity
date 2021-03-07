@@ -4,14 +4,17 @@ using UnityEngine.UI;
 
 public class SimulationBar : UIElement
 {
-    private const string MoveHelpSelection = "At least one vehicle and one structure must be selected.";
+    private const string MoveHelpSelection = "One vehicle and one structure must be selected for transit.";
     private const string RepairHelpSelection = "One vehicle must be selected for repair.";
+    private const string TransferHelpSelection = "One vehicle and either a producer or city must be selected for resource transfer.";
 
     // Managers
     [SerializeField] private UIManager uiManager;
     [SerializeField] private SimulationManager simulationManager;
-    [SerializeField] private ConnectionManager connectionManager;
     [SerializeField] private SelectionManager selectionManager;
+
+    // Dialogs
+    [SerializeField] private TransferDialog transferDialog;
 
     // Buttons
     [SerializeField] private Button thinkButton;
@@ -49,12 +52,6 @@ public class SimulationBar : UIElement
             EnableThinkButton();
         else
             DisableThinkButton();
-    }
-
-    private class VehicleStructurePair
-    {
-        public QEntity Structure;
-        public QEntity Vehicle;
     }
 
     private VehicleStructurePair GetSelectedVehicleStructurePair()
@@ -95,27 +92,27 @@ public class SimulationBar : UIElement
 
         return selectableObjects[0].GetComponent<Entity>().QEntity as QVehicle;
     }
-    
+
     // Buttons
     // -------
-    
+
     public void OnMovePressed()
     {
-        var vehicleStructurePair = GetSelectedVehicleStructurePair();
-        if (vehicleStructurePair == null)
+        var pair = GetSelectedVehicleStructurePair();
+        if (pair == null)
         {
             uiManager.ShowHelpDialog(MoveHelpSelection);
             return;
         }
 
-        var vehicleId = vehicleStructurePair.Vehicle.id;
+        var vehicleId = pair.Vehicle.id;
 
         simulationManager.AddTransitAction(
             vehicleId,
-            vehicleStructurePair.Structure.x,
-            vehicleStructurePair.Structure.y
+            pair.Structure.x,
+            pair.Structure.y
         );
-        
+
         selectionManager.DeselectAll();
     }
 
@@ -129,21 +126,35 @@ public class SimulationBar : UIElement
         }
 
         simulationManager.AddRepairAction(vehicle.id, vehicle.hub);
-        
+
         selectionManager.DeselectAll();
     }
 
     public void OnTransferPressed()
     {
-        print($"[{name}] OnTransferPressed");
-        // Actions.transferActions.Add(
-        //     new QTransferAction()
-        //     {
-        //         id = $"{CurrentSimulation.id}:{vehicle}",
-        //         vehicle = vehicle,
-        //         counterparty = counterParty,
-        //         resourceType = res
-        //     });
+        var pair = GetSelectedVehicleStructurePair();
+        if (pair == null)
+        {
+            uiManager.ShowHelpDialog(TransferHelpSelection);
+            return;
+        }
+
+        var dialog = uiManager.ShowDialogPrefab<TransferDialog>(transferDialog);
+        dialog.SimulationManager = simulationManager;
+        dialog.Producer = pair.Structure as QProducer;
+        dialog.City = pair.Structure as QCity;
+
+        dialog.onOkay.AddListener(() =>
+        {
+            simulationManager.AddTransferAction(
+                pair.Vehicle.id,
+                pair.Structure.id,
+                new QResourceTypeEnum {id = dialog.ResourceType},
+                dialog.Quantity,
+                new QResourceTransferTypeEnum {id = dialog.TransferType});
+
+            selectionManager.DeselectAll();
+        });
     }
 
     public void OnSimulatePressed()
@@ -161,7 +172,7 @@ public class SimulationBar : UIElement
                 // TODO: add to actions queue
             });
     }
-    
+
     public void EnableThinkButton()
     {
         thinkButton.interactable = true;
@@ -170,5 +181,11 @@ public class SimulationBar : UIElement
     public void DisableThinkButton()
     {
         thinkButton.interactable = false;
+    }
+
+    private class VehicleStructurePair
+    {
+        public QEntity Structure;
+        public QEntity Vehicle;
     }
 }
