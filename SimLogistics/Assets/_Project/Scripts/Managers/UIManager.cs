@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,7 +11,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private UnityEvent onLoading;
     [SerializeField] private UnityEvent onReady;
     [SerializeField] private UnityEvent onNotReady;
-    
+
     // Interaction
     [SerializeField] private BoolVariable isWorldInteractable;
 
@@ -29,21 +31,21 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Transform cardShelf;
     private Card _currentCard;
     private string _currentCardId;
-    
+
     // Spinner
     [SerializeField] private Spinner spinnerPrefab;
     private Spinner _spinner;
-    
+
     private void Start()
     {
         _spinner = Instantiate(spinnerPrefab, dialogHost, false);
-        
+
         DisableWorldInteraction();
     }
-    
+
     // Connection state
     // ----------------
-    
+
     public void OnConnectionError(string error)
     {
         DisableWorldInteraction();
@@ -64,13 +66,13 @@ public class UIManager : MonoBehaviour
         onReady.Invoke();
         EnableWorldInteraction();
     }
-    
+
     public void NotReady()
     {
         DisableWorldInteraction();
         onNotReady.Invoke();
     }
-    
+
     public void EnableWorldInteraction()
     {
         isWorldInteractable.Value = true;
@@ -108,10 +110,10 @@ public class UIManager : MonoBehaviour
 
             backdrop.gameObject.SetActive(true);
             backdrop.SetVisible(true, UIElement.Effect.Fade);
-            
+
             dofController.BlurBackground();
         }
-        
+
         dialog.UIManager = this;
         dialog.SetVisible(true, UIElement.Effect.Animate);
     }
@@ -193,7 +195,7 @@ public class UIManager : MonoBehaviour
         var helpDialog = ShowDialogPrefab<HelpDialog>(helpDialogPrefab);
         helpDialog.SetText(message);
     }
-    
+
     // Spinner
     // -------
 
@@ -207,7 +209,7 @@ public class UIManager : MonoBehaviour
     {
         _spinner.SetVisible(false, UIElement.Effect.None);
     }
-    
+
     // Cards
     // -----
     public Card SpawnCard(Card cardPrefab, string id)
@@ -215,9 +217,12 @@ public class UIManager : MonoBehaviour
         return _currentCardId == id ? null : Instantiate(cardPrefab, cardShelf, false);
     }
     
+    private DebounceDispatcher _debouncer = new DebounceDispatcher(1);
+
     public void ShowCard(Card card, string id)
     {
         if (_currentCardId == id) return;
+
         if (_currentCard != null)
         {
             _currentCard.SetVisible(false, UIElement.Effect.Animate)

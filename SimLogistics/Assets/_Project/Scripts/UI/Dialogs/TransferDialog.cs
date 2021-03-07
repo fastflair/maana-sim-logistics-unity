@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,41 +14,74 @@ public class TransferDialog : Dialog
     [SerializeField] private Button okayButton;
     [SerializeField] private ToggleGroup transferTypeToggleGroup;
     [SerializeField] private ToggleGroup resourceTypeToggleGroup;
-    
-    public UnityEvent onOkay = new UnityEvent();
-    
+
+    public UnityEvent onAddTransfer = new UnityEvent();
+
     public SimulationManager SimulationManager { get; set; }
 
-    public QVehicle Vehicle;
-    public QProducer Producer;
-    public QCity City;
+    private QVehicle _vehicle;
+    public QVehicle Vehicle
+    {
+        get => _vehicle;
+        set
+        {
+            _vehicle = value;
+            PopulateList();
+        }
+    }
 
-    public float Quantity => float.Parse(quantityInputField.text);
-    public string TransferType => 
+    private QCity _city;
+    public QCity City
+    {
+        get => _city;
+        set
+        {
+            _city = value;
+            PopulateList();
+        }
+    }
+
+    private QProducer _producer;
+    public QProducer Producer
+    {
+        get => _producer;
+        set
+        {
+            _producer = value;
+            PopulateList();
+        }
+    }
+
+    public float Quantity
+    {
+        get
+        {
+            var text = quantityInputField.text;
+            return string.IsNullOrEmpty(text) ? 0f : float.Parse(text);
+        }
+    }
+
+    public string TransferType =>
         transferTypeToggleGroup
             .GetFirstActiveToggle()
             .GetComponent<ToggleItem>()
             .Label;
-    public string ResourceType => 
+
+    public string ResourceType =>
         resourceTypeToggleGroup
             .GetFirstActiveToggle()
             .GetComponent<ToggleItem>()
             .data as string;
-    
+
     private void Start()
     {
-        quantityInputField.text = 0.ToString();
-        
-        PopulateList();
-
-        Validate();
+        quantityInputField.text = 0f.ToString(CultureInfo.CurrentCulture);
     }
 
     public void OnOkay()
     {
+        onAddTransfer.Invoke();
         Hide();
-        
-        onOkay.Invoke();
     }
 
     public void OnCancel()
@@ -54,21 +89,50 @@ public class TransferDialog : Dialog
         Hide();
     }
 
-    private void PopulateList()
+    public void PopulateList()
     {
+        if (Vehicle == null || City == null && Producer == null) return;
+
         ClearList();
         
-        var item = Instantiate(toggleItemPrefab, listHost.transform, false);
-        item.Label = "This is a test"; //SimulationManager.FormatDisplayText(simulation);
+        var resources = TransferType is "Deposit"
+            ? SimulationManager.GetVehicleCargo(Vehicle.id)
+            : City != null
+                ? SimulationManager.GetCityDemands(City.id)
+                : SimulationManager.GetProducerProducts(Producer.id);
+
+        bool firstSet = false;
+        foreach (var resource in resources)
+        {
+            var item = Instantiate(toggleItemPrefab, listHost.transform, false);
+            item.data = resource.type.id;
+            item.Label = $"{resource.type.id}: {SimulationManager.FormatResourceDetailDisplay(resource)}";
+            if (!firstSet)
+            {
+                item.IsOn = true;
+                firstSet = true;
+            }
+            else
+            {
+                item.IsOn = false;
+            }
+            item.Group = resourceTypeToggleGroup;
+            item.onValueChanged.AddListener(ValidateForm);
+            print($"resource: {item.data} {item.Label}");
+        }
+
+        ValidateForm();
     }
-    
+
+    public void ValidateForm()
+    {
+        print($"Validate: resourceType = [{ResourceType}], Quantity: [{Quantity}]");
+        okayButton.interactable = Quantity > 0f && ResourceType != null;
+    }
+
     private void ClearList()
     {
         foreach (Transform item in listHost) Destroy(item.gameObject);
     }
 
-    private void Validate()
-    {
-        okayButton.interactable = false;
-    }
 }

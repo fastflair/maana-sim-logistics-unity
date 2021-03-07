@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
@@ -43,7 +44,10 @@ public class SimulationManager : MonoBehaviour
     // TODO: get from simulation
     public static string MapName => "Default";
 
-    public static string FormatEntityId(string id)
+    // Display formatters
+    // ------------------
+    
+    public static string FormatEntityIdDisplay(string id)
     {
         var parts = id.Split('/');
         if (parts.Length > 1) id = parts[1];
@@ -54,16 +58,49 @@ public class SimulationManager : MonoBehaviour
         return id;
     }
 
-    public static string FormatDisplayText(QSimulation simulation)
+    public static string FormatSimulationDisplay(QSimulation simulation)
     {
-        return $"{simulation.name} @ {AgentEndpointDisplayName(simulation.agentEndpoint)} - Steps: {simulation.steps}";
+        return $"{simulation.name} @ {FormatAgentEndpointDisplay(simulation.agentEndpoint)} - Steps: {simulation.steps}";
     }
 
-    public static string AgentEndpointDisplayName(string agentEndpoint)
+    public static string FormatAgentEndpointDisplay(string agentEndpoint)
     {
         return agentEndpoint ?? "Interactive";
     }
 
+    
+    public static string FormatResourceDetailDisplay(QResource resource)
+    {
+        var qty = resource.quantity.ToString("F", CultureInfo.CurrentCulture);
+        var cap = resource.capacity.ToString("F", CultureInfo.CurrentCulture);
+        var app = resource.adjustedPricePerUnit.ToString("C", CultureInfo.CurrentCulture);
+        var cr = resource.replenishRate.ToString("F", CultureInfo.CurrentCulture);
+        var rr = resource.replenishRate.ToString("F", CultureInfo.CurrentCulture);
+        
+        return $"{qty}/{cap} @ {app}/ea ↓{cr} ↑{rr}";
+    }
+    
+    // Resource accessors
+    // ------------------
+    
+    public IEnumerable<QResource> GetVehicleCargo(string id)
+    {
+        return CurrentState.vehicles.First(x => x.id == id).cargo;
+    }
+
+    public IEnumerable<QResource> GetCityDemands(string id)
+    {
+        return CurrentState.cities.First(x => x.id == id).demand;
+    }
+    public IEnumerable<QResource> GetProducerMaterial(string id)
+    {
+        return CurrentState.producers.First(x => x.id == id).material;
+    }
+    public IEnumerable<QResource> GetProducerProducts(string id)
+    {
+        return CurrentState.producers.First(x => x.id == id).products;
+    }
+    
     // Actions
     // -------
 
@@ -155,7 +192,7 @@ public class SimulationManager : MonoBehaviour
 
     private static ActionInfo TransitActionInfo(QTransitAction action)
     {
-        var vehicle = FormatEntityId(action.vehicle);
+        var vehicle = FormatEntityIdDisplay(action.vehicle);
         return new ActionInfo
         {
             ID = action.id,
@@ -166,8 +203,8 @@ public class SimulationManager : MonoBehaviour
 
     private static ActionInfo RepairActionInfo(QRepairAction action)
     {
-        var vehicle = FormatEntityId(action.vehicle);
-        var hub = FormatEntityId(action.hub);
+        var vehicle = FormatEntityIdDisplay(action.vehicle);
+        var hub = FormatEntityIdDisplay(action.hub);
         return new ActionInfo
         {
             ID = action.id,
@@ -178,9 +215,9 @@ public class SimulationManager : MonoBehaviour
 
     private static ActionInfo TransferActionInfo(QTransferAction action)
     {
-        var vehicle = FormatEntityId(action.vehicle);
-        var counterparty = FormatEntityId(action.counterparty);
-        var resource = FormatEntityId(action.resourceType.id);
+        var vehicle = FormatEntityIdDisplay(action.vehicle);
+        var counterparty = FormatEntityIdDisplay(action.counterparty);
+        var resource = FormatEntityIdDisplay(action.resourceType.id);
         var dir = action.transferType.id == "Withdrawal" ? "←" : "→";
         return new ActionInfo
         {

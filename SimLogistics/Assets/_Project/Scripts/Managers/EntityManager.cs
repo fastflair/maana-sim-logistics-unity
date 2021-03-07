@@ -66,7 +66,7 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
         }
     }
 
-    private IEnumerator LerpPosition(Transform entityTransform, Vector3 targetPosition, float duration)
+    private static IEnumerator LerpPosition(Transform entityTransform, Vector3 targetPosition, float duration)
     {
         float time = 0;
         var startPosition = entityTransform.position;

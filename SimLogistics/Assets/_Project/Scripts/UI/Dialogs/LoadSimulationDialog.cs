@@ -82,7 +82,7 @@ public class LoadSimulationDialog : Dialog
                         continue;
                     }
 
-                    var text = SimulationManager.FormatDisplayText(simulation);
+                    var text = SimulationManager.FormatSimulationDisplay(simulation);
                     var buttonItem = Instantiate(buttonItemPrefab, listHost.transform, false);
                     buttonItem.Label = text;
                     buttonItem.onClick.AddListener(() =>

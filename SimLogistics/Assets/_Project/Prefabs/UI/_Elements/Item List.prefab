@@ -270,8 +270,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6820070316269226607}
   m_HandleRect: {fileID: 6820070316269226896}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 1
+  m_Value: 0.5
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -326,7 +326,7 @@ GameObject:
   - component: {fileID: 6820070317216310227}
   - component: {fileID: 6820070317216310228}
   m_Layer: 5
-  m_Name: Button List
+  m_Name: Item List
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -490,7 +490,7 @@ GameObject:
   - component: {fileID: 6820070317544013473}
   - component: {fileID: 6820070317544013472}
   m_Layer: 5
-  m_Name: Content
+  m_Name: Items
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -675,8 +675,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6820070316635073218}
   m_HandleRect: {fileID: 6820070316635073219}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

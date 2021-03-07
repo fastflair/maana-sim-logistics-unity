@@ -62,17 +62,17 @@ public class SimulationBar : UIElement
         var entity1 = selectableObjects[0].GetComponent<Entity>();
         var entity2 = selectableObjects[1].GetComponent<Entity>();
 
-        QEntity vehicle = null;
+        QVehicle vehicle = null;
         QEntity structure = null;
 
-        if (entity1.QEntity is QVehicle)
+        if (entity1.QEntity is QVehicle entity)
         {
-            vehicle = entity1.QEntity;
+            vehicle = entity;
             if (!(entity2.QEntity is QVehicle)) structure = entity2.QEntity;
         }
-        else if (entity2.QEntity is QVehicle)
+        else if (entity2.QEntity is QVehicle qEntity)
         {
-            vehicle = entity2.QEntity;
+            vehicle = qEntity;
             structure = entity1.QEntity;
         }
 
@@ -81,7 +81,10 @@ public class SimulationBar : UIElement
         return new VehicleStructurePair
         {
             Vehicle = vehicle,
-            Structure = structure
+            Structure = structure,
+            City = structure as QCity,
+            Hub = structure as QHub,
+            Producer = structure as QProducer
         };
     }
 
@@ -133,7 +136,7 @@ public class SimulationBar : UIElement
     public void OnTransferPressed()
     {
         var pair = GetSelectedVehicleStructurePair();
-        if (pair == null)
+        if (pair == null || pair.City == null && pair.Producer == null)
         {
             uiManager.ShowHelpDialog(TransferHelpSelection);
             return;
@@ -141,10 +144,11 @@ public class SimulationBar : UIElement
 
         var dialog = uiManager.ShowDialogPrefab<TransferDialog>(transferDialog);
         dialog.SimulationManager = simulationManager;
-        dialog.Producer = pair.Structure as QProducer;
-        dialog.City = pair.Structure as QCity;
+        dialog.Vehicle = pair.Vehicle;
+        dialog.Producer = pair.Producer;
+        dialog.City = pair.City;
 
-        dialog.onOkay.AddListener(() =>
+        dialog.onAddTransfer.AddListener(() =>
         {
             simulationManager.AddTransferAction(
                 pair.Vehicle.id,
@@ -185,7 +189,10 @@ public class SimulationBar : UIElement
 
     private class VehicleStructurePair
     {
+        public QProducer Producer;
+        public QCity City;
+        public QHub Hub;
         public QEntity Structure;
-        public QEntity Vehicle;
+        public QVehicle Vehicle;
     }
 }

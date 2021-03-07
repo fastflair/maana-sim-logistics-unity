@@ -14,8 +14,18 @@ public class ToggleItem : MonoBehaviour
     [SerializeField] private Color checkedColor;
     [SerializeField] private Color uncheckedColor;
 
-    public bool IsOn => toggle.isOn;
+    public bool IsOn
+    {
+        get => toggle.isOn;
+        set => toggle.isOn = value;
+    }
 
+    public ToggleGroup Group
+    {
+        get => toggle.group;
+        set => toggle.group = value;
+    }
+    
     public object data;
 
     private void Awake()
@@ -31,7 +41,6 @@ public class ToggleItem : MonoBehaviour
 
     public void OnValueChange(bool value)
     {
-        print($"OnValueChange: {value}");
         UpdateColor();
         onValueChanged.Invoke();
     }
@@ -39,7 +48,6 @@ public class ToggleItem : MonoBehaviour
     private void UpdateColor()
     {
         var newColor = IsOn ? checkedColor : uncheckedColor;
-        print($"newColor: {newColor}");
         toggleBackground.color = labelText.color = newColor;
     }
 }

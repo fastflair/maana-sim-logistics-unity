@@ -15,7 +15,7 @@ MonoBehaviour:
   visibleOnStart: 0
   slideToScreenEdge: 3
   animDuration: 0.3
-  animDelay: 0.3
+  animDelay: 0.5
   fadeDuration: 2
   fadeDelay: 2
   title: {fileID: 257365837239806722}
@@ -493,11 +493,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6022947142163900339, guid: 7001c1d38339d4ef2b9a7e6d578f5a04, type: 3}
       propertyPath: m_Pivot.x
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6022947142163900339, guid: 7001c1d38339d4ef2b9a7e6d578f5a04, type: 3}
       propertyPath: m_Pivot.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6022947142163900339, guid: 7001c1d38339d4ef2b9a7e6d578f5a04, type: 3}
       propertyPath: m_RootOrder
@@ -509,23 +509,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6022947142163900339, guid: 7001c1d38339d4ef2b9a7e6d578f5a04, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6022947142163900339, guid: 7001c1d38339d4ef2b9a7e6d578f5a04, type: 3}
-      propertyPath: m_AnchorMin.x
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6022947142163900339, guid: 7001c1d38339d4ef2b9a7e6d578f5a04, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6022947142163900339, guid: 7001c1d38339d4ef2b9a7e6d578f5a04, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6022947142163900339, guid: 7001c1d38339d4ef2b9a7e6d578f5a04, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 400
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6022947142163900339, guid: 7001c1d38339d4ef2b9a7e6d578f5a04, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 900
+      value: 772
       objectReference: {fileID: 0}
     - target: {fileID: 6022947142163900339, guid: 7001c1d38339d4ef2b9a7e6d578f5a04, type: 3}
       propertyPath: m_LocalPosition.x

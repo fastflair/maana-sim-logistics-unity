@@ -47,7 +47,8 @@ public class Actions : UIElement
 
     public void OnReady()
     {
-        if (!simulationManager.IsCurrentDefault) ShowAnimate();
+        // if (!simulationManager.IsCurrentDefault) ShowAnimate();
+        ShowAnimate();
     }
     
     public void OnNewAction(SimulationManager.ActionInfo info)

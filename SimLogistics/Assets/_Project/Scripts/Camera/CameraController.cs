@@ -1,4 +1,5 @@
 using Unity.Mathematics;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -16,7 +17,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private FloatVariable tileSize;
     [SerializeField] private FloatVariable mapTilesX;
     [SerializeField] private FloatVariable mapTilesY;
-
+    
     // Changes
     private Vector3 _newPosition;
     private Quaternion _newRotation;
@@ -46,7 +47,7 @@ public class CameraController : MonoBehaviour
 
         HandleMovement();
     }
-
+    
     private void HandleMovement()
     {
         HandleInputKeyboard();

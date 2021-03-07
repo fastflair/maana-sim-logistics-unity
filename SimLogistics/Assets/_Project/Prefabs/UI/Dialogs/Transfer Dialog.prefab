@@ -14,25 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   quantityInputField: {fileID: 9156246715895259348}
   toggleItemPrefab: {fileID: 4689674690593923475, guid: 53d2bf7eeb21b48eb89e9a10fa76e273, type: 3}
-  listHost: {fileID: 6484577519666981816}
+  listHost: {fileID: 6484577520007231183}
   okayButton: {fileID: 5815593550449490578}
   transferTypeToggleGroup: {fileID: 2211481497141124447}
   resourceTypeToggleGroup: {fileID: 6677752754265009480}
-  onOkay:
+  onAddTransfer:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 741035619343116135}
-        m_TargetAssemblyTypeName: TransferDialog, Assembly-CSharp
-        m_MethodName: OnOkay
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1399112202915849492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51,7 +39,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 0
+  m_Spacing: 8
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
@@ -274,6 +262,10 @@ PrefabInstance:
     - target: {fileID: 3869212743540823240, guid: df495dd4c90be4eb2a3a83e9b81c1f75, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3869212743540823351, guid: df495dd4c90be4eb2a3a83e9b81c1f75, type: 3}
+      propertyPath: m_Padding.m_Top
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3869212743653119258, guid: df495dd4c90be4eb2a3a83e9b81c1f75, type: 3}
       propertyPath: m_Name
@@ -542,7 +534,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4689674690593923475, guid: 53d2bf7eeb21b48eb89e9a10fa76e273, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4689674690593923475, guid: 53d2bf7eeb21b48eb89e9a10fa76e273, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4689674690593923475, guid: 53d2bf7eeb21b48eb89e9a10fa76e273, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 741035619343116135}
+    - target: {fileID: 4689674690593923475, guid: 53d2bf7eeb21b48eb89e9a10fa76e273, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4689674690593923475, guid: 53d2bf7eeb21b48eb89e9a10fa76e273, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PopulateList
+      objectReference: {fileID: 0}
+    - target: {fileID: 4689674690593923475, guid: 53d2bf7eeb21b48eb89e9a10fa76e273, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TransferDialog, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4689674690593923475, guid: 53d2bf7eeb21b48eb89e9a10fa76e273, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6851119485170401144, guid: 53d2bf7eeb21b48eb89e9a10fa76e273, type: 3}
       propertyPath: m_AnchorMax.y
@@ -707,15 +723,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4689674690593923475, guid: 53d2bf7eeb21b48eb89e9a10fa76e273, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4689674690593923475, guid: 53d2bf7eeb21b48eb89e9a10fa76e273, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 6
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4689674690593923475, guid: 53d2bf7eeb21b48eb89e9a10fa76e273, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 741035619343116135}
+    - target: {fileID: 4689674690593923475, guid: 53d2bf7eeb21b48eb89e9a10fa76e273, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4689674690593923475, guid: 53d2bf7eeb21b48eb89e9a10fa76e273, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnValueChange
+      value: PopulateList
+      objectReference: {fileID: 0}
+    - target: {fileID: 4689674690593923475, guid: 53d2bf7eeb21b48eb89e9a10fa76e273, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TransferDialog, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4689674690593923475, guid: 53d2bf7eeb21b48eb89e9a10fa76e273, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6851119485170401144, guid: 53d2bf7eeb21b48eb89e9a10fa76e273, type: 3}
       propertyPath: m_AnchorMax.y
@@ -949,6 +981,46 @@ PrefabInstance:
     - target: {fileID: 984825072101921108, guid: a4aceaf57534e481abc377beba95bba6, type: 3}
       propertyPath: m_text
       value: Quantity
+      objectReference: {fileID: 0}
+    - target: {fileID: 3779579221626155903, guid: a4aceaf57534e481abc377beba95bba6, type: 3}
+      propertyPath: m_ContentType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3779579221626155903, guid: a4aceaf57534e481abc377beba95bba6, type: 3}
+      propertyPath: m_KeyboardType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3779579221626155903, guid: a4aceaf57534e481abc377beba95bba6, type: 3}
+      propertyPath: m_CharacterValidation
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3779579221626155903, guid: a4aceaf57534e481abc377beba95bba6, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3779579221626155903, guid: a4aceaf57534e481abc377beba95bba6, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3779579221626155903, guid: a4aceaf57534e481abc377beba95bba6, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 741035619343116135}
+    - target: {fileID: 3779579221626155903, guid: a4aceaf57534e481abc377beba95bba6, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3779579221626155903, guid: a4aceaf57534e481abc377beba95bba6, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ValidateForm
+      objectReference: {fileID: 0}
+    - target: {fileID: 3779579221626155903, guid: a4aceaf57534e481abc377beba95bba6, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TransferDialog, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3779579221626155903, guid: a4aceaf57534e481abc377beba95bba6, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4398994042859392576, guid: a4aceaf57534e481abc377beba95bba6, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1256,7 +1328,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4394578284142104866, guid: 368ab87d7270b4760812d7a89db87d38, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 500
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4394578284142104866, guid: 368ab87d7270b4760812d7a89db87d38, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1820,6 +1892,10 @@ PrefabInstance:
       propertyPath: m_ChildControlHeight
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3376237689257336166, guid: bf47193b2f953409bb6681b6a17bd44c, type: 3}
+      propertyPath: m_Name
+      value: Items
+      objectReference: {fileID: 0}
     - target: {fileID: 3376237689257336167, guid: bf47193b2f953409bb6681b6a17bd44c, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
@@ -1934,9 +2010,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf47193b2f953409bb6681b6a17bd44c, type: 3}
---- !u!224 &6484577519666981816 stripped
+--- !u!224 &6484577520007231183 stripped
 RectTransform:
-  m_CorrespondingSourceObject: {fileID: 3376237688523866128, guid: bf47193b2f953409bb6681b6a17bd44c, type: 3}
+  m_CorrespondingSourceObject: {fileID: 3376237689257336167, guid: bf47193b2f953409bb6681b6a17bd44c, type: 3}
   m_PrefabInstance: {fileID: 8585856158164298664}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &6677752754265009480 stripped
