@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Property : MonoBehaviour
+public class PropertyItem : MonoBehaviour
 {
     [SerializeField] private TMP_Text labelText;
     [SerializeField] private TMP_Text valueText;

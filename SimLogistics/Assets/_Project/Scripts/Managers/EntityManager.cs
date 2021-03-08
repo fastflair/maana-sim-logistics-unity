@@ -23,7 +23,7 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
     
     // Interface
     protected abstract IEnumerable<TQEntity> QEntities { get; }
-    protected abstract Entity EntityPrefab(TQEntity qEntity);
+    public abstract Entity EntityPrefab(TQEntity qEntity);
 
     private float TilePosX(float value)
     {

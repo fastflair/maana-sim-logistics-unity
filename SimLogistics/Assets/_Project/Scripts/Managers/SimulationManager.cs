@@ -46,7 +46,7 @@ public class SimulationManager : MonoBehaviour
 
     // Display formatters
     // ------------------
-    
+
     public static string FormatEntityIdDisplay(string id)
     {
         var parts = id.Split('/');
@@ -60,7 +60,8 @@ public class SimulationManager : MonoBehaviour
 
     public static string FormatSimulationDisplay(QSimulation simulation)
     {
-        return $"{simulation.name} @ {FormatAgentEndpointDisplay(simulation.agentEndpoint)} - Steps: {simulation.steps}";
+        return
+            $"{simulation.name} @ {FormatAgentEndpointDisplay(simulation.agentEndpoint)} - Steps: {simulation.steps}";
     }
 
     public static string FormatAgentEndpointDisplay(string agentEndpoint)
@@ -68,21 +69,43 @@ public class SimulationManager : MonoBehaviour
         return agentEndpoint ?? "Interactive";
     }
 
-    
+
     public static string FormatResourceDetailDisplay(QResource resource)
+    {
+        var volume = FormatResourceVolumeDisplay(resource);
+        var pricing = FormatResourcePricingDisplay(resource);
+        var rate = FormatResourceRateDisplay(resource);
+
+        return $"{volume} @ {pricing} {rate}";
+    }
+
+    public static string FormatResourceVolumeDisplay(QResource resource)
     {
         var qty = resource.quantity.ToString("F", CultureInfo.CurrentCulture);
         var cap = resource.capacity.ToString("F", CultureInfo.CurrentCulture);
-        var app = resource.adjustedPricePerUnit.ToString("C", CultureInfo.CurrentCulture);
-        var cr = resource.replenishRate.ToString("F", CultureInfo.CurrentCulture);
-        var rr = resource.replenishRate.ToString("F", CultureInfo.CurrentCulture);
-        
-        return $"{qty}/{cap} @ {app}/ea ↓{cr} ↑{rr}";
+
+        return $"{qty}/{cap}";
     }
-    
+
+    public static string FormatResourcePricingDisplay(QResource resource)
+    {
+        var bpp = resource.basePricePerUnit.ToString("C", CultureInfo.CurrentCulture);
+        var app = resource.adjustedPricePerUnit.ToString("C", CultureInfo.CurrentCulture);
+
+        return $"{app}/ea ({bpp})";
+    }
+
+    public static string FormatResourceRateDisplay(QResource resource)
+    {
+        var cr = resource.consumptionRate.ToString("F", CultureInfo.CurrentCulture);
+        var rr = resource.replenishRate.ToString("F", CultureInfo.CurrentCulture);
+
+        return $"↓{cr} ↑{rr}";
+    }
+
     // Resource accessors
     // ------------------
-    
+
     public IEnumerable<QResource> GetVehicleCargo(string id)
     {
         return CurrentState.vehicles.First(x => x.id == id).cargo;
@@ -92,15 +115,17 @@ public class SimulationManager : MonoBehaviour
     {
         return CurrentState.cities.First(x => x.id == id).demand;
     }
+
     public IEnumerable<QResource> GetProducerMaterial(string id)
     {
         return CurrentState.producers.First(x => x.id == id).material;
     }
+
     public IEnumerable<QResource> GetProducerProducts(string id)
     {
         return CurrentState.producers.First(x => x.id == id).products;
     }
-    
+
     // Actions
     // -------
 

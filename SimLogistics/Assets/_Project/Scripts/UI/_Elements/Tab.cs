@@ -19,7 +19,6 @@ public class Tab : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler, IPoi
     private void Start()
     {
         background = GetComponent<Image>();
-        tabGroup.Subscribe(this);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

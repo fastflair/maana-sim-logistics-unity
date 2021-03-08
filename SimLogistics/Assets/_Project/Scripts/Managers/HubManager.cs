@@ -8,8 +8,8 @@ public class HubManager : EntityManager<QHub>
     [SerializeField] private Entity truckDepotPrefab;
     
     protected override IEnumerable<QHub> QEntities => simulationManager.CurrentState.hubs;
-    
-    protected override Entity EntityPrefab(QHub qHub)
+
+    public override Entity EntityPrefab(QHub qHub)
     {
         return qHub.type.id switch
         {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,19 +9,16 @@ public class TabGroup : MonoBehaviour
     [SerializeField] private Color tabHover;
     [SerializeField] private Color tabSelected;
 
+    [SerializeField] private List<Tab> tabs;
     [SerializeField] private List<GameObject> pages;
     
-    private List<Tab> _tabs;
     private Tab _selectedTab;
 
-    public void Subscribe(Tab button)
+    private void Start()
     {
-        _tabs ??= new List<Tab>();
-        if (_selectedTab == null) OnTabClick(button);
-
-        _tabs.Add(button);
+        OnTabClick(tabs[0]);
     }
-
+    
     public void OnTabEnter(Tab button)
     {
         ResetTabs();
@@ -52,7 +50,7 @@ public class TabGroup : MonoBehaviour
 
     private void ResetTabs()
     {
-        foreach (var button in _tabs.Where(button => _selectedTab != button))
+        foreach (var button in tabs.Where(button => _selectedTab != button))
         {
             button.background.color = tabIdle;
         }

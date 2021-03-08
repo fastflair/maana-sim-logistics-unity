@@ -9,7 +9,7 @@ public class VehicleManager : EntityManager<QVehicle>
 
     protected override IEnumerable<QVehicle> QEntities => simulationManager.CurrentState.vehicles;
 
-    protected override Entity EntityPrefab(QVehicle qVehicle)
+    public override Entity EntityPrefab(QVehicle qVehicle)
     {
         return qVehicle.type.id switch
         {

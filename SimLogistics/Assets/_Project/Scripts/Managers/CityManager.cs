@@ -7,7 +7,7 @@ public class CityManager : EntityManager<QCity>
     
     protected override IEnumerable<QCity> QEntities => simulationManager.CurrentState.cities;
 
-    protected override Entity EntityPrefab(QCity qCity)
+    public override Entity EntityPrefab(QCity qCity)
     {
         return cityPrefab;
     }
