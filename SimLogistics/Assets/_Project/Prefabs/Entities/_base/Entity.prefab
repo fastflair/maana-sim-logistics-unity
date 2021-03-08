@@ -75,8 +75,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b82b76a176f74d9da9ace41f9e55e12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardPrefab: {fileID: 4666222738989444397, guid: 7001c1d38339d4ef2b9a7e6d578f5a04, type: 3}
-  uiManager: {fileID: 0}
+  type: 0
+  cardHost: {fileID: 0}
 --- !u!114 &-7962626133438165135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,7 +109,19 @@ MonoBehaviour:
       m_Calls: []
   onSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 638549375780002876}
+        m_TargetAssemblyTypeName: Entity, Assembly-CSharp
+        m_MethodName: OnSelect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onDeselect:
     m_PersistentCalls:
       m_Calls: []

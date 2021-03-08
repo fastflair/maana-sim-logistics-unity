@@ -1,24 +1,26 @@
 using System;
 using System.Globalization;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class CityCard : Card
 {
-    public override void Populate(Card card, QEntity qEntity)
+    [SerializeField] private CardHost host;
+    [SerializeField] private Sprite citySprite;
+    
+    public  void Populate(QCity qCity)
     {
-        var cityCard = card as CityCard;
+        host.SetThumbnail(citySprite);
+        host.SetEntityId(qCity.id);
 
-        if (!(qEntity is QCity qCity)) throw new Exception("QEntity is not of the expected type.");
-        if (cityCard == null) throw new Exception("Card is not of the expected type.");
-
-        SetEntityId(qCity.id);
-
-        AddPropertyToGroup(propertyGroup1, "Population", qCity.population.ToString(CultureInfo.CurrentCulture));
-        AddPropertyToGroup(propertyGroup1, "Population Growth Rate",
-            qCity.populationGrowthRate.ToString(CultureInfo.CurrentCulture));
-        AddPropertyToGroup(propertyGroup1, "Population Decline Rate",
-            qCity.populationDeclineRate.ToString(CultureInfo.CurrentCulture));
-
-        foreach (var resource in qCity.demand)
-            AddResourceToGroup(propertyGroup2, resource);
+        // AddPropertyToGroup(propertyGroup1, "Population", qCity.population.ToString(CultureInfo.CurrentCulture));
+        // AddPropertyToGroup(propertyGroup1, "Population Growth Rate",
+        //     qCity.populationGrowthRate.ToString(CultureInfo.CurrentCulture));
+        // AddPropertyToGroup(propertyGroup1, "Population Decline Rate",
+        //     qCity.populationDeclineRate.ToString(CultureInfo.CurrentCulture));
+        //
+        // foreach (var resource in qCity.demand)
+        //     AddResourceToGroup(propertyGroup2, resource);
     }
 }

@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Actions : UIElement
+public class Actions : MonoBehaviour
 {
     [SerializeField] private ToggleItem toggleItemPrefab;
     [SerializeField] private Transform transitActionsListHost;
@@ -22,33 +20,6 @@ public class Actions : UIElement
     private void Start()
     {
         UpdateButtons();
-        Show();
-    }
-
-    public void Show()
-    {
-        SetVisible(true);
-    }
-
-    public void ShowAnimate()
-    {
-        SetVisible(true, Effect.Animate);
-    }
-
-    public void Hide()
-    {
-        SetVisible(false);
-    }
-
-    public void HideAnimate()
-    {
-        SetVisible(false, Effect.Animate);
-    }
-
-    public void OnReady()
-    {
-        // if (!simulationManager.IsCurrentDefault) ShowAnimate();
-        ShowAnimate();
     }
     
     public void OnNewAction(SimulationManager.ActionInfo info)

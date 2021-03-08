@@ -14,28 +14,18 @@ public class SimulationSummary : UIElement
 
     [SerializeField] private SimulationManager simulationManager;
  
-    public void Show()
+    public override void Show()
     {
         UpdateSummary();
-        SetVisible(true);
+        base.Show();
     }
 
-    public void ShowAnimate()
+    public override void ShowAnimate()
     {
         UpdateSummary();
-        SetVisible(true, Effect.Animate); 
+        base.ShowAnimate();
     }
-
-    public void Hide()
-    {
-        SetVisible(false);
-    }
-
-    public void HideAnimate()
-    {
-        SetVisible(false, Effect.Animate);
-    }
-
+    
     public void UpdateSummary()
     {
         var sim = simulationManager.CurrentSimulation;

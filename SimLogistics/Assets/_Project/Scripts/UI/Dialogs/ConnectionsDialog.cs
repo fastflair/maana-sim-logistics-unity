@@ -111,7 +111,7 @@ public class ConnectionsDialog : Dialog
     
     public void OnDone()
     {
-        if (_currentState != null)
+        if (_currentState != null && _currentState.id != ConnectionManager.CurrentConnectionState.id)
         {
             ConnectionManager.LoadAndConnect(_currentState.id);
         }

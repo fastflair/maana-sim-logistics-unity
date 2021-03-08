@@ -214,23 +214,23 @@ public class UIManager : MonoBehaviour
     // -----
     public Card SpawnCard(Card cardPrefab, string id)
     {
-        return _currentCardId == id ? null : Instantiate(cardPrefab, cardShelf, false);
+        print($"SpawnCard: {cardPrefab.name} - {id}");
+        // return _currentCardId == id ? null : Instantiate(cardPrefab, cardShelf, false);
+        return null;
     }
     
-    private DebounceDispatcher _debouncer = new DebounceDispatcher(1);
-
     public void ShowCard(Card card, string id)
     {
-        if (_currentCardId == id) return;
-
-        if (_currentCard != null)
-        {
-            _currentCard.SetVisible(false, UIElement.Effect.Fade)
-                .destroyOnComplete = true;
-        }
-
-        _currentCard = card;
-        _currentCardId = id;
-        _currentCard.SetVisible(true, UIElement.Effect.Fade);
+        // if (_currentCardId == id) return;
+        //
+        // if (_currentCard != null)
+        // {
+        //     _currentCard.SetVisible(false, UIElement.Effect.Fade)
+        //         .destroyOnComplete = true;
+        // }
+        //
+        // _currentCard = card;
+        // _currentCardId = id;
+        // _currentCard.SetVisible(true, UIElement.Effect.Fade);
     }
 }

@@ -23,12 +23,15 @@ public class CameraController : MonoBehaviour
     private Vector3 _newZoom;
 
     // Mouse
-    private bool _isDragging;
     private Vector3 _dragStartPosition;
     private Vector3 _dragCurrentPosition;
     private Vector3 _rotateStartPosition;
     private Vector3 _rotateCurrentPosition;
-        
+    
+    public bool IsDragging { get; set; }
+
+    public Camera Camera => camera;
+    
     private void Start()
     {
         _newPosition = transform.position;
@@ -36,22 +39,22 @@ public class CameraController : MonoBehaviour
         _newZoom = camera.transform.localPosition;
     }
     
-    private void Update()
+    public void HandleInput(Ray ray, bool isHit)
     {
-        if (!isWorldInteractable.Value || Pointer.IsOverUIObject())
+        if (!IsDragging && (!isWorldInteractable.Value || Pointer.IsOverUIObject()))
         {
-            _isDragging = false; // ensure
+            // _isDragging = false; // ensure
             return;
         }
 
-        HandleMovement();
+        HandleInputKeyboard();
+        HandleInputMouse(ray, isHit);
+        
+        UpdateCamera();
     }
     
-    private void HandleMovement()
+    private void UpdateCamera()
     {
-        HandleInputKeyboard();
-        HandleInputMouse();
-        
         ClampPosition();
         ClampZoom();
         
@@ -60,34 +63,35 @@ public class CameraController : MonoBehaviour
         camera.transform.localPosition = Vector3.Lerp(camera.transform.localPosition, _newZoom, Time.deltaTime * movementTime);
     }
 
-    private void HandleInputMouse()
+    private void HandleInputMouse(Ray ray, bool isHit)
     {
-        HandleInputMousePosition();
+        if (!isHit) HandleInputMousePosition(ray);
         HandleInputMouseRotation();
         HandleInputMouseZoom();
     }
-    
-    private void HandleInputMousePosition()
+
+    private void HandleInputMousePosition(Ray ray)
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (GetDragPoint(out var point))
+            if (GetDragPoint(ray, out var point))
             {
                 _dragStartPosition = point;
-                _isDragging = true;
+                IsDragging = true;
             }
         }
 
         if (Input.GetMouseButton(0))
         {
-            if (!_isDragging || !GetDragPoint(out var point)) return;
+            if (!IsDragging || !GetDragPoint(ray, out var point)) return;
             
             _dragCurrentPosition = point;
-            _newPosition = transform.position + _dragStartPosition - _dragCurrentPosition;
+            var deltaPos = _dragStartPosition - _dragCurrentPosition;
+            _newPosition = transform.position + deltaPos;
         }
         else
         {
-            _isDragging = false;
+            IsDragging = false;
         }
     }
     
@@ -98,13 +102,12 @@ public class CameraController : MonoBehaviour
             _rotateStartPosition = Input.mousePosition;
         }
 
-        if (Input.GetMouseButton(2))
-        {
-            _rotateCurrentPosition = Input.mousePosition;
-            var delta = _rotateCurrentPosition - _rotateStartPosition;
-            _newRotation *= quaternion.Euler(Vector3.up * (-delta.x/mouseRotationSpeed));
-            _rotateStartPosition = _rotateCurrentPosition;
-        }
+        if (!Input.GetMouseButton(2)) return;
+        
+        _rotateCurrentPosition = Input.mousePosition;
+        var delta = _rotateCurrentPosition - _rotateStartPosition;
+        _newRotation *= quaternion.Euler(Vector3.up * (-delta.x/mouseRotationSpeed));
+        _rotateStartPosition = _rotateCurrentPosition;
     }
 
     private void HandleInputMouseZoom()
@@ -169,10 +172,9 @@ public class CameraController : MonoBehaviour
         }
     }
     
-    private bool GetDragPoint(out Vector3 point)
+    private static bool GetDragPoint(Ray ray, out Vector3 point)
     {
         var plane = new Plane(Vector3.up, Vector3.zero); 
-        var ray = camera.ScreenPointToRay(Input.mousePosition);
         if (plane.Raycast(ray, out var entry))
         {
             point = ray.GetPoint(entry);
@@ -187,9 +189,7 @@ public class CameraController : MonoBehaviour
     {
         var maxX = tileSize.Value * mapTilesX.Value;
         var maxZ = -tileSize.Value * mapTilesY.Value;
-
-        // print($"Cam.Pos: {transform.position} - clamp: {maxX}, {maxZ}");
-
+        
         _newPosition.x = Mathf.Clamp(_newPosition.x, 0, maxX);
         _newPosition.z = Mathf.Clamp(_newPosition.z, maxZ, 0);
     }

@@ -166,4 +166,35 @@ public class UIElement : MonoBehaviour
                 throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
         }
     }
+    
+        public virtual void Show()
+        {
+            SetVisible(true);
+        }
+    
+        public virtual void ShowAnimate()
+        {
+            SetVisible(true, Effect.Animate);
+        }
+
+        public virtual void ShowFade()
+        {
+            SetVisible(true, Effect.Fade);
+        }
+    
+        public virtual void Hide()
+        {
+            SetVisible(false);
+        }
+    
+        public virtual void HideAnimate()
+        {
+            SetVisible(false, Effect.Animate);
+        }
+        
+        public virtual void HideFade()
+        {
+            SetVisible(false, Effect.Fade);
+        }
+
 }

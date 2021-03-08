@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ProducerCard : Card
 {
+    [SerializeField] private CardHost host;
     [SerializeField] private Sprite coalMineSprite;
     [SerializeField] private Sprite cottonSprite;
     [SerializeField] private Sprite farmSprite;
@@ -17,24 +18,18 @@ public class ProducerCard : Card
     [SerializeField] private Sprite textileMillSprite;
     [SerializeField] private Sprite warehouseSprite;
     
-    public override void Populate(Card card, QEntity qEntity)
+    public void Populate(QProducer qProducer)
     {
-        var producerCard = card as ProducerCard;
+        host.SetEntityId(qProducer.id);
+        host.SetThumbnail(ResolveThumbnail(qProducer.type.id));
 
-        if (!(qEntity is QProducer qProducer)) throw new Exception("QEntity is not of the expected type.");
-        if (producerCard == null) throw new Exception("Card is not of the expected type.");
-
-        SetEntityId(qProducer.id);
-        SetThumbnail(ResolveThumbnail(qProducer.type.id));
-
-        AddPropertyToGroup(propertyGroup1, "Stoppage Surcharge Factor", qProducer.stoppageSurchargeFactor.ToString(CultureInfo.CurrentCulture));
-
-        foreach (var resource in qProducer.material)
-            AddResourceToGroup(propertyGroup2, resource);
-
-        foreach (var resource in qProducer.products)
-            AddResourceToGroup(propertyGroup3, resource);
-
+        // AddPropertyToGroup(propertyGroup1, "Stoppage Surcharge Factor", qProducer.stoppageSurchargeFactor.ToString(CultureInfo.CurrentCulture));
+        //
+        // foreach (var resource in qProducer.material)
+        //     AddResourceToGroup(propertyGroup2, resource);
+        //
+        // foreach (var resource in qProducer.products)
+        //     AddResourceToGroup(propertyGroup3, resource);
     }
     
     private Sprite ResolveThumbnail(string id)

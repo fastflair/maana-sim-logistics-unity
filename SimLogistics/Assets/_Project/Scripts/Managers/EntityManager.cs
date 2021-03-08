@@ -12,7 +12,7 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
 {
     [SerializeField] private UnityEvent onSpawned;
 
-    [SerializeField] protected UIManager uiManager;
+    [SerializeField] protected CardHost cardHost;
     [SerializeField] protected SimulationManager simulationManager;
     [SerializeField] private FloatVariable tileSize;
     [SerializeField] private FloatVariable spawnHeight;
@@ -52,6 +52,8 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
 
     public void OnUpdate()
     {
+        print($"[{name}] OnUpdate");
+        
         foreach (var entity in UEntities)
         {
             entity.QEntity = QEntities.First(qCity => qCity.id == entity.QEntity.id);
@@ -59,7 +61,12 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
             var newPosX = TilePosX(entity.QEntity.x);
             var newPosZ = TilePosZ(entity.QEntity.y);
             if (!(Math.Abs(newPosX - entityTransform.position.x) > float.Epsilon) &&
-                !(Math.Abs(newPosZ - entityTransform.position.z) > float.Epsilon)) continue;
+                !(Math.Abs(newPosZ - entityTransform.position.z) > float.Epsilon))
+            {
+                print($"[{name}] {SimulationManager.FormatEntityIdDisplay(entity.QEntity.id)} - no change.");
+                continue;
+            }
+            print($"[{name}] {SimulationManager.FormatEntityIdDisplay(entity.QEntity.id)} -> ({newPosX}, {newPosZ})");
 
             var newPosition = new Vector3(newPosX, entityTransform.position.y, newPosZ);
             StartCoroutine(LerpPosition(entityTransform, newPosition, lerpSpeed));
@@ -91,7 +98,7 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
             var entity = Instantiate(prefab,
                 new Vector3(TilePosX(qEntity.x), spawnHeight.Value * tileSize.Value, TilePosZ(qEntity.y)),
                 Quaternion.identity);
-            entity.uiManager = uiManager;
+            entity.cardHost = cardHost;
             entity.QEntity = qEntity;
             UEntities.Add(entity);
 

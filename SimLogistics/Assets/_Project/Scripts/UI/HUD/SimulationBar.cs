@@ -19,26 +19,16 @@ public class SimulationBar : UIElement
     // Buttons
     [SerializeField] private Button thinkButton;
 
-    public void Show()
+    public override void Show()
     {
         UpdateButtons();
-        SetVisible(true);
+        base.Show();
     }
 
-    public void ShowAnimate()
+    public override void ShowAnimate()
     {
         UpdateButtons();
-        SetVisible(true, Effect.Animate);
-    }
-
-    public void Hide()
-    {
-        SetVisible(false);
-    }
-
-    public void HideAnimate()
-    {
-        SetVisible(false, Effect.Animate);
+        base.ShowAnimate();
     }
 
     public void OnReady()

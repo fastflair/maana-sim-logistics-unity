@@ -5,17 +5,27 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
-    [SerializeField] private Card cardPrefab;
+    public enum EntityType
+    {
+        City,
+        Producer,
+        Hub,
+        Vehicle
+    }
+    
+    [SerializeField] private EntityType type;
 
-    [HideInInspector] public UIManager uiManager;
+    [HideInInspector] public CardHost cardHost;
 
     public QEntity QEntity;
 
     public void OnHoverEnter()
     {
-        var card = uiManager.SpawnCard(cardPrefab, QEntity.id);
-        if (card == null) return;
-        card.Populate(card, QEntity);
-        uiManager.ShowCard(card, QEntity.id);
+        // cardHost.ShowCardForEntity(type, QEntity);
+    }
+
+    public void OnSelect()
+    {
+        cardHost.ShowCardForEntity(type, QEntity);
     }
 }

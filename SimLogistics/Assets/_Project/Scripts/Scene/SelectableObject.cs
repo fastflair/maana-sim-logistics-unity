@@ -9,7 +9,7 @@ public class SelectableObject : MonoBehaviour
     public UnityEvent onHoverLeave = new UnityEvent();
     public UnityEvent onSelect = new UnityEvent();
     public UnityEvent onDeselect = new UnityEvent();
-    
+
     [SerializeField] private GameObject meshRendererSource;
     [SerializeField] private Color highlightColor;
     [SerializeField] private Color selectColor;

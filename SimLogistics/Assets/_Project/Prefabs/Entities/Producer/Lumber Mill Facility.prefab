@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lumber Mill Facility
       objectReference: {fileID: 0}
+    - target: {fileID: 5206955000963226854, guid: 2ad542b42b2eb4c5984be39f8d44da0d, type: 3}
+      propertyPath: type
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5691153236476611818, guid: 2ad542b42b2eb4c5984be39f8d44da0d, type: 3}
       propertyPath: m_RootOrder
       value: 0

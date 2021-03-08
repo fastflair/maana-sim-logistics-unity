@@ -4,7 +4,7 @@ using UnityEngine;
 public class SelectionManager : MonoBehaviour
 {
     [SerializeField] private BoolVariable isWorldInteractable;
-    [SerializeField] private new Camera camera;
+    [SerializeField] private CameraController cameraController;
     [SerializeField] private int layer;
     [SerializeField] private float maxHitDistance = 1000f;
     [SerializeField] private int maxSelectedObjects = 2;
@@ -18,27 +18,30 @@ public class SelectionManager : MonoBehaviour
     {
         _curSelectedObjects.Clear();
     }
-    
+
     private void Update()
     {
-        if (Pointer.IsOverUIObject())
-        {
-            Leave();
-            return;
-        }
-        
         if (!isWorldInteractable.Value) return;
         
         var isMouseDown = Input.GetMouseButtonDown(0);
+        
+        var ray = cameraController.Camera.ScreenPointToRay(Input.mousePosition);
+        var isHit = Physics.Raycast(ray, out var hitInfo, maxHitDistance, 1 << layer);
+        
+        cameraController.HandleInput(ray, isHit);
 
-        var ray = camera.ScreenPointToRay(Input.mousePosition);
-        if (!Physics.Raycast(ray, out var hitInfo, maxHitDistance, 1 << layer))
+        if (cameraController.IsDragging || Pointer.IsOverUIObject())
         {
-            if (isMouseDown) DeselectAll();
             Leave();
             return;
         }
 
+        if (!isHit)
+        {
+            Leave();
+            return;
+        }
+        
         var hitObject = hitInfo.collider.gameObject;
 
         var selectableObject = hitObject.GetComponent<SelectableObject>();
@@ -47,7 +50,7 @@ public class SelectionManager : MonoBehaviour
             Leave();
             return;
         }
-        
+
         if (selectableObject != _curSelectableObject)
         {
             Leave();
@@ -69,19 +72,19 @@ public class SelectionManager : MonoBehaviour
 
         if (isCurSelected)
         {
-            Deselect();
+            Deselect(_curSelectableObject);
         }
         else
         {
             Select();
         }
     }
-    
+
     private void Enter()
     {
         _curSelectableObject.onHoverEnter.Invoke();
     }
-    
+
     private void Leave()
     {
         if (_curSelectableObject == null) return;
@@ -94,27 +97,27 @@ public class SelectionManager : MonoBehaviour
 
     private void Select()
     {
-        if (_curSelectedObjects.Count == maxSelectedObjects) return;
-        
+        if (_curSelectedObjects.Count == maxSelectedObjects) Deselect(_curSelectedObjects[0]);
+
         _curSelectedObjects.Add(_curSelectableObject);
         _curSelectableObject.onSelect.Invoke();
     }
-    
-    private void Deselect()
+
+    private void Deselect(SelectableObject selectableObject)
     {
+        selectableObject.onDeselect.Invoke();
         if (_curSelectedObjects.Count == 0) return;
-        
-        _curSelectableObject.onDeselect.Invoke();
-        _curSelectedObjects.Remove(_curSelectableObject);
-        Enter();
+
+        _curSelectedObjects.Remove(selectableObject);
     }
-    
+
     public void DeselectAll()
     {
         foreach (var selectedObject in _curSelectedObjects)
         {
             selectedObject.onDeselect.Invoke();
         }
+
         _curSelectedObjects.Clear();
     }
 }

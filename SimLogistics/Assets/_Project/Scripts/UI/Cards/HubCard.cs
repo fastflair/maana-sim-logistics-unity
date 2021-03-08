@@ -6,25 +6,20 @@ using UnityEngine.UIElements;
 
 public class HubCard : Card
 {
+    [SerializeField] private CardHost host;
     [SerializeField] private Sprite airportSprite;
     [SerializeField] private Sprite portSprite;
     [SerializeField] private Sprite truckDepotSprite;
 
-    public override void Populate(Card card, QEntity qEntity)
+    public void Populate(QHub qHub)
     {
-        var hubCard = card as HubCard;
+        host.SetThumbnail(ResolveThumbnail(qHub.type.id));
+        host.SetEntityId(qHub.id);
 
-        if (!(qEntity is QHub qHub)) throw new Exception("QEntity is not of the expected type.");
-        if (hubCard == null) throw new Exception("Card is not of the expected type.");
-
-        SetEntityId(qHub.id);
-        SetThumbnail(ResolveThumbnail(qHub.type.id));
-
-        AddPropertyToGroup(propertyGroup1, "(none)", "");
-        
-        foreach (var resource in qHub.supplies)
-            AddResourceToGroup(propertyGroup2, resource);
-
+        // AddPropertyToGroup(propertyGroup1, "(none)", "");
+        //
+        // foreach (var resource in qHub.supplies)
+        //     AddResourceToGroup(propertyGroup2, resource);
     }
 
     private Sprite ResolveThumbnail(string id)

@@ -19,28 +19,18 @@ public class SystemBar : UIElement
     [SerializeField] private Button deleteSimulationButton;
     [SerializeField] private Button simulationButton;
     
-    public void Show()
+    public override void Show()
     {
         UpdateButtons();
-        SetVisible(true);
+        base.Show();
     }
 
-    public void ShowAnimate()
+    public override void ShowAnimate()
     {
         UpdateButtons();
-        SetVisible(true, Effect.Animate);
+        base.ShowAnimate();
     }
-
-    public void Hide()
-    {
-        SetVisible(false);
-    }
-
-    public void HideAnimate()
-    {
-        SetVisible(false, Effect.Animate);
-    }
-
+    
     public void OnReady()
     {
         if (simulationManager.IsCurrentDefault) ShowAnimate();

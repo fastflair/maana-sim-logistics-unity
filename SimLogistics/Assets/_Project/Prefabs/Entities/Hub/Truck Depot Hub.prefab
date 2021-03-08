@@ -51,13 +51,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2108155036119854641, guid: 51139c25d0bc34ad4b1f3a72e52b6578, type: 3}
+      propertyPath: type
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3232149953444666861, guid: 51139c25d0bc34ad4b1f3a72e52b6578, type: 3}
       propertyPath: m_text
       value: Truck Depot
       objectReference: {fileID: 0}
     - target: {fileID: 5723313747719917193, guid: 51139c25d0bc34ad4b1f3a72e52b6578, type: 3}
       propertyPath: m_Name
-      value: TruckDepotHub
+      value: Truck Depot Hub
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51139c25d0bc34ad4b1f3a72e52b6578, type: 3}

@@ -51,6 +51,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3388049507125220828, guid: ad483a0f165de4ce4b105130ac337114, type: 3}
+      propertyPath: type
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3475814789191626720, guid: ad483a0f165de4ce4b105130ac337114, type: 3}
       propertyPath: m_text
       value: Coal
