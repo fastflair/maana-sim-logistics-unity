@@ -25,7 +25,6 @@ public class Card : UIElement
 
     protected void AddResourceToList(Transform list, QResource resource)
     {
-        print($"[name] resource: {resource}");
         var resourceItem = Instantiate(resourceItemPrefab, list, false);
         resourceItem.Thumbnail = producerManager.ResourceThumbnail(resource.type.id);
         resourceItem.Label = resource.type.id;

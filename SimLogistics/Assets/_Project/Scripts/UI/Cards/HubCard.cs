@@ -11,15 +11,26 @@ public class HubCard : Card
     [SerializeField] private Sprite portSprite;
     [SerializeField] private Sprite truckDepotSprite;
 
+    [SerializeField] protected Transform suppliesItemList;
+    [SerializeField] protected Transform propertyItemList;
+    [SerializeField] protected Transform noteItemList;
+
     public void Populate(QHub qHub)
     {
+        ClearLists();
+        
         host.SetThumbnail(ResolveThumbnail(qHub.type.id));
         host.SetEntityId(qHub.id);
 
-        // AddPropertyToGroup(propertyGroup1, "(none)", "");
-        //
-        // foreach (var resource in qHub.supplies)
-        //     AddResourceToGroup(propertyGroup2, resource);
+        foreach (var resource in qHub.supplies)
+            AddResourceToList(suppliesItemList, resource);
+    }
+
+    private void ClearLists()
+    {
+        ClearList(suppliesItemList);
+        ClearList(propertyItemList);
+        ClearList(noteItemList);
     }
 
     private Sprite ResolveThumbnail(string id)

@@ -15,9 +15,7 @@ public class CityCard : Card
 
     public  void Populate(QCity qCity)
     {
-        ClearList(resourceItemList);
-        ClearList(propertyItemList);
-        ClearList(noteItemList);
+        ClearLists();
         
         host.SetThumbnail(citySprite);
         host.SetEntityId(qCity.id);
@@ -30,5 +28,12 @@ public class CityCard : Card
         
         foreach (var resource in qCity.demand)
             AddResourceToList(resourceItemList, resource);
+    }
+
+    private void ClearLists()
+    {
+        ClearList(resourceItemList);
+        ClearList(propertyItemList);
+        ClearList(noteItemList);
     }
 }
