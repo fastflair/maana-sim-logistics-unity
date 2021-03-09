@@ -52,7 +52,7 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
 
     public void OnUpdate()
     {
-        print($"[{name}] OnUpdate");
+        // print($"[{name}] OnUpdate");
         
         foreach (var entity in UEntities)
         {
@@ -80,6 +80,7 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
 
         while (time < duration)
         {
+            print($"Lerping: {startPosition} -> {targetPosition} {time} / {duration}");
             entityTransform.position = Vector3.Lerp(startPosition, targetPosition, time / duration);
             time += Time.deltaTime;
             yield return null;
