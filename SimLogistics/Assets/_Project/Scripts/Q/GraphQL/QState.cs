@@ -14,6 +14,7 @@ public static class QStateFragment
           hubs { ...hubData }
           vehicles { ...vehicleData }
           transfers { ...resourceTransferData }
+          transitOrders { ...transitOrderData }
         }";
 
     public static readonly string withIncludes = @$"
@@ -34,10 +35,11 @@ public class QState
     [UsedImplicitly] public string id;
     [UsedImplicitly] public QSimulation sim;
     [UsedImplicitly] public List<QCity> cities;
-    [UsedImplicitly] public List<QHub> hubs;
     [UsedImplicitly] public List<QProducer> producers;
-    [UsedImplicitly] public List<QResourceTransfer> transfers;
+    [UsedImplicitly] public List<QHub> hubs;
     [UsedImplicitly] public List<QVehicle> vehicles;
+    [UsedImplicitly] public List<QResourceTransfer> transfers;
+    [UsedImplicitly] public List<QTransitOrder> transitOrders;
 
     public override string ToString()
     {
@@ -45,10 +47,11 @@ public class QState
             id: ""{id}""
             sim: {sim}
             cities: [{string.Join(",", cities)}]
-            hubs: [{string.Join(",", hubs)}]
             producers: [{string.Join(",", producers)}]
-            transfers: [{string.Join(",", transfers)}]
+            hubs: [{string.Join(",", hubs)}]
             vehicles: [{string.Join(",", vehicles)}]
+            transfers: [{string.Join(",", transfers)}]
+            transitOrders: [{string.Join(",", transitOrders)}]
         }}";
     }
 }

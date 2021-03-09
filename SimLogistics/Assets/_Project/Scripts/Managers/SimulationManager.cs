@@ -5,8 +5,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-// "agentEndpoint": "https://lastknowngood.knowledge.maana.io:8443/service/maana-sim-logistics-ai-agent-v3/graphql",
-
 public class SimulationManager : MonoBehaviour
 {
     public enum ActionType
@@ -385,60 +383,27 @@ public class SimulationManager : MonoBehaviour
     {
         Busy();
 
-        IssueActions(Actions, success =>
+        const string queryName = "simulate";
+        var query = @$"
+          {QStateFragment.withIncludes}
+          query {{
+            {queryName}(state: {CurrentState}, actions: {Actions}) {{
+              ...stateData
+            }}
+          }}
+        ";
+
+        InternalStateQuery(queryName, query, state =>
         {
-            print("Issue: " + Actions);
-            if (!success)
-            {
-                NotBusy();
-                callback.Invoke(null);
-            }
-
-            const string queryName = "stepSimulation";
-            var query = @$"
-              {QStateFragment.withIncludes}
-              mutation {{
-                {queryName}(sim: ""{CurrentSimulation.id}"") {{
-                  ...stateData
-                }}
-              }}
-            ";
-
-            InternalStateQuery(queryName, query, state =>
-            {
-                // print($"Step results: {state}");
-                NotBusy();
-                CurrentState = state;
-                onUpdated.Invoke();
-            });
+            print($"Step results: {state}");
+            NotBusy();
+            CurrentState = state;
+            onUpdated.Invoke();
         });
     }
 
     // --- Internal
-
-    private void IssueActions(QActions actions, Action<bool> callback)
-    {
-        const string queryName = "issueActions";
-        var query = @$"
-          mutation {{
-            {queryName}(actions: {actions})
-          }}
-        ";
-
-        connectionManager.QueryRaiseOnError<bool>(
-            connectionManager.ApiEndpoint,
-            query,
-            queryName,
-            success =>
-            {
-                print($"Issue actions: {success}");
-
-                if (success) ResetActions();
-
-                callback.Invoke(success);
-            });
-    }
-
+    
     private void LoadDefault()
     {
         Load(DefaultSimulation.id, state => { });
@@ -494,8 +459,9 @@ public class SimulationManager : MonoBehaviour
             state =>
             {
                 print($"{queryName} results: {state}");
-
-                CurrentState = state;
+                
+                if (state != null) CurrentState = state;
+                
                 callback(CurrentState);
             });
     }

@@ -5,6 +5,7 @@ public class LoadingScreen : MonoBehaviour
 {
     [SerializeField] private UnityEvent onLoadingScreenComplete;
 
+    [SerializeField] private UIManager uiManager;
     [SerializeField] private GameObject title;
     [SerializeField] private GameObject logo;
     [SerializeField] private GameObject background;
@@ -13,6 +14,7 @@ public class LoadingScreen : MonoBehaviour
     [SerializeField] private float endFadeDuration;
     [SerializeField] private float endFadeDelay;
 
+    private bool _hasRun;
     private bool _isTitlesComplete;
     private bool _isLoaded;
     
@@ -27,7 +29,13 @@ public class LoadingScreen : MonoBehaviour
     }
 
     public void OnLoading()
-    {        
+    {
+        if (_hasRun)
+        {
+            uiManager.ShowSpinner();
+            return;
+        }
+        
         background.GetComponent<CanvasGroup>().alpha = 1f;
         background.SetActive(true);
         title.GetComponent<CanvasGroup>().alpha = 0f;
@@ -40,6 +48,13 @@ public class LoadingScreen : MonoBehaviour
 
     public void OnLoaded()
     {
+        if (_hasRun)
+        {
+            uiManager.HideSpinner();
+            onLoadingScreenComplete.Invoke();
+            return;
+        }
+        
         _isLoaded = true;
 
         FadeOut();
@@ -69,6 +84,7 @@ public class LoadingScreen : MonoBehaviour
 
     private void OnFadeOutComplete()
     {
+        _hasRun = true;
         _isLoaded = _isTitlesComplete = false;
         background.SetActive(false);
         onLoadingScreenComplete.Invoke();
