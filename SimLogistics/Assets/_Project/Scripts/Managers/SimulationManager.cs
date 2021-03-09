@@ -286,7 +286,26 @@ public class SimulationManager : MonoBehaviour
           }}
         ";
 
-        InternalStateQueryWithLoading(queryName, query, callback);
+        InternalStateQueryWithLoading(queryName, query, state =>
+        {
+            if (state != null) CurrentState = state;
+            callback(state);
+        });
+    }
+
+    public void Save(QState state, Action<QState> callback)
+    {
+        const string queryName = "saveState";
+        var query = @$"
+          {QStateFragment.withIncludes}
+          mutation {{
+            {queryName}(state: {state}) {{
+              ...stateData
+            }}
+          }}
+        ";
+
+        InternalStateQuery(queryName, query, callback);
     }
 
     public void List(string simName, string agentEndpoint, Action<List<QSimulation>> callback)
@@ -346,8 +365,6 @@ public class SimulationManager : MonoBehaviour
     public void Think(string agentEndpoint, QState state, Action<QActions> callback)
     {
         Busy();
-        print($"Agent endpoint: {agentEndpoint}");
-        print($"Think about: {state}");
 
         const string queryName = "think";
         var query = @$"
@@ -395,18 +412,21 @@ public class SimulationManager : MonoBehaviour
 
         InternalStateQuery(queryName, query, state =>
         {
-            print($"Step results: {state}");
             NotBusy();
+            if (state == null) return;
+
             CurrentState = state;
             onUpdated.Invoke();
+
+            Save(state, _ => { });
         });
     }
 
     // --- Internal
-    
+
     private void LoadDefault()
     {
-        Load(DefaultSimulation.id, state => { });
+        Load(DefaultSimulation.id, _ => { });
     }
 
     private void InternalNew(string queryName, string simName, string agentEndpoint, Action<QState> callback)
@@ -420,7 +440,11 @@ public class SimulationManager : MonoBehaviour
           }}
         ";
 
-        InternalStateQueryWithLoading(queryName, query, callback);
+        InternalStateQueryWithLoading(queryName, query, state =>
+        {
+            if (state != null) CurrentState = state;
+            callback(state);
+        });
     }
 
     private void InternalStateQueryWithLoading(string queryName, string query, Action<QState> callback)
@@ -431,7 +455,7 @@ public class SimulationManager : MonoBehaviour
             query,
             state =>
             {
-                CurrentState = state;
+                if (state != null) CurrentState = state;
                 onLoaded.Invoke();
                 callback(CurrentState);
             });
@@ -456,14 +480,7 @@ public class SimulationManager : MonoBehaviour
             connectionManager.ApiEndpoint,
             query,
             queryName,
-            state =>
-            {
-                print($"{queryName} results: {state}");
-                
-                if (state != null) CurrentState = state;
-                
-                callback(CurrentState);
-            });
+            callback);
     }
 
     private void Busy()
