@@ -24,6 +24,7 @@ public class Actions : MonoBehaviour
     
     public void OnNewAction(SimulationManager.ActionInfo info)
     {
+        print($"OnNewAction: {info.DisplayText}");
         var host = GetActionHost(info.Type);
         var item = Instantiate(toggleItemPrefab, host, false);
         item.data = info;

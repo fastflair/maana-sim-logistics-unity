@@ -68,8 +68,10 @@ public class CameraController : MonoBehaviour
 
     private void UpdateCamera()
     {
+        /*
         ClampPosition();
         ClampZoom();
+        */
 
         transform.position = Vector3.Lerp(transform.position, _newPosition, Time.deltaTime * movementTime);
         transform.rotation = Quaternion.Lerp(transform.rotation, _newRotation, Time.deltaTime * movementTime);

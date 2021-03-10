@@ -11,6 +11,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Truck Vehicle
       objectReference: {fileID: 0}
+    - target: {fileID: 1022013092247113582, guid: ed25d3e5c4bba4a52855014d88ab6e29, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1769431164476485746, guid: ed25d3e5c4bba4a52855014d88ab6e29, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1769431164476485746, guid: ed25d3e5c4bba4a52855014d88ab6e29, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5017449593539689627, guid: ed25d3e5c4bba4a52855014d88ab6e29, type: 3}
+      propertyPath: meshRendererSource
+      value: 
+      objectReference: {fileID: 6384989050611043993}
     - target: {fileID: 6538051724161122266, guid: ed25d3e5c4bba4a52855014d88ab6e29, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -59,6 +75,30 @@ PrefabInstance:
       propertyPath: type
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 8408722487169920853, guid: ed25d3e5c4bba4a52855014d88ab6e29, type: 3}
+      propertyPath: m_Size.x
+      value: 2.1667309
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408722487169920853, guid: ed25d3e5c4bba4a52855014d88ab6e29, type: 3}
+      propertyPath: m_Size.y
+      value: 2.9185224
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408722487169920853, guid: ed25d3e5c4bba4a52855014d88ab6e29, type: 3}
+      propertyPath: m_Size.z
+      value: 6.248673
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408722487169920853, guid: ed25d3e5c4bba4a52855014d88ab6e29, type: 3}
+      propertyPath: m_Center.x
+      value: -0.009968996
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408722487169920853, guid: ed25d3e5c4bba4a52855014d88ab6e29, type: 3}
+      propertyPath: m_Center.y
+      value: 1.4336352
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408722487169920853, guid: ed25d3e5c4bba4a52855014d88ab6e29, type: 3}
+      propertyPath: m_Center.z
+      value: -0.009693861
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed25d3e5c4bba4a52855014d88ab6e29, type: 3}
 --- !u!4 &8530012622923304245 stripped
@@ -79,19 +119,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3066332860987071964, guid: 8c3d087ebad424dc091f100a9e27c7c8, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3066332860987071964, guid: 8c3d087ebad424dc091f100a9e27c7c8, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.025
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 3066332860987071964, guid: 8c3d087ebad424dc091f100a9e27c7c8, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.025
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 3066332860987071964, guid: 8c3d087ebad424dc091f100a9e27c7c8, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.025
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 3066332860987071964, guid: 8c3d087ebad424dc091f100a9e27c7c8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -99,7 +139,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3066332860987071964, guid: 8c3d087ebad424dc091f100a9e27c7c8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3066332860987071964, guid: 8c3d087ebad424dc091f100a9e27c7c8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -135,3 +175,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c3d087ebad424dc091f100a9e27c7c8, type: 3}
+--- !u!1 &6384989050611043993 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3063795611364132762, guid: 8c3d087ebad424dc091f100a9e27c7c8, type: 3}
+  m_PrefabInstance: {fileID: 8221532596835485955}
+  m_PrefabAsset: {fileID: 0}

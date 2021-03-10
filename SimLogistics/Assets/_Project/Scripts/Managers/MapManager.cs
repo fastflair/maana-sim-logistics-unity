@@ -17,14 +17,23 @@ public class MapManager : MonoBehaviour
     [SerializeField] private SimulationManager simulationManager;
     
     [SerializeField] private FloatVariable tileSize;
+    [SerializeField] private FloatVariable tileOffsetX;
+    [SerializeField] private FloatVariable tileOffsetY;
     [SerializeField] private FloatVariable spawnHeight;
     [SerializeField] private FloatVariable spawnDelay;
-    [SerializeField] private GameObject landTilePrefab;
+
+    [SerializeField] private GameObject sandTilePrefab;
+    [SerializeField] private GameObject grassTilePrefab;
+    [SerializeField] private GameObject pavementTilePrefab;
     [SerializeField] private GameObject waterTilePrefab;
     
     private QMapAndTiles QMapAndTiles { get; set; }
     private List<GameObject> _tileGameObjects = new List<GameObject>();
 
+    public float TileSize => tileSize.Value;
+    private float TileXToWorldX(float x) => tileSize.Value * x + tileOffsetX.Value;
+    private float TileYToWorldZ(float y) => -(tileSize.Value * y + tileOffsetY.Value);
+    
     public void Load()
     {
         QueryQ();
@@ -85,11 +94,11 @@ public class MapManager : MonoBehaviour
     {
         foreach (var qTile in QMapAndTiles.tiles)
         {
-            var tilePrefab = qTile.type.id == "Land" ? landTilePrefab : waterTilePrefab;
+            var tilePrefab = ResolveTilePrefab(qTile.type.id);
             if (tilePrefab is null) continue;
             
-            var posX = tileSize.Value * qTile.x;
-            var posZ = -tileSize.Value * qTile.y;
+            var posX = TileXToWorldX(qTile.x);
+            var posZ = TileYToWorldZ(qTile.y);
             
             var tile = Instantiate(tilePrefab, new Vector3(posX, spawnHeight.Value * tileSize.Value, posZ), Quaternion.identity);
             _tileGameObjects.Add(tile);
@@ -98,5 +107,17 @@ public class MapManager : MonoBehaviour
         }
         
         onSpawned.Invoke();
+    }
+
+    private GameObject ResolveTilePrefab(string id)
+    {
+        return id switch
+        {
+            "Grass" => grassTilePrefab,
+            "Sand" => sandTilePrefab,
+            "Pavement" => pavementTilePrefab,
+            "Water" => waterTilePrefab,
+            _ => null
+        };
     }
 }

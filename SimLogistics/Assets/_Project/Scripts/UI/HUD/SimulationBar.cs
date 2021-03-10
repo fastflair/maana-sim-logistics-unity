@@ -6,7 +6,9 @@ public class SimulationBar : UIElement
 {
     private const string MoveHelpSelection = "One vehicle and one structure must be selected for transit.";
     private const string RepairHelpSelection = "One vehicle must be selected for repair.";
-    private const string TransferHelpSelection = "One vehicle and either a producer or city must be selected for resource transfer.";
+
+    private const string TransferHelpSelection =
+        "One vehicle and either a producer or city must be selected for resource transfer.";
 
     // Managers
     [SerializeField] private UIManager uiManager;
@@ -161,10 +163,7 @@ public class SimulationBar : UIElement
         simulationManager.Think(
             simulationManager.AgentEndpoint,
             simulationManager.CurrentState,
-            actions =>
-            {
-                // TODO: add to actions queue
-            });
+            actions => { });
     }
 
     public void EnableThinkButton()

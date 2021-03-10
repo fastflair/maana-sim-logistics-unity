@@ -15,26 +15,22 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
     [SerializeField] protected CardHost cardHost;
     [SerializeField] protected SimulationManager simulationManager;
     [SerializeField] private FloatVariable tileSize;
+    [SerializeField] private FloatVariable entityOffsetX;
+    [SerializeField] private FloatVariable entityOffsetY;
     [SerializeField] private FloatVariable spawnHeight;
     [SerializeField] private FloatVariable spawnDelay;
     [SerializeField] private float lerpSpeed = 3;
 
     protected List<Entity> UEntities = new List<Entity>();
+
+    private float EntityXToWorldX(float x) => tileSize.Value * x + entityOffsetX.Value;
+    private float EntityYToWorldZ(float y) => -(tileSize.Value * y + entityOffsetY.Value);
+
     
     // Interface
     protected abstract IEnumerable<TQEntity> QEntities { get; }
     public abstract Entity EntityPrefab(TQEntity qEntity);
-
-    private float TilePosX(float value)
-    {
-        return tileSize.Value * value;
-    }
-
-    private float TilePosZ(float value)
-    {
-        return -TilePosX(value);
-    }
-
+    
     public virtual void Spawn()
     {
         Destroy();
@@ -58,8 +54,8 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
         {
             entity.QEntity = QEntities.First(qCity => qCity.id == entity.QEntity.id);
             var entityTransform = entity.transform;
-            var newPosX = TilePosX(entity.QEntity.x);
-            var newPosZ = TilePosZ(entity.QEntity.y);
+            var newPosX = EntityXToWorldX(entity.QEntity.x);
+            var newPosZ = EntityYToWorldZ(entity.QEntity.y);
             if (!(Math.Abs(newPosX - entityTransform.position.x) > float.Epsilon) &&
                 !(Math.Abs(newPosZ - entityTransform.position.z) > float.Epsilon))
             {
@@ -80,7 +76,6 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
 
         while (time < duration)
         {
-            print($"Lerping: {startPosition} -> {targetPosition} {time} / {duration}");
             entityTransform.position = Vector3.Lerp(startPosition, targetPosition, time / duration);
             time += Time.deltaTime;
             yield return null;
@@ -97,7 +92,7 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
             
             var prefab = EntityPrefab(qEntity);
             var entity = Instantiate(prefab,
-                new Vector3(TilePosX(qEntity.x), spawnHeight.Value * tileSize.Value, TilePosZ(qEntity.y)),
+                new Vector3(EntityXToWorldX(qEntity.x), spawnHeight.Value * tileSize.Value, EntityYToWorldZ(qEntity.y)),
                 Quaternion.identity);
             entity.cardHost = cardHost;
             entity.QEntity = qEntity;

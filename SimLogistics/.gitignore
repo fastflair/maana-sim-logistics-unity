@@ -75,6 +75,7 @@ crashlytics-build.properties
 /[Aa]ssets/BootstrapConnection.json
 
 # 3rd-party packages
+/[Aa]ssets/3D\ Road\ Tiles*
 /[Aa]ssets/AssetStoreOriginals*
 /[Aa]ssets/AssetStoreOriginals.meta
 /[Aa]ssets/Concrete\ textures\ pack*
