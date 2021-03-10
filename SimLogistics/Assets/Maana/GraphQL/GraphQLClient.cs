@@ -12,11 +12,11 @@ namespace Maana.GraphQL
 {
     public class GraphQLClient
     {
-        private readonly string _url;
+        public string URL { get; private set; }
 
         public GraphQLClient(string url)
         {
-            this._url = url;
+            this.URL = url;
         }
 
         private class GraphQLQuery
@@ -29,7 +29,7 @@ namespace Maana.GraphQL
 
         public string CkglUrl(string endpoint)
         {
-            return $"{_url}/service/{endpoint}/graphql";
+            return $"{URL}/service/{endpoint}/graphql";
         }
         
         private UnityWebRequest QueryRequest(string endpoint, string query, object variables, string token = null)
@@ -39,7 +39,7 @@ namespace Maana.GraphQL
                 query = query,
                 variables = variables,
             };
-
+            
             var json = JsonConvert.SerializeObject(fullQuery);
             
             var request = UnityWebRequest.Post(CkglUrl(endpoint), UnityWebRequest.kHttpVerbPOST);

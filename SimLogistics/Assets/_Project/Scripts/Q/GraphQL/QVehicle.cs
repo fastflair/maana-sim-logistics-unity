@@ -7,7 +7,7 @@ public static class QVehicleFragment
 {
     public static readonly string withIncludes = @$"
       {QTransitOrderFragment.data}
-      {QResourceFragment.data}
+      {QResourceFragment.OutputData}
       {data}
     ";
     

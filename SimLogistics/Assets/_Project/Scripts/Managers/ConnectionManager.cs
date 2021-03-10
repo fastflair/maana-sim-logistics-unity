@@ -20,6 +20,8 @@ public class ConnectionManager : MonoBehaviour
     public ConnectionState CurrentConnectionState { get; private set; }
     public string ApiEndpoint => CurrentConnectionState.apiEndpoint;
 
+    public GraphQLManager Server => server;
+    
     public IEnumerable<string> AvailableConnections
     {
         get
@@ -104,6 +106,8 @@ public class ConnectionManager : MonoBehaviour
                 return;
             }
 
+            print($"response: {response.Raw}");
+            
             callback.Invoke(response.GetValue<T>(queryName));
         });
     }

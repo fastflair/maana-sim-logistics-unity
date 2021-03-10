@@ -10,13 +10,14 @@ namespace Maana.GraphQL
         public UnityEvent connectionReadyEvent = new UnityEvent();
         public UnityEvent connectionNotReadyEvent = new UnityEvent();
         public UnityEvent<string> connectionErrorEvent = new UnityEvent<string>();
-        
-        private GraphQLClient _client;
+
         private OAuthFetcher _fetcher;
         private readonly List<QueuedQuery> _queuedQueries = new List<QueuedQuery>();
 
         private bool HasToken => _fetcher is {Token: { }};
         private bool _isConnected;
+
+        public GraphQLClient Client { get; private set; }
         
         // Can be called multiple times
         public void Connect(string url, string authDomain, string authClientId, string authClientSecret,
@@ -31,14 +32,14 @@ namespace Maana.GraphQL
             }
 
             _isConnected = false;
-            if (_client != null)
+            if (Client != null)
             {
                 connectionNotReadyEvent.Invoke();
             }
 
             if (refreshMinutes == 0f) refreshMinutes = 20f;
             
-            _client = new GraphQLClient(url);
+            Client = new GraphQLClient(url);
             _fetcher = new OAuthFetcher(authDomain, authClientId, authClientSecret, authIdentifier, refreshMinutes);
             _fetcher.TokenReceivedEvent.AddListener(TokenReceived);
             _fetcher.TokenErrorEvent.AddListener(TokenError);
@@ -59,7 +60,7 @@ namespace Maana.GraphQL
                 foreach (var queuedQuery in _queuedQueries)
                 {
                     // Query(queuedQuery.Query, queuedQuery.Variables, queuedQuery.Callback);
-                    _client.Query(queuedQuery.Endpoint, queuedQuery.Query, queuedQuery.Variables, _fetcher.Token.access_token, queuedQuery.Callback);
+                    Client.Query(queuedQuery.Endpoint, queuedQuery.Query, queuedQuery.Variables, _fetcher.Token.access_token, queuedQuery.Callback);
                 }
 
                 _queuedQueries.Clear();
@@ -75,7 +76,7 @@ namespace Maana.GraphQL
         public void Query(string endpoint, string query, object variables = null, Action<GraphQLResponse> callback = null)
         {
             if (HasToken)
-                _client.Query(endpoint, query, variables, _fetcher.Token.access_token, callback);
+                Client.Query(endpoint, query, variables, _fetcher.Token.access_token, callback);
             else
                 lock (_queuedQueries)
                 {

@@ -2,15 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class NewSimulationDialog : Dialog
 {
-    [SerializeField] private InputField simName;
-    [SerializeField] private InputField agentEndpoint;
+    [SerializeField] private InputFieldItem simName;
+    [SerializeField] private InputFieldItem agentEndpoint;
     [SerializeField] private Button okayButton;
-    
     private QSimulation _currentSimulation;
+
+    public ScenarioEditor ScenarioEditor { get; set; }
 
     private SimulationManager _simulationManager;
     public SimulationManager SimulationManager
@@ -18,13 +20,17 @@ public class NewSimulationDialog : Dialog
         get => _simulationManager;
         set
         {
+            Debug.Assert(value != null);
             _simulationManager = value;
+            
             _currentSimulation = _simulationManager.CurrentSimulation;
-
+            Debug.Assert(_currentSimulation != null);
+            
             simName.Value = _currentSimulation.name;
             agentEndpoint.Value = _currentSimulation.agentEndpoint;
             
             simName.Input.onValueChanged.AddListener(delegate { UpdateButtons(); });
+            agentEndpoint.Input.onValueChanged.AddListener(delegate { UpdateButtons(); });
 
             UpdateButtons();
         }
@@ -37,6 +43,13 @@ public class NewSimulationDialog : Dialog
 
     public void OnOkay()
     {
+        if (agentEndpoint.Value == ScenarioEditor.SecretKey)
+        {
+            Hide();
+            ScenarioEditor.Show(simName.Value);
+            return;
+        }
+        
         SimulationManager.List(simName.Value, agentEndpoint.Value, existing =>
         {
             if (existing.Count != 0)
@@ -66,7 +79,8 @@ public class NewSimulationDialog : Dialog
     private void UpdateButtons()
     {
         okayButton.interactable = 
-            simName.Value != null && 
-            simName.Value != SimulationManager.DefaultSimulation.name;
+            simName.Value != null
+            && (simName.Value != SimulationManager.DefaultSimulation.name
+                || agentEndpoint.Value == ScenarioEditor.SecretKey);
     }
 }

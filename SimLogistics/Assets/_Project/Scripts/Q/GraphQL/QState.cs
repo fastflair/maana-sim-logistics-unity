@@ -20,11 +20,11 @@ public static class QStateFragment
     public static readonly string withIncludes = @$"
       {QTransitOrderFragment.data}
       {QResourceTransferFragment.data}
-      {QResourceFragment.data}
+      {QResourceFragment.OutputData}
       {QVehicleFragment.data}
       {QHubFragment.data}
       {QProducerFragment.data}
-      {QCityFragment.data}
+      {QCityFragment.OutputData}
       {QSimulationFragment.data}
       {data}
     ";

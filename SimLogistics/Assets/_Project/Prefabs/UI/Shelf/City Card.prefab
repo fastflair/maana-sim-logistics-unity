@@ -552,6 +552,10 @@ PrefabInstance:
       propertyPath: pages.Array.data[2]
       value: 
       objectReference: {fileID: 8254795485099739728}
+    - target: {fileID: 730014288496271250, guid: 7001c1d38339d4ef2b9a7e6d578f5a04, type: 3}
+      propertyPath: m_PreferredHeight
+      value: 9999
+      objectReference: {fileID: 0}
     - target: {fileID: 2117110496400533662, guid: 7001c1d38339d4ef2b9a7e6d578f5a04, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

@@ -5,6 +5,11 @@ using JetBrains.Annotations;
 
 public static class QProducerFragment
 {
+    public static readonly string withIncludes = @$"
+      {QResourceFragment.OutputData}
+      {data}
+    ";
+    
     public const string data = @"
         fragment producerData on ProducerOutput {
           id

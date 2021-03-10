@@ -190,6 +190,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Page Group
       objectReference: {fileID: 0}
+    - target: {fileID: 7536042658704001158, guid: f9a576c5e4cf6439885a224226e1f257, type: 3}
+      propertyPath: m_PreferredWidth
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7536042658704001158, guid: f9a576c5e4cf6439885a224226e1f257, type: 3}
+      propertyPath: m_PreferredHeight
+      value: 9999
+      objectReference: {fileID: 0}
     - target: {fileID: 9211429390373486474, guid: f9a576c5e4cf6439885a224226e1f257, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

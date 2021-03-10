@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class ConnectionsDialog : Dialog
 {
-    [SerializeField] private InputField inputFieldPrefab;
+    [SerializeField] private InputFieldItem inputFieldPrefab;
     [SerializeField] private Transform fieldHost;
     [SerializeField] private ButtonItem buttonItemPrefab;
     [SerializeField] private Transform listHost;
@@ -16,7 +16,7 @@ public class ConnectionsDialog : Dialog
     
     public ConnectionManager ConnectionManager { get; set; }
 
-    private readonly Dictionary<string, InputField> _fieldMap = new Dictionary<string, InputField>();
+    private readonly Dictionary<string, InputFieldItem> _fieldMap = new Dictionary<string, InputFieldItem>();
 
     private ConnectionState _currentState;
         

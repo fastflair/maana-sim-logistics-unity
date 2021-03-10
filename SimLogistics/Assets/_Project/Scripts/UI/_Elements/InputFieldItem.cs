@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class InputField : MonoBehaviour
+public class InputFieldItem: MonoBehaviour
 {
     [SerializeField] private TMP_Text labelText;
     [SerializeField] private TMP_InputField input;

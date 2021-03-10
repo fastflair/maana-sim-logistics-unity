@@ -12,13 +12,16 @@ public class SystemBar : UIElement
     [SerializeField] private ConnectionsDialog connectionsDialogPrefab;
     [SerializeField] private NewSimulationDialog newSimulationDialogPrefab;
     [SerializeField] private LoadSimulationDialog loadSimulationDialogPrefab;
-
+    
     // Buttons
     [SerializeField] private Button newSimulationButton;
     [SerializeField] private Button loadSimulationButton;
     [SerializeField] private Button deleteSimulationButton;
     [SerializeField] private Button simulationButton;
-    
+
+    // Scenario editor
+    [SerializeField] private ScenarioEditor scenarioEditor;
+
     public override void Show()
     {
         UpdateButtons();
@@ -88,6 +91,7 @@ public class SystemBar : UIElement
         var dialog = uiManager.ShowDialogPrefab<NewSimulationDialog>(newSimulationDialogPrefab);
         dialog.UIManager = uiManager;
         dialog.SimulationManager = simulationManager;
+        dialog.ScenarioEditor = scenarioEditor;
     }
 
     public void EnableNewSimulationButton()

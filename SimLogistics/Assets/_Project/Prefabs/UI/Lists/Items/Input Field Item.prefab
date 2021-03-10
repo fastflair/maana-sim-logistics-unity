@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 7305330419361223083}
   - component: {fileID: 8474801878110449018}
   - component: {fileID: 8531350554622941582}
-  - component: {fileID: 7629442598875263535}
+  - component: {fileID: 857569273442587415}
   m_Layer: 5
-  m_Name: Input Field
+  m_Name: Input Field Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86,7 +86,7 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &7629442598875263535
+--- !u!114 &857569273442587415
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

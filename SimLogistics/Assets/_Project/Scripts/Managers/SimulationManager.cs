@@ -7,6 +7,11 @@ using UnityEngine.Events;
 
 public class SimulationManager : MonoBehaviour
 {
+    [SerializeField] private string cityEndpoint = "maana-sim-logistics-city-v3";
+    [SerializeField] private string producerEndpoint = "maana-sim-logistics-producer-v3";
+    [SerializeField] private string hubEndpoint = "maana-sim-logistics-hub-v3";
+    [SerializeField] private string vehicleEndpoint = "maana-sim-logistics-vehicle-v3";
+    
     public enum ActionType
     {
         Transit,
@@ -421,6 +426,120 @@ public class SimulationManager : MonoBehaviour
             Save(state, _ => { });
         });
     }
+    
+    // --- Editor
+
+    public void LoadCities(string sim, Action<List<QCity>> callback)
+    {
+        const string queryName = "selectCity";
+        var query = @$"
+          {QCityFragment.OutputDataWithIncludes}
+          query {{
+            {queryName}(sim: ""{sim}"") {{
+              ...cityData
+            }}
+          }}
+        ";
+        connectionManager.QueryRaiseOnError(
+            cityEndpoint,
+            query,
+            queryName,
+            callback);
+    }
+
+    public void SaveCity(QCity city, Action<string> callback)
+    {
+        const string queryName = "addCity";
+        var query = @$"
+          mutation {{
+            {queryName}(input: {{
+              id: ""{city.id}""
+              sim: ""{city.sim}""
+              x: {city.x}
+              y: {city.y}
+              steps: {city.steps}
+              population: {city.population}
+              populationGrowthRate: {city.populationGrowthRate}
+              populationDeclineRate: {city.populationDeclineRate}
+              demand: [{string.Join(",",city.demand.Select(x => $"\"{x.id}\""))}]
+           }})
+          }}
+        ";
+        connectionManager.QueryRaiseOnError(
+            cityEndpoint,
+            query,
+            queryName,
+            callback);
+    }
+    
+    public void DeleteCity(string id, Action<QId> callback)
+    {
+        const string queryName = "deleteCity";
+        var query = @$"
+          mutation {{
+            {queryName}(id: ""{id}"") {{
+              id
+            }}
+          }}
+        ";
+        connectionManager.QueryRaiseOnError(
+            cityEndpoint,
+            query,
+            queryName,
+            callback);
+    }
+    
+    public void LoadProducers(string sim, Action<List<QProducer>> callback)
+    {
+        const string queryName = "selectProducer";
+        var query = @$"
+          {QProducerFragment.withIncludes}
+          query {{
+            {queryName}(sim: ""{sim}"") {{
+              ...producerData
+            }}
+          }}
+        ";
+        connectionManager.QueryRaiseOnError(
+            connectionManager.ApiEndpoint,
+            query,
+            queryName,
+            callback);
+    }
+    public void LoadHubs(string sim, Action<List<QHub>> callback)
+    {
+        const string queryName = "selectHub";
+        var query = @$"
+          {QHubFragment.withIncludes}
+          query {{
+            {queryName}(sim: ""{sim}"") {{
+              ...hubData
+            }}
+          }}
+        ";
+        connectionManager.QueryRaiseOnError(
+            connectionManager.ApiEndpoint,
+            query,
+            queryName,
+            callback);
+    }
+    public void LoadVehicles(string sim, Action<List<QVehicle>> callback)
+    {
+        const string queryName = "selectVehicle";
+        var query = @$"
+          {QVehicleFragment.withIncludes}
+          query {{
+            {queryName}(sim: ""{sim}"") {{
+              ...vehicleData
+            }}
+          }}
+        ";
+        connectionManager.QueryRaiseOnError(
+            connectionManager.ApiEndpoint,
+            query,
+            queryName,
+            callback);
+    }
 
     // --- Internal
 
@@ -476,7 +595,7 @@ public class SimulationManager : MonoBehaviour
 
     private void InternalStateQuery(string queryName, string query, Action<QState> callback)
     {
-        connectionManager.QueryRaiseOnError<QState>(
+        connectionManager.QueryRaiseOnError(
             connectionManager.ApiEndpoint,
             query,
             queryName,

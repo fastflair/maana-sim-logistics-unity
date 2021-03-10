@@ -8,14 +8,10 @@ public class MessageDialog : Dialog
 {
     [SerializeField] private TMP_Text textArea;
 
-    public void SetText(string text)
+    public string Text
     {
-        textArea.text = text;
-    }
-
-    public string GetText()
-    {
-        return textArea.text;
+        get => textArea.text;
+        set => textArea.text = value;
     }
     
     public virtual void OnOkay()

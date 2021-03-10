@@ -5,6 +5,11 @@ using JetBrains.Annotations;
 
 public static class QHubFragment
 {
+    public static readonly string withIncludes = @$"
+      {QResourceFragment.OutputData}
+      {data}
+    ";
+    
     public const string data = @"
         fragment hubData on HubOutput {
           id

@@ -4,11 +4,14 @@ using JetBrains.Annotations;
 
 public static class QResourceFragment
 {
-    public const string data = @"
-        fragment resourceData on ResourceOutput {
+    public const string Kind = "Resource";
+    public static readonly string OutputKind = $"{Kind}Output";
+
+    public const string fragmentTemplate = @"
+        fragment resourceData on {0} {{
           id
           sim
-          type { id }
+          type {{ id }}
           capacity
           quantity
           basePricePerUnit
@@ -16,7 +19,10 @@ public static class QResourceFragment
           scarcitySurchargeFactor
           replenishRate
           consumptionRate
-        }";
+        }}";
+    
+    public static string Data => string.Format(fragmentTemplate, Kind);
+    public static readonly string OutputData = string.Format(fragmentTemplate, OutputKind);
 }
 
 public class QResource

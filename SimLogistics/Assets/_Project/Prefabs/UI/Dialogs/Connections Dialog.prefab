@@ -32,7 +32,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d4684f458ee34d07a2336ce70f75891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputFieldPrefab: {fileID: 7629442598875263535, guid: a4aceaf57534e481abc377beba95bba6, type: 3}
+  title: {fileID: 0}
+  inputFieldPrefab: {fileID: 857569273442587415, guid: a4aceaf57534e481abc377beba95bba6, type: 3}
   fieldHost: {fileID: 7830806721260773312}
   buttonItemPrefab: {fileID: -8417021970772368567, guid: 0d6633eb3f32b4d6da6d9edda942be81, type: 3}
   listHost: {fileID: 2278711577104073403}
@@ -494,6 +495,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6820070316269226896, guid: f5058d4e8a2234cae820f88caf3c148c, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6820070316635073219, guid: f5058d4e8a2234cae820f88caf3c148c, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -504,6 +509,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6820070316635073219, guid: f5058d4e8a2234cae820f88caf3c148c, type: 3}
       propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6820070317099697926, guid: f5058d4e8a2234cae820f88caf3c148c, type: 3}
+      propertyPath: m_Size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6820070317099697926, guid: f5058d4e8a2234cae820f88caf3c148c, type: 3}
+      propertyPath: m_Value
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6820070317099697927, guid: f5058d4e8a2234cae820f88caf3c148c, type: 3}
@@ -620,6 +633,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6820070317544013474, guid: f5058d4e8a2234cae820f88caf3c148c, type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6820070317828629967, guid: f5058d4e8a2234cae820f88caf3c148c, type: 3}
+      propertyPath: m_Size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6820070317828629967, guid: f5058d4e8a2234cae820f88caf3c148c, type: 3}
+      propertyPath: m_Value
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6820070317828630000, guid: f5058d4e8a2234cae820f88caf3c148c, type: 3}
@@ -790,27 +811,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3869212743653119259, guid: df495dd4c90be4eb2a3a83e9b81c1f75, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3869212743653119259, guid: df495dd4c90be4eb2a3a83e9b81c1f75, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3869212743653119259, guid: df495dd4c90be4eb2a3a83e9b81c1f75, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3869212743653119259, guid: df495dd4c90be4eb2a3a83e9b81c1f75, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3869212743653119259, guid: df495dd4c90be4eb2a3a83e9b81c1f75, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 700
       objectReference: {fileID: 0}
     - target: {fileID: 3869212743653119259, guid: df495dd4c90be4eb2a3a83e9b81c1f75, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 700
       objectReference: {fileID: 0}
     - target: {fileID: 3869212743653119259, guid: df495dd4c90be4eb2a3a83e9b81c1f75, type: 3}
       propertyPath: m_LocalPosition.x
@@ -862,7 +883,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3869212743799354607, guid: df495dd4c90be4eb2a3a83e9b81c1f75, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 900
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3869212743799354607, guid: df495dd4c90be4eb2a3a83e9b81c1f75, type: 3}
       propertyPath: m_LocalRotation.x

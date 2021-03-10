@@ -24,7 +24,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private ErrorDialog graphQlDialogPrefab;
     [SerializeField] private InfoDialog infoDialogPrefab;
     [SerializeField] private HelpDialog helpDialogPrefab;
-
+    
     private readonly Queue<Dialog> _dialogQueue = new Queue<Dialog>();
 
     // Cards
@@ -142,7 +142,7 @@ public class UIManager : MonoBehaviour
     public ConfirmationDialog ShowConfirmationDialog(string message)
     {
         var confirmationDialog = Instantiate(confirmationDialogPrefab, dialogHost, false);
-        confirmationDialog.SetText(message);
+        confirmationDialog.Text = message;
         ShowDialog(confirmationDialog);
         return confirmationDialog;
     }
@@ -156,19 +156,19 @@ public class UIManager : MonoBehaviour
             errorDialog = dialog as ErrorDialog;
             if (errorDialog == null) continue;
 
-            if (errorDialog.GetText() != message) continue;
+            if (errorDialog.Text != message) continue;
 
             return;
         }
 
         errorDialog = ShowDialogPrefab<ErrorDialog>(errorDialogPrefab);
-        errorDialog.SetText(message);
+        errorDialog.Text = message;
     }
 
     public void ShowGraphQlDialog(string message)
     {
         var dialog = ShowDialogPrefab<ErrorDialog>(graphQlDialogPrefab);
-        dialog.SetText(message);
+        dialog.Text = message;
     }
 
     // Info and Help
@@ -182,7 +182,7 @@ public class UIManager : MonoBehaviour
     public void ShowInfoDialog(string message)
     {
         var infoDialog = ShowDialogPrefab<InfoDialog>(infoDialogPrefab);
-        infoDialog.SetText(message);
+        infoDialog.Text = message;
     }
 
     public void OnHelp()
@@ -193,7 +193,7 @@ public class UIManager : MonoBehaviour
     public void ShowHelpDialog(string message)
     {
         var helpDialog = ShowDialogPrefab<HelpDialog>(helpDialogPrefab);
-        helpDialog.SetText(message);
+        helpDialog.Text = message;
     }
 
     // Spinner

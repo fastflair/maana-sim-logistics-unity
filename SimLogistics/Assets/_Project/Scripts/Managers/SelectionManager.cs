@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SelectionManager : MonoBehaviour
 {
@@ -22,12 +23,12 @@ public class SelectionManager : MonoBehaviour
     private void Update()
     {
         if (!isWorldInteractable.Value) return;
-        
+
         var isMouseDown = Input.GetMouseButtonDown(0);
-        
+
         var ray = cameraController.Camera.ScreenPointToRay(Input.mousePosition);
         var isHit = Physics.Raycast(ray, out var hitInfo, maxHitDistance, 1 << layer);
-        
+
         cameraController.HandleInput(ray, isHit);
 
         if (cameraController.IsDragging || Pointer.IsOverUIObject())
@@ -41,7 +42,7 @@ public class SelectionManager : MonoBehaviour
             Leave();
             return;
         }
-        
+
         var hitObject = hitInfo.collider.gameObject;
 
         var selectableObject = hitObject.GetComponent<SelectableObject>();
@@ -97,8 +98,20 @@ public class SelectionManager : MonoBehaviour
 
     private void Select()
     {
-        if (_curSelectedObjects.Count == maxSelectedObjects) Deselect(_curSelectedObjects[0]);
-
+        var isShift = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+print($"isShift: {isShift}");
+        if (isShift)
+        {
+            if (_curSelectedObjects.Count == maxSelectedObjects)
+            {
+                Deselect(_curSelectedObjects[maxSelectedObjects - 1]);
+            }
+        }
+        else
+        {
+            DeselectAll();
+        }
+        
         _curSelectedObjects.Add(_curSelectableObject);
         _curSelectableObject.onSelect.Invoke();
     }
