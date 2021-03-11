@@ -1,0 +1,4 @@
+On the Prefabs/Vehicles folder there is an excavator animation example prefab. 
+You can just drag and drop it to your scene..press play  and it should work.
+You can preview the animation on Excavator Animation Example scene.
+The Animator is attached to the first child (Excavator Base) containing the mesh data.

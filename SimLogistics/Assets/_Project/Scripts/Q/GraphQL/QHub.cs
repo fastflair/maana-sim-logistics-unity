@@ -11,7 +11,7 @@ public static class QHubFragment
     ";
     
     public const string data = @"
-        fragment hubData on HubABOutput {
+        fragment hubData on HubOutput {
           id
           sim
           steps
@@ -38,7 +38,7 @@ public class QHub : QEntity
             type: {type}
             supplies: [{string.Join(",", supplies)}]
             vehicleType: {vehicleType}
-            repairSurcharge
+            repairSurcharge: {repairSurcharge}
         }}";
     }
 }

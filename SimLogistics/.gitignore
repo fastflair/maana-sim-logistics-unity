@@ -75,14 +75,21 @@ crashlytics-build.properties
 /[Aa]ssets/BootstrapConnection.json
 
 # 3rd-party packages
+/[Aa]ssets/01.JIH_Resource/
 /[Aa]ssets/3D\ Road\ Tiles*
 /[Aa]ssets/AssetStoreOriginals/
 /[Aa]ssets/Concrete\ textures\ pack/
 /[Aa]ssets/FactorySite/
+/[Aa]ssets/JsonDotNet/
+/[Aa]ssets/LeanTween/
+/[Aa]ssets/Low\ Poly\ Mining/
+/[Aa]ssets/Oil\ producing\ assets/
 /[Aa]ssets/Oil_Refinery_06/
 /[Aa]ssets/Oil_Rig_Platform_Pack/
 /[Aa]ssets/Plugins/
-/[Aa]ssets/polyperfect/
+/[Aa]ssets/PowerPlant/
 /[Aa]ssets/SampleScenes/
 /[Aa]ssets/SimpleAirport/
 /[Aa]ssets/SimplePort/
+/[Aa]ssets/TextMesh\ Pro/
+/[Aa]ssets/polyperfect/

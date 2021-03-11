@@ -28,6 +28,7 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject grassTile00Prefab;
 
     [SerializeField] private GameObject pavementTile00Prefab;
+    [SerializeField] private GameObject pavementTile01Prefab;
 
     [SerializeField] private GameObject waterTile00Prefab;
     [SerializeField] private GameObject waterTile01Prefab;
@@ -143,6 +144,7 @@ public class MapManager : MonoBehaviour
             "Grass" => grassTile00Prefab,
             "Sand" => sandTile00Prefab,
             "Pavement" => pavementTile00Prefab,
+            "Pavement01" => pavementTile01Prefab,
             "Water" => waterTile00Prefab,
             "Water01" => waterTile01Prefab,
             _ => null

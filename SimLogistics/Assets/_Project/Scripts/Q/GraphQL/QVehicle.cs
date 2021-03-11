@@ -66,7 +66,7 @@ public class QVehicle : QEntity
             lastServiceStep: {lastServiceStep}
             cargoModeAND: {cargoModeAND.ToString().ToLower()}
             transitOrder: {transitOrder}
-            fuel: {fuel}
+            fuel: {(fuel == null ? "{}" : fuel.ToString())}
         }}";
     }
 }

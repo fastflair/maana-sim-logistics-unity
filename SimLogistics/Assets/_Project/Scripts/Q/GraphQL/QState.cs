@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 public static class QStateFragment
 {
     public const string data = @"
-        fragment stateData on StateAB {
+        fragment stateData on State {
           id
           sim { ...simulationData }
           cities { ...cityData }
