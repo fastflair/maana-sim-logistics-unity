@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -24,6 +25,8 @@ public class HubCard : Card
 
         foreach (var resource in qHub.supplies)
             AddResourceToList(suppliesItemList, resource);
+
+        AddPropertyToList(propertyItemList, "Repair Surcharge", qHub.repairSurcharge.ToString(CultureInfo.CurrentCulture));
     }
 
     private void ClearLists()

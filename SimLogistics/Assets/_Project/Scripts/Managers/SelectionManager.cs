@@ -99,7 +99,6 @@ public class SelectionManager : MonoBehaviour
     private void Select()
     {
         var isShift = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
-print($"isShift: {isShift}");
         if (isShift)
         {
             if (_curSelectedObjects.Count == maxSelectedObjects)
@@ -122,6 +121,7 @@ print($"isShift: {isShift}");
         if (_curSelectedObjects.Count == 0) return;
 
         _curSelectedObjects.Remove(selectableObject);
+        Enter();
     }
 
     public void DeselectAll()

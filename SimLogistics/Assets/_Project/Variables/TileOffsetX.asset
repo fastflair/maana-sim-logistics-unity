@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b47769ced173741c89261855cd4ea02d, type: 3}
   m_Name: TileOffsetX
   m_EditorClassIdentifier: 
-  defaultValue: 3
+  defaultValue: 1.5

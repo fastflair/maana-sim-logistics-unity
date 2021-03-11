@@ -76,20 +76,13 @@ crashlytics-build.properties
 
 # 3rd-party packages
 /[Aa]ssets/3D\ Road\ Tiles*
-/[Aa]ssets/AssetStoreOriginals*
-/[Aa]ssets/AssetStoreOriginals.meta
-/[Aa]ssets/Concrete\ textures\ pack*
-/[Aa]ssets/Concrete\ textures\ pack.meta
-/[Aa]ssets/FactorySite*
-/[Aa]ssets/FactorySite.meta
-/[Aa]ssets/Oil_Refinery_06*
-/[Aa]ssets/Oil_Refinery_06.meta
-/[Aa]ssets/Oil_Rig_Platform_Pack*
-/[Aa]ssets/Oil_Rig_Platform_Pack.meta
-/[Aa]ssets/Plugins*
-/[Aa]ssets/polyperfect*
-/[Aa]ssets/polyperfect.meta
-/[Aa]ssets/SampleScenes*
-/[Aa]ssets/SampleScenes.meta
-/[Aa]ssets/SimpleAirport*
-/[Aa]ssets/SimpleAirport.meta
+/[Aa]ssets/AssetStoreOriginals/
+/[Aa]ssets/Concrete\ textures\ pack/
+/[Aa]ssets/FactorySite/
+/[Aa]ssets/Oil_Refinery_06/
+/[Aa]ssets/Oil_Rig_Platform_Pack/
+/[Aa]ssets/Plugins/
+/[Aa]ssets/polyperfect/
+/[Aa]ssets/SampleScenes/
+/[Aa]ssets/SimpleAirport/
+/[Aa]ssets/SimplePort/

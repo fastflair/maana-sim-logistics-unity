@@ -15,30 +15,39 @@ public class VehicleCard : Card
     [SerializeField] protected Transform ordersItemList;
     [SerializeField] protected Transform noteItemList;
 
-    public void Populate(QVehicle qVehicle)
+    public void Populate(QVehicle vehicle)
     {
         ClearLists();
         
-        host.SetEntityId(qVehicle.id);
-        host.SetThumbnail(ResolveThumbnail(qVehicle.type.id));
+        host.SetEntityId(vehicle.id);
+        host.SetThumbnail(ResolveThumbnail(vehicle.type.id));
 
-        foreach (var resource in qVehicle.cargo)
+        foreach (var resource in vehicle.cargo)
             AddResourceToList(cargoItemList, resource);
 
-        AddPropertyToList(ordersItemList, "Status", qVehicle.transitOrder.status.id);
-        AddPropertyToList(ordersItemList, "DestX", qVehicle.transitOrder.destX.ToString(CultureInfo.CurrentCulture));
-        AddPropertyToList(ordersItemList, "DestY", qVehicle.transitOrder.destY.ToString(CultureInfo.CurrentCulture));
-        AddPropertyToList(ordersItemList, "Steps", qVehicle.transitOrder.steps.ToString(CultureInfo.CurrentCulture));
+        AddPropertyToList(ordersItemList, "Status", vehicle.transitOrder.status.id);
+        AddPropertyToList(ordersItemList, "DestX", vehicle.transitOrder.destX.ToString(CultureInfo.CurrentCulture));
+        AddPropertyToList(ordersItemList, "DestY", vehicle.transitOrder.destY.ToString(CultureInfo.CurrentCulture));
+        AddPropertyToList(ordersItemList, "Steps", vehicle.transitOrder.steps.ToString(CultureInfo.CurrentCulture));
 
-        AddPropertyToList(propertyItemList, "X", qVehicle.x.ToString(CultureInfo.CurrentCulture));
-        AddPropertyToList(propertyItemList, "Y", qVehicle.y.ToString(CultureInfo.CurrentCulture));
-        AddPropertyToList(propertyItemList, "Speed", qVehicle.speed.ToString(CultureInfo.CurrentCulture));
-        AddPropertyToList(propertyItemList, "Max Distance", qVehicle.maxDistance.ToString(CultureInfo.CurrentCulture));
-        AddPropertyToList(propertyItemList, "Efficiency", qVehicle.efficiency.ToString(CultureInfo.CurrentCulture));
-        AddPropertyToList(propertyItemList, "Durability", qVehicle.durability.ToString(CultureInfo.CurrentCulture));
-        AddPropertyToList(propertyItemList, "Service Interval", qVehicle.serviceInterval.ToString(CultureInfo.CurrentCulture));
-        AddPropertyToList(propertyItemList, "Last Service Step", $"{qVehicle.lastServiceStep.ToString(CultureInfo.CurrentCulture)} ({qVehicle.steps - qVehicle.lastServiceStep})");
-        AddPropertyToList(propertyItemList, "Cargo Mode AND?", qVehicle.cargoModeAND.ToString(CultureInfo.CurrentCulture));
+        AddPropertyToList(propertyItemList, "X", vehicle.x.ToString(CultureInfo.CurrentCulture));
+        AddPropertyToList(propertyItemList, "Y", vehicle.y.ToString(CultureInfo.CurrentCulture));
+        if (vehicle.fuel == null)
+        {
+            AddPropertyToList(propertyItemList, "Fuel", "!!! NULL !!!");
+        }
+        else
+        {
+            AddPropertyToList(propertyItemList, "Fuel", SimulationManager.FormatResourceVolumeDisplay(vehicle.fuel));
+        }
+
+        AddPropertyToList(propertyItemList, "Speed", vehicle.speed.ToString(CultureInfo.CurrentCulture));
+        AddPropertyToList(propertyItemList, "Max Distance", vehicle.maxDistance.ToString(CultureInfo.CurrentCulture));
+        AddPropertyToList(propertyItemList, "Efficiency", vehicle.efficiency.ToString(CultureInfo.CurrentCulture));
+        AddPropertyToList(propertyItemList, "Durability", vehicle.durability.ToString(CultureInfo.CurrentCulture));
+        AddPropertyToList(propertyItemList, "Service Interval", vehicle.serviceInterval.ToString(CultureInfo.CurrentCulture));
+        AddPropertyToList(propertyItemList, "Last Service Step", $"{vehicle.lastServiceStep.ToString(CultureInfo.CurrentCulture)} ({vehicle.steps - vehicle.lastServiceStep})");
+        AddPropertyToList(propertyItemList, "Cargo Mode AND?", vehicle.cargoModeAND.ToString(CultureInfo.CurrentCulture));
     }
     
     private void ClearLists()

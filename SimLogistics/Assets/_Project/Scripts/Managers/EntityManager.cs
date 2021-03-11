@@ -13,6 +13,7 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
     [SerializeField] private UnityEvent onSpawned;
 
     [SerializeField] protected CardHost cardHost;
+    [SerializeField] protected MapManager mapManager;
     [SerializeField] protected SimulationManager simulationManager;
     [SerializeField] private FloatVariable tileSize;
     [SerializeField] private FloatVariable entityOffsetX;
@@ -26,11 +27,11 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
     private float EntityXToWorldX(float x) => tileSize.Value * x + entityOffsetX.Value;
     private float EntityYToWorldZ(float y) => -(tileSize.Value * y + entityOffsetY.Value);
 
-    
+
     // Interface
     protected abstract IEnumerable<TQEntity> QEntities { get; }
     public abstract Entity EntityPrefab(TQEntity qEntity);
-    
+
     public virtual void Spawn()
     {
         Destroy();
@@ -49,7 +50,7 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
     public void OnUpdate()
     {
         // print($"[{name}] OnUpdate");
-        
+
         foreach (var entity in UEntities)
         {
             entity.QEntity = QEntities.First(qCity => qCity.id == entity.QEntity.id);
@@ -62,6 +63,7 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
                 print($"[{name}] {SimulationManager.FormatEntityIdDisplay(entity.QEntity.id)} - no change.");
                 continue;
             }
+
             print($"[{name}] {SimulationManager.FormatEntityIdDisplay(entity.QEntity.id)} -> ({newPosX}, {newPosZ})");
 
             var newPosition = new Vector3(newPosX, entityTransform.position.y, newPosZ);
@@ -89,11 +91,13 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
         foreach (var qEntity in QEntities)
         {
             // print($"Spawning entity: {qEntity}");
-            
+
             var prefab = EntityPrefab(qEntity);
+            var quaternion = mapManager.TileRotation(qEntity.x, qEntity.y);
+
             var entity = Instantiate(prefab,
                 new Vector3(EntityXToWorldX(qEntity.x), spawnHeight.Value * tileSize.Value, EntityYToWorldZ(qEntity.y)),
-                Quaternion.identity);
+                quaternion);
             entity.cardHost = cardHost;
             entity.QEntity = qEntity;
             UEntities.Add(entity);

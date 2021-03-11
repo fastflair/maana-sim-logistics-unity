@@ -11,7 +11,7 @@ public static class QHubFragment
     ";
     
     public const string data = @"
-        fragment hubData on HubOutput {
+        fragment hubData on HubABOutput {
           id
           sim
           steps
@@ -20,19 +20,8 @@ public static class QHubFragment
           type { id }
           supplies { ...resourceData }
           vehicleType { id }
+          repairSurcharge
         }";
-}
-
-public class QHubTypeEnum
-{
-    [UsedImplicitly] public string id;
-    
-    public override string ToString()
-    {
-        return @$"{{
-            id: ""{id}""
-        }}";
-    }
 }
 
 public class QHub : QEntity
@@ -40,6 +29,7 @@ public class QHub : QEntity
     [UsedImplicitly] public QHubTypeEnum type;
     [UsedImplicitly] public List<QResource> supplies;
     [UsedImplicitly] public QVehicleTypeEnum vehicleType;
+    [UsedImplicitly] public float repairSurcharge;
     
     public override string ToString()
     {
@@ -48,6 +38,7 @@ public class QHub : QEntity
             type: {type}
             supplies: [{string.Join(",", supplies)}]
             vehicleType: {vehicleType}
+            repairSurcharge
         }}";
     }
 }

@@ -11,6 +11,7 @@ public static class QTileFragment
           type { id }
           x
           y
+          yRot
         }";
 }
 
@@ -21,6 +22,8 @@ public class QTile
     [UsedImplicitly] public QTileTypeEnum type;
     [UsedImplicitly] public float x;
     [UsedImplicitly] public float y;
+    [UsedImplicitly] public float yRot;
+    
     public override string ToString()
     {
         return @$"{{
@@ -29,6 +32,7 @@ public class QTile
             type: {type}
             x: {x}
             y: {y}
+            yRot: {yRot}
         }}";
     }
 }

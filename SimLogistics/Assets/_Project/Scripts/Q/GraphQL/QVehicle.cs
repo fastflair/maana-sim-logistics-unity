@@ -30,6 +30,7 @@ public static class QVehicleFragment
           lastServiceStep
           cargoModeAND
           transitOrder { ...transitOrderData }
+          fuel  { ...resourceData }
         }";
 }
 
@@ -47,7 +48,8 @@ public class QVehicle : QEntity
     [UsedImplicitly] public int lastServiceStep;    
     [UsedImplicitly] public bool cargoModeAND;
     [UsedImplicitly] public QTransitOrder transitOrder;
-    
+    [UsedImplicitly] public QResource fuel;
+
     public override string ToString()
     {
         return @$"{{
@@ -64,6 +66,7 @@ public class QVehicle : QEntity
             lastServiceStep: {lastServiceStep}
             cargoModeAND: {cargoModeAND.ToString().ToLower()}
             transitOrder: {transitOrder}
+            fuel: {fuel}
         }}";
     }
 }
