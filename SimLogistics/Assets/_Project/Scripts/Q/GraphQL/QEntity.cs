@@ -19,7 +19,7 @@ public class QEntity
             steps: {steps}
             x: {x}
             y: {y}
-            y: {yRot}
+            yRot: {yRot}
         ";
     }
 }
