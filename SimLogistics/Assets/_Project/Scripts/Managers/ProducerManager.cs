@@ -31,7 +31,7 @@ public class ProducerManager : EntityManager<QProducer>
 
     public override Entity EntityPrefab(QProducer qProducer)
     {
-        print($"prefab for {qProducer.type.id}");
+        // print($"prefab for {qProducer.type.id}");
         return qProducer.type.id switch
         {
             "CoalMine" => coalMinePrefab,

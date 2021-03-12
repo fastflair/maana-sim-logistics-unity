@@ -17,6 +17,7 @@ public static class QCityFragment
           steps
           x
           y
+          yRot
           population
           populationGrowthRate
           populationDeclineRate

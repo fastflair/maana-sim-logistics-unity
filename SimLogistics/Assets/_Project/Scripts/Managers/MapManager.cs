@@ -24,6 +24,12 @@ public class MapManager : MonoBehaviour
     [SerializeField] private FloatVariable spawnDelay;
 
     [SerializeField] private GameObject sandTile00Prefab;
+    [SerializeField] private GameObject sandTile01Prefab;
+    [SerializeField] private GameObject sandTile02Prefab;
+    [SerializeField] private GameObject sandTile03Prefab;
+    [SerializeField] private GameObject sandTile04Prefab;
+    [SerializeField] private GameObject sandTile05Prefab;
+    [SerializeField] private GameObject sandTile06Prefab;
 
     [SerializeField] private GameObject grassTile00Prefab;
 
@@ -32,6 +38,10 @@ public class MapManager : MonoBehaviour
 
     [SerializeField] private GameObject waterTile00Prefab;
     [SerializeField] private GameObject waterTile01Prefab;
+    [SerializeField] private GameObject waterTile02Prefab;
+    [SerializeField] private GameObject waterTile03Prefab;
+    [SerializeField] private GameObject waterTile04Prefab;
+    [SerializeField] private GameObject waterTile05Prefab;
 
     private QMapAndTiles QMapAndTiles { get; set; }
     private List<GameObject> _tileGameObjects = new List<GameObject>();
@@ -47,18 +57,12 @@ public class MapManager : MonoBehaviour
         ).FirstOrDefault();
     }
 
-    public Quaternion TileRotation(float x, float y)
+    private Quaternion TileRotation(float x, float y)
     {
         var yRot = TileYRot(x, y);
-        var quaternion = Quaternion.identity;
-        if (yRot != 0f)
-        {
-            quaternion.eulerAngles = new Vector3(0f, yRot, 0f);
-        }
-
-        return quaternion;
+        return Helpers.QuaternionFromEuler(0f, yRot, 0f);
     }
-
+    
     private float TileXToWorldX(float x) => tileSize.Value * x + tileOffsetX.Value;
     private float TileYToWorldZ(float y) => -(tileSize.Value * y + tileOffsetY.Value);
 
@@ -127,7 +131,7 @@ public class MapManager : MonoBehaviour
             let posZ = TileYToWorldZ(qTile.y)
             let quaternion = TileRotation(qTile.x, qTile.y)
             let position = new Vector3(posX, spawnHeight.Value * tileSize.Value, posZ)
-            select Instantiate(tilePrefab, position , quaternion))
+            select Instantiate(tilePrefab, position, quaternion))
         {
             _tileGameObjects.Add(tile);
 
@@ -143,10 +147,20 @@ public class MapManager : MonoBehaviour
         {
             "Grass" => grassTile00Prefab,
             "Sand" => sandTile00Prefab,
+            "Sand01" => sandTile01Prefab,
+            "Sand02" => sandTile02Prefab,
+            "Sand03" => sandTile03Prefab,
+            "Sand04" => sandTile04Prefab,
+            "Sand05" => sandTile05Prefab,
+            "Sand06" => sandTile06Prefab,
             "Pavement" => pavementTile00Prefab,
             "Pavement01" => pavementTile01Prefab,
             "Water" => waterTile00Prefab,
             "Water01" => waterTile01Prefab,
+            "Water02" => waterTile02Prefab,
+            "Water03" => waterTile03Prefab,
+            "Water04" => waterTile04Prefab,
+            "Water05" => waterTile05Prefab,
             _ => null
         };
     }

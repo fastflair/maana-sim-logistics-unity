@@ -45,6 +45,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 622289766772094482}
     m_Modifications:
+    - target: {fileID: 1097477508800238696, guid: 1cad2e32a3ddf674da608cece9caca87, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7585598837971527554, guid: 1cad2e32a3ddf674da608cece9caca87, type: 3}
       propertyPath: m_Name
       value: MudRoad_04 (4)
@@ -155,6 +159,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MudRoad_03 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7456131265400195478, guid: 933e109ff6d329c49b0b82714442d78d, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 933e109ff6d329c49b0b82714442d78d, type: 3}
 --- !u!4 &451031416979219293 stripped
@@ -213,6 +221,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5131228850944234936, guid: f0a64886e813c8b4eb17c1c2ac3b02b8, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5131228850944332574, guid: f0a64886e813c8b4eb17c1c2ac3b02b8, type: 3}
       propertyPath: m_Name
       value: Tractor_02
@@ -231,6 +243,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 622289766772094482}
     m_Modifications:
+    - target: {fileID: 127952134254593646, guid: 4eafdaf5a23d5f7418231a0294959d23, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6380355346290493561, guid: 4eafdaf5a23d5f7418231a0294959d23, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -297,6 +313,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 622289766772094482}
     m_Modifications:
+    - target: {fileID: 4944807333662227390, guid: 417dcd421c019004abf7fdedf046c87a, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7348661498512751388, guid: 417dcd421c019004abf7fdedf046c87a, type: 3}
       propertyPath: m_Name
       value: Cultivator_01
@@ -359,6 +379,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 622289766772094482}
     m_Modifications:
+    - target: {fileID: 1097477508800238696, guid: 1cad2e32a3ddf674da608cece9caca87, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7585598837971527554, guid: 1cad2e32a3ddf674da608cece9caca87, type: 3}
       propertyPath: m_Name
       value: MudRoad_04 (3)
@@ -421,6 +445,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 622289766772094482}
     m_Modifications:
+    - target: {fileID: 1097477508800238696, guid: 1cad2e32a3ddf674da608cece9caca87, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7585598837971527554, guid: 1cad2e32a3ddf674da608cece9caca87, type: 3}
       propertyPath: m_Name
       value: MudRoad_04
@@ -483,6 +511,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 622289766772094482}
     m_Modifications:
+    - target: {fileID: 127952134254593646, guid: 4eafdaf5a23d5f7418231a0294959d23, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6380355346290493561, guid: 4eafdaf5a23d5f7418231a0294959d23, type: 3}
       propertyPath: m_RootOrder
       value: 1

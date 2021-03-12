@@ -60,11 +60,11 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
             if (!(Math.Abs(newPosX - entityTransform.position.x) > float.Epsilon) &&
                 !(Math.Abs(newPosZ - entityTransform.position.z) > float.Epsilon))
             {
-                print($"[{name}] {SimulationManager.FormatEntityIdDisplay(entity.QEntity.id)} - no change.");
+                // print($"[{name}] {SimulationManager.FormatEntityIdDisplay(entity.QEntity.id)} - no change.");
                 continue;
             }
 
-            print($"[{name}] {SimulationManager.FormatEntityIdDisplay(entity.QEntity.id)} -> ({newPosX}, {newPosZ})");
+            // print($"[{name}] {SimulationManager.FormatEntityIdDisplay(entity.QEntity.id)} -> ({newPosX}, {newPosZ})");
 
             var newPosition = new Vector3(newPosX, entityTransform.position.y, newPosZ);
             StartCoroutine(LerpPosition(entityTransform, newPosition, lerpSpeed));
@@ -93,7 +93,7 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
             print($"Spawning entity: {qEntity}");
 
             var prefab = EntityPrefab(qEntity);
-            var quaternion = mapManager.TileRotation(qEntity.x, qEntity.y);
+            var quaternion = Helpers.QuaternionFromEuler(0f, qEntity.yRot, 0f);
 
             var entity = Instantiate(prefab,
                 new Vector3(EntityXToWorldX(qEntity.x), spawnHeight.Value * tileSize.Value, EntityYToWorldZ(qEntity.y)),

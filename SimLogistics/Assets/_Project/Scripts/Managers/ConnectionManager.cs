@@ -106,7 +106,7 @@ public class ConnectionManager : MonoBehaviour
                 return;
             }
 
-            // print($"response: {response.Raw}");
+            print($"response: {response.Raw}");
             
             callback.Invoke(response.GetValue<T>(queryName));
         });

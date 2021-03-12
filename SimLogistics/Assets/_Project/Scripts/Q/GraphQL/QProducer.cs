@@ -17,6 +17,7 @@ public static class QProducerFragment
           steps
           x
           y
+          yRot
           type { id }
           material { ...resourceData }
           products { ...resourceData }

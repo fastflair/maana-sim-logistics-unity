@@ -10791,11 +10791,21 @@ MonoBehaviour:
   spawnHeight: {fileID: 11400000, guid: a5b0373571464403b8f12fd2b4bb5c27, type: 2}
   spawnDelay: {fileID: 11400000, guid: d9406173a3339405d96b5cfaf8644123, type: 2}
   sandTile00Prefab: {fileID: 2762785232866820775, guid: 0750b0a1eac71401789f09517aa260a4, type: 3}
+  sandTile01Prefab: {fileID: 7599567346948611621, guid: bc68c7c0f976749309ba28df90932b86, type: 3}
+  sandTile02Prefab: {fileID: 6849672853559640340, guid: bdd4fd75c744c4f0697565d893fdf2dc, type: 3}
+  sandTile03Prefab: {fileID: 6759671532555367107, guid: f30541120553d4b83acd6595b8478904, type: 3}
+  sandTile04Prefab: {fileID: 8664357711561529259, guid: 4cfc77d685568423bbf20ab552029aa3, type: 3}
+  sandTile05Prefab: {fileID: 5274444071079958604, guid: ba5963415c0b94b33b9f268e24579ab8, type: 3}
+  sandTile06Prefab: {fileID: 1135455378719930216, guid: 03653b9ca53454c9796a99a6f9b6c5ab, type: 3}
   grassTile00Prefab: {fileID: 965181073083047076, guid: 91c16f5b6a15c4c7aba08214d1b0a556, type: 3}
   pavementTile00Prefab: {fileID: 6942822716297602271, guid: 6ccb74520404243dabe984749f914969, type: 3}
   pavementTile01Prefab: {fileID: 6942822716297602271, guid: 3190ffb4a93fc4d23bd7e341c26d4d57, type: 3}
   waterTile00Prefab: {fileID: 7819366176534407125, guid: 7396fef31632840eb9f6bc0a8b9825b2, type: 3}
   waterTile01Prefab: {fileID: 7819366176534407125, guid: 19db75bf2f1344f7a878ee756a63216c, type: 3}
+  waterTile02Prefab: {fileID: 7819366176534407125, guid: d6ed2fb97143a4509af4385986cb0c9e, type: 3}
+  waterTile03Prefab: {fileID: 8638837592244892736, guid: fd5c316e5f723472285eb4106d55f083, type: 3}
+  waterTile04Prefab: {fileID: 3342293105974815230, guid: cfd65e2f208344d87b7ac086f8e25681, type: 3}
+  waterTile05Prefab: {fileID: 7209482994583693127, guid: 9e5c52e00d755477d854e2135ce26f00, type: 3}
 --- !u!4 &893339562
 Transform:
   m_ObjectHideFlags: 0

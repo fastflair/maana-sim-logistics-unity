@@ -9,6 +9,7 @@ public class QEntity
     [UsedImplicitly] public int steps;
     [UsedImplicitly] public float x;
     [UsedImplicitly] public float y;
+    [UsedImplicitly] public float yRot;
 
     public override string ToString()
     {
@@ -18,6 +19,7 @@ public class QEntity
             steps: {steps}
             x: {x}
             y: {y}
+            y: {yRot}
         ";
     }
 }
