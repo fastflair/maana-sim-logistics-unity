@@ -90,7 +90,7 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
     {
         foreach (var qEntity in QEntities)
         {
-            // print($"Spawning entity: {qEntity}");
+            print($"Spawning entity: {qEntity}");
 
             var prefab = EntityPrefab(qEntity);
             var quaternion = mapManager.TileRotation(qEntity.x, qEntity.y);
