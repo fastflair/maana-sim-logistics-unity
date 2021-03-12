@@ -93,7 +93,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1803277010588967155, guid: fdaa74126b3714c63b051e6c40db71c9, type: 3}
       propertyPath: m_Name
-      value: Scroll List
+      value: Resource List
+      objectReference: {fileID: 0}
+    - target: {fileID: 1803277010995071240, guid: fdaa74126b3714c63b051e6c40db71c9, type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1803277011576343998, guid: fdaa74126b3714c63b051e6c40db71c9, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1803277011576343998, guid: fdaa74126b3714c63b051e6c40db71c9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1803277011760773098, guid: fdaa74126b3714c63b051e6c40db71c9, type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1803277012266397821, guid: fdaa74126b3714c63b051e6c40db71c9, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1803277012266397821, guid: fdaa74126b3714c63b051e6c40db71c9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fdaa74126b3714c63b051e6c40db71c9, type: 3}

@@ -49,11 +49,11 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
 
     public void OnUpdate()
     {
-        // print($"[{name}] OnUpdate");
+        print($"[{name}] OnUpdate");
 
         foreach (var entity in UEntities)
         {
-            entity.QEntity = QEntities.First(qCity => qCity.id == entity.QEntity.id);
+            entity.QEntity = QEntities.First(qEntity => qEntity.id == entity.QEntity.id);
             var entityTransform = entity.transform;
             var newPosX = EntityXToWorldX(entity.QEntity.x);
             var newPosZ = EntityYToWorldZ(entity.QEntity.y);

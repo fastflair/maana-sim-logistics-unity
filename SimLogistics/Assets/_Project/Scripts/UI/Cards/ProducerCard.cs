@@ -11,20 +11,25 @@ public class ProducerCard : Card
     [SerializeField] protected Transform propertyItemList;
     [SerializeField] protected Transform noteItemList;
     
-    public void Populate(QProducer qProducer)
+    public void Populate(QProducer producer)
     {
+        // print($"Populate producer: {producer}");
+        
         ClearLists();
         
-        host.SetEntityId(qProducer.id);
-        host.SetThumbnail(producerManager.EntityThumbnail(qProducer.type.id));
+        host.SetEntityId(producer.id);
+        host.SetThumbnail(producerManager.EntityThumbnail(producer.type.id));
 
-        AddPropertyToList(propertyItemList, "Stoppage Surcharge Factor", qProducer.stoppageSurchargeFactor.ToString(CultureInfo.CurrentCulture));
+        AddPropertyToList(propertyItemList, "Stoppage Surcharge Factor", producer.stoppageSurchargeFactor.ToString(CultureInfo.CurrentCulture));
         
-        foreach (var resource in qProducer.material)
+        foreach (var resource in producer.material)
             AddResourceToList(materialItemList, resource);
-        
-        foreach (var resource in qProducer.products)
+
+        foreach (var resource in producer.products)
+        {
+            print($"Adding produce to list: {resource}");
             AddResourceToList(productItemList, resource);
+        }
     }
     
     private void ClearLists()

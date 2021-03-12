@@ -16,17 +16,19 @@ public class HubCard : Card
     [SerializeField] protected Transform propertyItemList;
     [SerializeField] protected Transform noteItemList;
 
-    public void Populate(QHub qHub)
+    public void Populate(QHub hub)
     {
+        // print($"Populate hub: {hub}");
+        
         ClearLists();
         
-        host.SetThumbnail(ResolveThumbnail(qHub.type.id));
-        host.SetEntityId(qHub.id);
+        host.SetThumbnail(ResolveThumbnail(hub.type.id));
+        host.SetEntityId(hub.id);
 
-        foreach (var resource in qHub.supplies)
+        foreach (var resource in hub.supplies)
             AddResourceToList(suppliesItemList, resource);
 
-        AddPropertyToList(propertyItemList, "Repair Surcharge", qHub.repairSurcharge.ToString(CultureInfo.CurrentCulture));
+        AddPropertyToList(propertyItemList, "Repair Surcharge", hub.repairSurcharge.ToString(CultureInfo.CurrentCulture));
     }
 
     private void ClearLists()

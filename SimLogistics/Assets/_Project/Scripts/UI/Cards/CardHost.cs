@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class CardHost : MonoBehaviour
 {
+    [SerializeField] protected SimulationManager simulationManager;
     [SerializeField] protected TMP_Text title;
     [SerializeField] protected Image thumbnail;
     [SerializeField] protected CityCard cityCard;
@@ -14,9 +15,34 @@ public class CardHost : MonoBehaviour
     [SerializeField] protected WarehouseCard warehouseCard;
     
     private UIElement _activeCard;
+    private QEntity _activeEntity;
+    private Entity.EntityType _activeEntityType;
+    
+    public void OnSimulationUpdate()
+    {
+        // print($"OnSimulationUpdate: {_activeEntity}");
+        if (_activeEntity == null) return;
+        
+        QEntity qEntity = _activeEntityType switch
+        {
+            Entity.EntityType.City => simulationManager.CurrentState.cities.Find(x => x.id == _activeEntity.id),
+            Entity.EntityType.Producer => simulationManager.CurrentState.producers.Find(x => x.id == _activeEntity.id),
+            Entity.EntityType.Hub => simulationManager.CurrentState.hubs.Find(x => x.id == _activeEntity.id),
+            Entity.EntityType.Vehicle => simulationManager.CurrentState.vehicles.Find(x => x.id == _activeEntity.id),
+            _ => null
+        };
+
+        if (qEntity == null) return;
+        ShowCardForEntity(_activeEntityType, qEntity);
+    }
+    
     public void ShowCardForEntity(Entity.EntityType type, QEntity qEntity)
     {
+        // print($"ShowCardForEntity: {type} {qEntity}");
+        
         var prevActiveCard = _activeCard;
+        _activeEntityType = type;
+        _activeEntity = qEntity;
         
         switch (type)
         {

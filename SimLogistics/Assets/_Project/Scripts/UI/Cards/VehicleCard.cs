@@ -17,6 +17,8 @@ public class VehicleCard : Card
 
     public void Populate(QVehicle vehicle)
     {
+        // print($"Populate vehicle: {vehicle}");
+        
         ClearLists();
         
         host.SetEntityId(vehicle.id);

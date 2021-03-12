@@ -13,20 +13,22 @@ public class CityCard : Card
     [SerializeField] protected Transform propertyItemList;
     [SerializeField] protected Transform noteItemList;
 
-    public void Populate(QCity qCity)
+    public void Populate(QCity city)
     {
+        // print($"Populate city: {city}");
+        
         ClearLists();
 
         host.SetThumbnail(citySprite);
-        host.SetEntityId(qCity.id);
+        host.SetEntityId(city.id);
 
-        AddPropertyToList(propertyItemList, "Population", qCity.population.ToString(CultureInfo.CurrentCulture));
+        AddPropertyToList(propertyItemList, "Population", city.population.ToString(CultureInfo.CurrentCulture));
         AddPropertyToList(propertyItemList, "Population Growth Rate",
-            qCity.populationGrowthRate.ToString(CultureInfo.CurrentCulture));
+            city.populationGrowthRate.ToString(CultureInfo.CurrentCulture));
         AddPropertyToList(propertyItemList, "Population Decline Rate",
-            qCity.populationDeclineRate.ToString(CultureInfo.CurrentCulture));
+            city.populationDeclineRate.ToString(CultureInfo.CurrentCulture));
 
-        foreach (var resource in qCity.demand)
+        foreach (var resource in city.demand)
             AddResourceToList(resourceItemList, resource);
     }
 

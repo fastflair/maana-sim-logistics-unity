@@ -12,14 +12,16 @@ public class WarehouseCard : Card
     [SerializeField] protected Transform propertyItemList;
     [SerializeField] protected Transform noteItemList;
 
-    public void Populate(QProducer qProducer)
+    public void Populate(QProducer producer)
     {
+        // print($"Populate warehouse: {producer}");
+        
         ClearLists();
         
-        host.SetEntityId(qProducer.id);
+        host.SetEntityId(producer.id);
         host.SetThumbnail(warehouseSprite);
         
-        foreach (var resource in qProducer.material)
+        foreach (var resource in producer.material)
             AddResourceToList(storageItemList, resource);
     }
     
