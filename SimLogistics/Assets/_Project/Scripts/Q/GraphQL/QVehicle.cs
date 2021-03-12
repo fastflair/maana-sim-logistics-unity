@@ -18,6 +18,7 @@ public static class QVehicleFragment
           steps
           x
           y
+          yRot
           hub
           type { id }
           cargo { ...resourceData }

@@ -32,6 +32,10 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject sandTile06Prefab;
 
     [SerializeField] private GameObject grassTile00Prefab;
+    [SerializeField] private GameObject grassTile01Prefab;
+    [SerializeField] private GameObject grassTile02Prefab;
+    [SerializeField] private GameObject grassTile03Prefab;
+    [SerializeField] private GameObject grassTile04Prefab;
 
     [SerializeField] private GameObject pavementTile00Prefab;
     [SerializeField] private GameObject pavementTile01Prefab;
@@ -146,6 +150,10 @@ public class MapManager : MonoBehaviour
         return id switch
         {
             "Grass" => grassTile00Prefab,
+            "Grass01" => grassTile01Prefab,
+            "Grass02" => grassTile02Prefab,
+            "Grass03" => grassTile03Prefab,
+            "Grass04" => grassTile04Prefab,
             "Sand" => sandTile00Prefab,
             "Sand01" => sandTile01Prefab,
             "Sand02" => sandTile02Prefab,

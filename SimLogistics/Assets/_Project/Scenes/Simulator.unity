@@ -10798,6 +10798,10 @@ MonoBehaviour:
   sandTile05Prefab: {fileID: 5274444071079958604, guid: ba5963415c0b94b33b9f268e24579ab8, type: 3}
   sandTile06Prefab: {fileID: 1135455378719930216, guid: 03653b9ca53454c9796a99a6f9b6c5ab, type: 3}
   grassTile00Prefab: {fileID: 965181073083047076, guid: 91c16f5b6a15c4c7aba08214d1b0a556, type: 3}
+  grassTile01Prefab: {fileID: 2034011619596466478, guid: 5e9a41140b8ef46698b6d78c15ab36dc, type: 3}
+  grassTile02Prefab: {fileID: 6504811032051622184, guid: 6615a9750517c47d1b9e9ab30d854316, type: 3}
+  grassTile03Prefab: {fileID: 4270783207527070069, guid: a3ee77d2a18c1414a9c3dc1061c97352, type: 3}
+  grassTile04Prefab: {fileID: 5167161186426739157, guid: b39427337fdf14aed987a97b1b6fc3f4, type: 3}
   pavementTile00Prefab: {fileID: 6942822716297602271, guid: 6ccb74520404243dabe984749f914969, type: 3}
   pavementTile01Prefab: {fileID: 6942822716297602271, guid: 3190ffb4a93fc4d23bd7e341c26d4d57, type: 3}
   waterTile00Prefab: {fileID: 7819366176534407125, guid: 7396fef31632840eb9f6bc0a8b9825b2, type: 3}
