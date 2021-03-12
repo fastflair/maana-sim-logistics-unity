@@ -4179,7 +4179,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8054219288827531906, guid: 1fb058564b163254fa5c94a85e4a307f, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8054219288827531964, guid: 1fb058564b163254fa5c94a85e4a307f, type: 3}
       propertyPath: m_RootOrder
@@ -25301,8 +25301,8 @@ MonoBehaviour:
   rotationAmount: 0.9
   mouseRotationSpeed: 1000
   zoomAmount: {x: 0, y: -1, z: 1}
-  minBoundZoom: {x: 0, y: -999, z: -999}
-  maxBoundZoom: {x: 0, y: 999, z: -999}
+  minBoundZoom: {x: 0, y: 5.3, z: -26}
+  maxBoundZoom: {x: 0, y: 27, z: -4.3}
   tileSize: {fileID: 11400000, guid: 2b2cfc7108f50497a8f3d5c4318e37c6, type: 2}
   mapTilesX: {fileID: 11400000, guid: ae7b2de7954914ffdbc87c3334ef8ee7, type: 2}
   mapTilesY: {fileID: 11400000, guid: be6f14be92b3442df8b453436da559f8, type: 2}

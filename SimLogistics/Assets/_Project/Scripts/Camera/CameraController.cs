@@ -68,10 +68,8 @@ public class CameraController : MonoBehaviour
 
     private void UpdateCamera()
     {
-        /*
         ClampPosition();
         ClampZoom();
-        */
 
         transform.position = Vector3.Lerp(transform.position, _newPosition, Time.deltaTime * movementTime);
         transform.rotation = Quaternion.Lerp(transform.rotation, _newRotation, Time.deltaTime * movementTime);
@@ -208,13 +206,19 @@ public class CameraController : MonoBehaviour
         var maxX = tileSize.Value * mapTilesX.Value;
         var maxZ = -tileSize.Value * mapTilesY.Value;
 
-        _newPosition.x = Mathf.Clamp(_newPosition.x, 0, maxX);
-        _newPosition.z = Mathf.Clamp(_newPosition.z, maxZ, 0);
+        var newPositionX = Mathf.Clamp(_newPosition.x, 0, maxX);
+        var newPositionZ = Mathf.Clamp(_newPosition.z, maxZ, 0);
+
+        _newPosition.x = newPositionX;
+        _newPosition.z = newPositionZ;
     }
 
     private void ClampZoom()
     {
-        _newZoom.y = Mathf.Clamp(_newZoom.y, minBoundZoom.y, maxBoundZoom.y);
-        _newZoom.z = Mathf.Clamp(_newZoom.z, minBoundZoom.z, maxBoundZoom.z);
+        var newZoomY = Mathf.Clamp(_newZoom.y, minBoundZoom.y, maxBoundZoom.y);
+        var newZoomZ = Mathf.Clamp(_newZoom.z, minBoundZoom.z, maxBoundZoom.z);
+
+        _newZoom.y = newZoomY;
+        _newZoom.z = newZoomZ;
     }
 }
