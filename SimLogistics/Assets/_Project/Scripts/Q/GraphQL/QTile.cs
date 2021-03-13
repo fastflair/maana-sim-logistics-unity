@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using JetBrains.Annotations;
 
 // ReSharper disable InconsistentNaming
@@ -12,7 +13,14 @@ public static class QTileFragment
           x
           y
           yRot
+          traversalType { id }
+          dockInfo { ...dockInfoData }
         }";
+    
+    public static readonly string withIncludes = @$"
+      {QDockInfoFragment.data}
+      {data}
+    ";
 }
 
 public class QTile
@@ -23,6 +31,8 @@ public class QTile
     [UsedImplicitly] public float x;
     [UsedImplicitly] public float y;
     [UsedImplicitly] public float yRot;
+    [UsedImplicitly] public QTraversalTypeEnum traversalType;
+    [UsedImplicitly] public List<QDockInfo> dockInfo;
     
     public override string ToString()
     {
@@ -33,6 +43,8 @@ public class QTile
             x: {x}
             y: {y}
             yRot: {yRot}
+            traversalType: {traversalType}
+            dockInfo: [{string.Join(",", dockInfo)}]
         }}";
     }
 }

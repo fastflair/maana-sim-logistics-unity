@@ -36,6 +36,10 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject grassTile02Prefab;
     [SerializeField] private GameObject grassTile03Prefab;
     [SerializeField] private GameObject grassTile04Prefab;
+    [SerializeField] private GameObject grassTile05Prefab;
+    [SerializeField] private GameObject grassTile06Prefab;
+    [SerializeField] private GameObject grassTile07Prefab;
+    [SerializeField] private GameObject grassTile08Prefab;
 
     [SerializeField] private GameObject pavementTile00Prefab;
     [SerializeField] private GameObject pavementTile01Prefab;
@@ -103,7 +107,7 @@ public class MapManager : MonoBehaviour
         const string queryName = "mapAndTiles";
         var query = @$"
           {QMapFragment.data}
-          {QTileFragment.data}
+          {QTileFragment.withIncludes}
           {QMapAndTilesFragment.data}
           query {{
             {queryName}(map: ""{SimulationManager.MapName}"") {{
@@ -154,6 +158,10 @@ public class MapManager : MonoBehaviour
             "Grass02" => grassTile02Prefab,
             "Grass03" => grassTile03Prefab,
             "Grass04" => grassTile04Prefab,
+            "Grass05" => grassTile05Prefab,
+            "Grass06" => grassTile06Prefab,
+            "Grass07" => grassTile07Prefab,
+            "Grass08" => grassTile08Prefab,
             "Sand" => sandTile00Prefab,
             "Sand01" => sandTile01Prefab,
             "Sand02" => sandTile02Prefab,

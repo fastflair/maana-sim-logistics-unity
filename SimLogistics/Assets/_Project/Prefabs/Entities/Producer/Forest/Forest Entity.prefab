@@ -130,8 +130,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   meshRendererSource: {fileID: 6678818725308441883}
-  highlightColor: {r: 0.735849, g: 0.50788015, b: 0, a: 0.27058825}
-  selectColor: {r: 1, g: 0.68838257, b: 0, a: 0.27058825}
+  highlightColor: {r: 0.735849, g: 0.50788015, b: 0, a: 0.2509804}
+  selectColor: {r: 1, g: 0.68838257, b: 0, a: 0.5019608}
 --- !u!65 &9190718104270184772
 BoxCollider:
   m_ObjectHideFlags: 0
