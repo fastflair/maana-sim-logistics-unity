@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,12 +21,27 @@ public class SelectionManager : MonoBehaviour
         _curSelectedObjects.Clear();
     }
 
+    public void Select(SelectableObject selectableObject)
+    {
+        DeselectAll();
+        _curSelectableObject = selectableObject;
+        Select();
+    }
+
+    public void SelectMany(IEnumerable<SelectableObject> selectableObjects)
+    {
+        DeselectAll();
+        foreach (var selectableObject in selectableObjects)
+        {
+            _curSelectableObject = selectableObject;
+            Select(true);
+        }
+    }
+    
     private void Update()
     {
         if (!isWorldInteractable.Value) return;
-
-        var isMouseDown = Input.GetMouseButtonDown(0);
-
+        
         var ray = cameraController.Camera.ScreenPointToRay(Input.mousePosition);
         var isHit = Physics.Raycast(ray, out var hitInfo, maxHitDistance, 1 << layer);
 
@@ -51,6 +67,8 @@ public class SelectionManager : MonoBehaviour
             Leave();
             return;
         }
+        
+        var isMouseDown = Input.GetMouseButtonDown(0);
 
         if (selectableObject != _curSelectableObject)
         {
@@ -96,10 +114,10 @@ public class SelectionManager : MonoBehaviour
         _curSelectableObject = null;
     }
 
-    private void Select()
+    private void Select(bool fakeShift = false)
     {
         var isShift = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
-        if (isShift)
+        if (fakeShift || isShift)
         {
             if (_curSelectedObjects.Count == maxSelectedObjects)
             {

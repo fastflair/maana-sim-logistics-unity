@@ -8,7 +8,10 @@ public class Actions : MonoBehaviour
 {
     // Managers
     [SerializeField] private UIManager uiManager;
-
+    [SerializeField] private CityManager cityManager;
+    [SerializeField] private ProducerManager producerManager;
+    [SerializeField] private HubManager hubManager;
+    [SerializeField] private VehicleManager vehicleManager;
     [SerializeField] private SimulationManager simulationManager;
 
     // Prefabs
@@ -65,6 +68,10 @@ public class Actions : MonoBehaviour
         foreach (var transferOrder in transferOrders)
         {
             var transferOrderItem = Instantiate(transferOrderItemPrefab, ordersListHost, false);
+            transferOrderItem.CityManager = cityManager;
+            transferOrderItem.ProducerManager = producerManager;
+            transferOrderItem.HubManager = hubManager;
+            transferOrderItem.VehicleManager = vehicleManager;
             transferOrderItem.Populate(transferOrder);
         }
 
@@ -75,6 +82,7 @@ public class Actions : MonoBehaviour
         foreach (var transitOrder in qTransitOrders)
         {
             var transitOrderItem = Instantiate(transitOrderItemPrefab, ordersListHost, false);
+            transitOrderItem.VehicleManager = vehicleManager;
             transitOrderItem.Populate(transitOrder);
         }
 

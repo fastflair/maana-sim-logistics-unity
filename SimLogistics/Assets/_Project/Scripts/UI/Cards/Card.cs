@@ -6,6 +6,11 @@ using UnityEngine.UI;
 
 public class Card : UIElement
 {
+    [SerializeField] protected CityManager cityManager;
+    [SerializeField] protected ProducerManager producerManager;
+    [SerializeField] protected HubManager hubManager;
+    [SerializeField] protected VehicleManager vehicleManager;
+    
     [SerializeField] protected CardHost host;
     [SerializeField] protected Transform ordersItemList;
     [SerializeField] protected ResourceItem resourceItemPrefab;
@@ -41,6 +46,10 @@ public class Card : UIElement
         foreach (var transferOrder in col)
         {
             var transferOrderItem = Instantiate(transferOrderItemPrefab, ordersItemList, false);
+            transferOrderItem.CityManager = cityManager;
+            transferOrderItem.ProducerManager = producerManager;
+            transferOrderItem.HubManager = hubManager;
+            transferOrderItem.VehicleManager = vehicleManager;
             transferOrderItem.Populate(transferOrder);
         }
     }

@@ -136,6 +136,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 324fcbe3c608c481c9f9509f97d8aedb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tabIdle: {r: 0.26666668, g: 0.32941177, b: 0.41568628, a: 0.5019608}
-  tabHover: {r: 0.26666668, g: 0.32941177, b: 0.41568628, a: 1}
-  tabSelected: {r: 0.08076716, g: 0.10634285, b: 0.14150941, a: 0.078431375}
+  tabIdle: {r: 0.08076716, g: 0.10634285, b: 0.14150941, a: 0.078431375}
+  tabHover: {r: 0.26666668, g: 0.32941177, b: 0.41568628, a: 0.5019608}
+  tabSelected: {r: 0.26666668, g: 0.32941177, b: 0.41568628, a: 1}
+  tabs: []
+  pages: []

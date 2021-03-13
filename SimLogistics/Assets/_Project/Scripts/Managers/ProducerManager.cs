@@ -27,7 +27,7 @@ public class ProducerManager : EntityManager<QProducer>
     [SerializeField] private Sprite textileMillSprite;
     [SerializeField] private Sprite warehouseSprite;
 
-    protected override IEnumerable<QProducer> QEntities => simulationManager.CurrentState.producers;
+    public override IEnumerable<QProducer> QEntities => simulationManager.CurrentState.producers;
 
     public override Entity EntityPrefab(QProducer qProducer)
     {

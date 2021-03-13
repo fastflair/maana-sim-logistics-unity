@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 
 public class VehicleCard : Card
-{
+{    
     [SerializeField] private Sprite planeSprite;
     [SerializeField] private Sprite shipSprite;
     [SerializeField] private Sprite truckSprite;
@@ -26,6 +26,7 @@ public class VehicleCard : Card
             AddResourceToList(cargoItemList, resource);
 
         var transitOrderItem = Instantiate(transitOrderItemPrefab, ordersItemList, false);
+        transitOrderItem.VehicleManager = vehicleManager;
         transitOrderItem.Populate(vehicle.transitOrder);
 
         var col = host.simulationManager.CurrentState.transfers.FindAll(x => x.vehicle == vehicle.id);

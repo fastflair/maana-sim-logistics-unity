@@ -77,7 +77,7 @@ public class SimulationManager : MonoBehaviour
         var res = transfer.resourceType.id;
         var dir = transfer.transferType.id == "Deposit" ? "→" : "←";
         var tot = transfer.quantity * transfer.price;
-        return $"{dir} {transfer.quantity} x {res} @ {transfer.price}/ea = {tot}";
+        return $"{dir} {transfer.quantity} x {res} @ {transfer.price}";
     }
 
     public static string FormatResourceDetailDisplay(QResource resource)

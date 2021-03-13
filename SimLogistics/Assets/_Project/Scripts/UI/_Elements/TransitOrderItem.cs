@@ -12,6 +12,10 @@ public class TransitOrderItem : MonoBehaviour
     [SerializeField] private TMP_Text stepsText;
     [SerializeField] private TMP_Text statusText;
 
+    public VehicleManager  VehicleManager { get; set; }
+    
+    private QTransitOrder _transitOrder;
+    
     public string Vehicle
     {
         get => vehicleText.text;
@@ -33,11 +37,17 @@ public class TransitOrderItem : MonoBehaviour
         set => statusText.text = value;
     }
 
-    public void Populate(QTransitOrder transit)
+    public void Populate(QTransitOrder transitOrder)
     {
-        Vehicle = SimulationManager.FormatEntityIdDisplay(transit.vehicle);
-        Destination = $"({transit.destX}, {transit.destY})";
-        Steps = transit.steps.ToString(CultureInfo.CurrentCulture);
-        Status = transit.status.id;
+        _transitOrder = transitOrder;
+        Vehicle = SimulationManager.FormatEntityIdDisplay(transitOrder.vehicle);
+        Destination = $"({transitOrder.destX}, {transitOrder.destY})";
+        Steps = transitOrder.steps.ToString(CultureInfo.CurrentCulture);
+        Status = transitOrder.status.id;
+    }
+
+    public void OnClick()
+    {
+        VehicleManager.SelectEntity(_transitOrder.vehicle);
     }
 }

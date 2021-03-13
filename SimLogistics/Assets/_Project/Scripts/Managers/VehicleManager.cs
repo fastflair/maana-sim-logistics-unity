@@ -7,7 +7,7 @@ public class VehicleManager : EntityManager<QVehicle>
     [SerializeField] private Entity planePrefab;
     [SerializeField] private Entity shipPrefab;
 
-    protected override IEnumerable<QVehicle> QEntities => simulationManager.CurrentState.vehicles;
+    public override IEnumerable<QVehicle> QEntities => simulationManager.CurrentState.vehicles;
 
     public override Entity EntityPrefab(QVehicle qVehicle)
     {

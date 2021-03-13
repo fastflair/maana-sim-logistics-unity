@@ -2917,6 +2917,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4085641609401606826, guid: 4d3203e0ef9ab49d1aadc4d101cf29d2, type: 3}
+      propertyPath: m_Color.a
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 4085641609401606826, guid: 4d3203e0ef9ab49d1aadc4d101cf29d2, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
@@ -4607,6 +4611,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   cardHost: {fileID: 4461927120783368662}
+  selectionManager: {fileID: 2126323610}
   mapManager: {fileID: 893339561}
   simulationManager: {fileID: 82198423}
   tileSize: {fileID: 11400000, guid: 2b2cfc7108f50497a8f3d5c4318e37c6, type: 2}
@@ -5234,6 +5239,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   cardHost: {fileID: 4461927120783368662}
+  selectionManager: {fileID: 2126323610}
   mapManager: {fileID: 893339561}
   simulationManager: {fileID: 82198423}
   tileSize: {fileID: 11400000, guid: 2b2cfc7108f50497a8f3d5c4318e37c6, type: 2}
@@ -8692,6 +8698,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   cardHost: {fileID: 4461927120783368662}
+  selectionManager: {fileID: 2126323610}
   mapManager: {fileID: 893339561}
   simulationManager: {fileID: 82198423}
   tileSize: {fileID: 11400000, guid: 2b2cfc7108f50497a8f3d5c4318e37c6, type: 2}
@@ -13829,6 +13836,10 @@ PrefabInstance:
     - target: {fileID: 4085641609401606825, guid: 4d3203e0ef9ab49d1aadc4d101cf29d2, type: 3}
       propertyPath: m_ChildForceExpandWidth
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4085641609401606826, guid: 4d3203e0ef9ab49d1aadc4d101cf29d2, type: 3}
+      propertyPath: m_Color.a
+      value: 0.78431374
       objectReference: {fileID: 0}
     - target: {fileID: 4085641609401606826, guid: 4d3203e0ef9ab49d1aadc4d101cf29d2, type: 3}
       propertyPath: m_Enabled
@@ -21001,6 +21012,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   cardHost: {fileID: 4461927120783368662}
+  selectionManager: {fileID: 2126323610}
   mapManager: {fileID: 893339561}
   simulationManager: {fileID: 82198423}
   tileSize: {fileID: 11400000, guid: 2b2cfc7108f50497a8f3d5c4318e37c6, type: 2}
@@ -24957,6 +24969,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 809934348782302812, guid: efa36cea8c74f4a88a85d767b97c67b8, type: 3}
+      propertyPath: vehicleManager
+      value: 
+      objectReference: {fileID: 700448671}
     - target: {fileID: 883535161983249599, guid: efa36cea8c74f4a88a85d767b97c67b8, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -25361,6 +25377,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1836247658790763046, guid: efa36cea8c74f4a88a85d767b97c67b8, type: 3}
+      propertyPath: vehicleManager
+      value: 
+      objectReference: {fileID: 700448671}
     - target: {fileID: 1889084830928413558, guid: efa36cea8c74f4a88a85d767b97c67b8, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -25549,6 +25569,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2214742205286151263, guid: efa36cea8c74f4a88a85d767b97c67b8, type: 3}
+      propertyPath: vehicleManager
+      value: 
+      objectReference: {fileID: 700448671}
     - target: {fileID: 2270718135515228459, guid: efa36cea8c74f4a88a85d767b97c67b8, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -26422,6 +26446,26 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1316288417}
     - target: {fileID: 4155269118575780759, guid: efa36cea8c74f4a88a85d767b97c67b8, type: 3}
+      propertyPath: hubManager
+      value: 
+      objectReference: {fileID: 837692214}
+    - target: {fileID: 4155269118575780759, guid: efa36cea8c74f4a88a85d767b97c67b8, type: 3}
+      propertyPath: cityManager
+      value: 
+      objectReference: {fileID: 570201677}
+    - target: {fileID: 4155269118575780759, guid: efa36cea8c74f4a88a85d767b97c67b8, type: 3}
+      propertyPath: VehicleManager
+      value: 
+      objectReference: {fileID: 700448671}
+    - target: {fileID: 4155269118575780759, guid: efa36cea8c74f4a88a85d767b97c67b8, type: 3}
+      propertyPath: vehicleManager
+      value: 
+      objectReference: {fileID: 700448671}
+    - target: {fileID: 4155269118575780759, guid: efa36cea8c74f4a88a85d767b97c67b8, type: 3}
+      propertyPath: producerManager
+      value: 
+      objectReference: {fileID: 1752998127}
+    - target: {fileID: 4155269118575780759, guid: efa36cea8c74f4a88a85d767b97c67b8, type: 3}
       propertyPath: simulationManager
       value: 
       objectReference: {fileID: 82198423}
@@ -26621,6 +26665,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4664515197272167986, guid: efa36cea8c74f4a88a85d767b97c67b8, type: 3}
+      propertyPath: vehicleManager
+      value: 
+      objectReference: {fileID: 700448671}
     - target: {fileID: 4764562157934019111, guid: efa36cea8c74f4a88a85d767b97c67b8, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -27917,6 +27965,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7928599379129013992, guid: efa36cea8c74f4a88a85d767b97c67b8, type: 3}
+      propertyPath: vehicleManager
+      value: 
+      objectReference: {fileID: 700448671}
     - target: {fileID: 7935370786102963538, guid: efa36cea8c74f4a88a85d767b97c67b8, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0

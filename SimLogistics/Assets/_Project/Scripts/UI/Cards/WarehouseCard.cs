@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 
 public class WarehouseCard : Card
-{
+{    
     [SerializeField] private Sprite warehouseSprite;
 
     [SerializeField] protected Transform storageItemList;

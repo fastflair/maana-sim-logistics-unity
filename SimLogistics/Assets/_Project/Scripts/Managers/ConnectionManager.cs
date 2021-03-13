@@ -119,6 +119,8 @@ public class ConnectionManager : MonoBehaviour
 
     private void ConnectEndpoint(ConnectionState state)
     {
+        print($"Connecting to {state.url}");
+        
         server.Connect(
             state.url,
             state.authDomain,

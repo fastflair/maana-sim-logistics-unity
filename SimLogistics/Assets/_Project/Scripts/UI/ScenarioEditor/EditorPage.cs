@@ -3,10 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public abstract class EditorPage<T> : MonoBehaviour
     where T : QEntity

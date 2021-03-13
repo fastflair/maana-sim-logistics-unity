@@ -13,6 +13,7 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
     [SerializeField] private UnityEvent onSpawned;
 
     [SerializeField] protected CardHost cardHost;
+    [SerializeField] protected SelectionManager selectionManager;
     [SerializeField] protected MapManager mapManager;
     [SerializeField] protected SimulationManager simulationManager;
     [SerializeField] private FloatVariable tileSize;
@@ -22,15 +23,37 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
     [SerializeField] private FloatVariable spawnDelay;
     [SerializeField] private float lerpSpeed = 3;
 
-    protected List<Entity> UEntities = new List<Entity>();
+    public List<Entity> UEntities { get; set; } = new List<Entity>();
 
     private float EntityXToWorldX(float x) => tileSize.Value * x + entityOffsetX.Value;
     private float EntityYToWorldZ(float y) => -(tileSize.Value * y + entityOffsetY.Value);
 
 
     // Interface
-    protected abstract IEnumerable<TQEntity> QEntities { get; }
+    public abstract IEnumerable<TQEntity> QEntities { get; }
     public abstract Entity EntityPrefab(TQEntity qEntity);
+
+    public Entity Entity(string id)
+    {
+        return UEntities.Find(x => x.QEntity.id == id);
+    }
+
+    public void SelectEntity(string id)
+    {
+        var entity = Entity(id);
+        if (entity == null) return;
+        
+        var selectableObject = entity.GetComponent<SelectableObject>();
+        if (selectableObject == null) return;
+
+        selectionManager.Select(selectableObject);
+    }
+
+    public void SelectEntities(IEnumerable<Entity> entities)
+    {
+        var selectableObjects = entities.Select(x => x.GetComponent<SelectableObject>());
+        selectionManager.SelectMany(selectableObjects);
+    }
 
     public virtual void Spawn()
     {

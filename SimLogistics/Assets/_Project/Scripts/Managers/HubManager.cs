@@ -6,8 +6,8 @@ public class HubManager : EntityManager<QHub>
     [SerializeField] private Entity portPrefab;
     [SerializeField] private Entity airportPrefab;
     [SerializeField] private Entity truckDepotPrefab;
-    
-    protected override IEnumerable<QHub> QEntities => simulationManager.CurrentState.hubs;
+
+    public override IEnumerable<QHub> QEntities => simulationManager.CurrentState.hubs;
 
     public override Entity EntityPrefab(QHub qHub)
     {
