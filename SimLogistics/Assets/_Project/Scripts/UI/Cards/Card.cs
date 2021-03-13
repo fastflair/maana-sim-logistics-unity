@@ -1,13 +1,16 @@
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Card : UIElement
 {
-    [SerializeField] protected ProducerManager producerManager;
-    
-    [SerializeField] protected PropertyItem propertyItemPrefab;
+    [SerializeField] protected CardHost host;
+    [SerializeField] protected Transform ordersItemList;
     [SerializeField] protected ResourceItem resourceItemPrefab;
+    [SerializeField] protected PropertyItem propertyItemPrefab;
+    [SerializeField] protected TransferOrderItem transferOrderItemPrefab;
     [SerializeField] protected NoteItem noteItemPrefab;
 
     protected static void ClearList(Transform list)
@@ -15,7 +18,7 @@ public class Card : UIElement
         foreach (Transform child in list)
             Destroy(child.gameObject);
     }
-    
+
     protected void AddPropertyToList(Transform list, string label, string value)
     {
         var propertyItem = Instantiate(propertyItemPrefab, list, false);
@@ -25,12 +28,20 @@ public class Card : UIElement
 
     protected void AddResourceToList(Transform list, QResource resource)
     {
-        // print($"AddResourceToList: {list.name} {resource}");
         var resourceItem = Instantiate(resourceItemPrefab, list, false);
-        resourceItem.Thumbnail = producerManager.ResourceThumbnail(resource.type.id);
-        resourceItem.Label = resource.type.id;
-        resourceItem.Volume = SimulationManager.FormatResourceVolumeDisplay(resource);
-        resourceItem.Pricing = SimulationManager.FormatResourcePricingDisplay(resource);
-        resourceItem.Rate = SimulationManager.FormatResourceRateDisplay(resource);
+        resourceItem.Populate(resource, host.producerManager.ResourceThumbnail(resource.type.id));
+    }
+
+    protected void AddTransferOrdersToList(string counterparty)
+    {
+        ClearList(ordersItemList);
+        
+        var col = host.simulationManager.CurrentState.transfers.FindAll(x => x.counterparty == counterparty);
+        col.Sort(SimulationManager.TransferComparer);
+        foreach (var transferOrder in col)
+        {
+            var transferOrderItem = Instantiate(transferOrderItemPrefab, ordersItemList, false);
+            transferOrderItem.Populate(transferOrder);
+        }
     }
 }

@@ -49,8 +49,6 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
 
     public void OnUpdate()
     {
-        print($"[{name}] OnUpdate");
-
         foreach (var entity in UEntities)
         {
             entity.QEntity = QEntities.First(qEntity => qEntity.id == entity.QEntity.id);
@@ -90,7 +88,7 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
     {
         foreach (var qEntity in QEntities)
         {
-            print($"Spawning entity: {qEntity}");
+            // print($"Spawning entity: {qEntity}");
 
             var prefab = EntityPrefab(qEntity);
             var quaternion = Helpers.QuaternionFromEuler(0f, qEntity.yRot, 0f);

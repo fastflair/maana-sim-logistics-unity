@@ -37,4 +37,13 @@ public class ResourceItem : MonoBehaviour
         get => rateText.text;
         set => rateText.text = value;
     }
+
+    public void Populate(QResource resource, Sprite thumbnail)
+    {
+        Thumbnail = thumbnail;
+        Label = resource.type.id;
+        Volume = SimulationManager.FormatResourceVolumeDisplay(resource);
+        Pricing = SimulationManager.FormatResourcePricingDisplay(resource);
+        Rate = SimulationManager.FormatResourceRateDisplay(resource);
+    }
 }

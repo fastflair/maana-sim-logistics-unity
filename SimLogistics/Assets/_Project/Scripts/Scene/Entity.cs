@@ -26,7 +26,6 @@ public class Entity : MonoBehaviour
 
     public void OnSelect()
     {
-        print($"OnSelect: showing card for {type} => {QEntity}");
         cardHost.ShowCardForEntity(type, QEntity);
     }
 }

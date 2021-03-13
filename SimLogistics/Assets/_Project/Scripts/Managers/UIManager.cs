@@ -27,11 +27,6 @@ public class UIManager : MonoBehaviour
     
     private readonly Queue<Dialog> _dialogQueue = new Queue<Dialog>();
 
-    // Cards
-    [SerializeField] private Transform cardShelf;
-    private Card _currentCard;
-    private string _currentCardId;
-
     // Spinner
     [SerializeField] private Spinner spinnerPrefab;
     private Spinner _spinner;
@@ -201,6 +196,11 @@ public class UIManager : MonoBehaviour
 
     public void ShowSpinner()
     {
+        if (_dialogQueue.Count == 0)
+        {
+            DisableWorldInteraction();
+        }
+
         _spinner.transform.SetAsLastSibling();
         _spinner.SetVisible(true, UIElement.Effect.None);
     }
@@ -208,29 +208,7 @@ public class UIManager : MonoBehaviour
     public void HideSpinner()
     {
         _spinner.SetVisible(false, UIElement.Effect.None);
-    }
-
-    // Cards
-    // -----
-    public Card SpawnCard(Card cardPrefab, string id)
-    {
-        print($"SpawnCard: {cardPrefab.name} - {id}");
-        // return _currentCardId == id ? null : Instantiate(cardPrefab, cardShelf, false);
-        return null;
-    }
-    
-    public void ShowCard(Card card, string id)
-    {
-        // if (_currentCardId == id) return;
-        //
-        // if (_currentCard != null)
-        // {
-        //     _currentCard.SetVisible(false, UIElement.Effect.Fade)
-        //         .destroyOnComplete = true;
-        // }
-        //
-        // _currentCard = card;
-        // _currentCardId = id;
-        // _currentCard.SetVisible(true, UIElement.Effect.Fade);
+        if (_dialogQueue.Count != 0) return;
+        EnableWorldInteraction();
     }
 }

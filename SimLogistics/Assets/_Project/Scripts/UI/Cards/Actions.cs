@@ -6,14 +6,32 @@ using UnityEngine.UI;
 
 public class Actions : MonoBehaviour
 {
+    // Managers
+    [SerializeField] private UIManager uiManager;
+
+    [SerializeField] private SimulationManager simulationManager;
+
+    // Prefabs
     [SerializeField] private ToggleItem toggleItemPrefab;
+    [SerializeField] private TransitOrderItem transitOrderItemPrefab;
+
+    [SerializeField] private TransferOrderItem transferOrderItemPrefab;
+
+    // List hosts
     [SerializeField] private Transform transitActionsListHost;
     [SerializeField] private Transform repairActionsListHost;
     [SerializeField] private Transform transferActionsListHost;
-    [SerializeField] private UIManager uiManager;
-    [SerializeField] private SimulationManager simulationManager;
+
+    [SerializeField] private Transform ordersListHost;
+
+    // Buttons
     [SerializeField] private Button clearAllButton;
+
     [SerializeField] private Button clearUntoggledButton;
+
+    // Tab controls (to self activate)
+    [SerializeField] private TabGroup tabGroup;
+    [SerializeField] private Tab issuedTab;
 
     private readonly List<ToggleItem> _toggleItems = new List<ToggleItem>();
 
@@ -21,10 +39,9 @@ public class Actions : MonoBehaviour
     {
         UpdateButtons();
     }
-    
+
     public void OnNewAction(SimulationManager.ActionInfo info)
     {
-        print($"OnNewAction: {info.DisplayText}");
         var host = GetActionHost(info.Type);
         var item = Instantiate(toggleItemPrefab, host, false);
         item.data = info;
@@ -36,15 +53,40 @@ public class Actions : MonoBehaviour
 
     public void OnActionsReset()
     {
-        ClearList();
+        ClearPendingList();
     }
-    
+
+    public void OnUpdateIssuedOrders()
+    {
+        ClearIssuedList();
+
+        var transferOrders = simulationManager.CurrentState.transfers;
+        transferOrders.Sort(SimulationManager.TransferComparer);
+        foreach (var transferOrder in transferOrders)
+        {
+            var transferOrderItem = Instantiate(transferOrderItemPrefab, ordersListHost, false);
+            transferOrderItem.Populate(transferOrder);
+        }
+
+        var transitOrders = simulationManager.CurrentState.vehicles.Select(x => x.transitOrder);
+        var qTransitOrders = transitOrders.ToList();
+        qTransitOrders.Sort(SimulationManager.TransitComparer);
+
+        foreach (var transitOrder in qTransitOrders)
+        {
+            var transitOrderItem = Instantiate(transitOrderItemPrefab, ordersListHost, false);
+            transitOrderItem.Populate(transitOrder);
+        }
+
+        tabGroup.OnTabClick(issuedTab);
+    }
+
     public void UpdateButtons()
     {
         clearAllButton.interactable = _toggleItems.Count > 0;
         clearUntoggledButton.interactable = GetUntoggledItems().Any();
     }
-    
+
     public void OnClearUntoggled()
     {
         var items = GetUntoggledItems();
@@ -74,7 +116,7 @@ public class Actions : MonoBehaviour
                 _toggleItems.Remove(item);
                 Destroy(item.gameObject);
             }
-            
+
             UpdateButtons();
         });
     }
@@ -84,20 +126,15 @@ public class Actions : MonoBehaviour
         var dialog = uiManager.ShowConfirmationDialog("Are you sure you want remove all pending actions?");
         dialog.onOkay.AddListener(() =>
         {
-            simulationManager.ResetActions(); 
-            ClearList();
+            simulationManager.ResetActions();
+            ClearPendingList();
         });
     }
 
     // --- Internal
-    
+
     private IEnumerable<ToggleItem> GetUntoggledItems()
     {
-        _toggleItems.ForEach(x =>
-        {
-            print($"ToggleItem: {x.Label} = {x.IsOn}");
-        });
-
         return _toggleItems.Where(x => !x.IsOn);
     }
 
@@ -112,10 +149,16 @@ public class Actions : MonoBehaviour
         };
     }
 
-    private void ClearList()
+    private void ClearPendingList()
     {
         _toggleItems.ForEach(x => Destroy(x.gameObject));
         _toggleItems.Clear();
         UpdateButtons();
+    }
+
+    private void ClearIssuedList()
+    {
+        foreach (Transform child in ordersListHost)
+            Destroy(child.gameObject);
     }
 }

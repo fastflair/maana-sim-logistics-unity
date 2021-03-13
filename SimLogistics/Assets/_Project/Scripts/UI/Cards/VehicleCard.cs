@@ -5,20 +5,18 @@ using UnityEngine;
 
 public class VehicleCard : Card
 {
-    [SerializeField] private CardHost host;
     [SerializeField] private Sprite planeSprite;
     [SerializeField] private Sprite shipSprite;
     [SerializeField] private Sprite truckSprite;
-    
+
+    [SerializeField] protected TransitOrderItem transitOrderItemPrefab;
+
     [SerializeField] protected Transform cargoItemList;
     [SerializeField] protected Transform propertyItemList;
-    [SerializeField] protected Transform ordersItemList;
     [SerializeField] protected Transform noteItemList;
 
     public void Populate(QVehicle vehicle)
     {
-        // print($"Populate vehicle: {vehicle}");
-        
         ClearLists();
         
         host.SetEntityId(vehicle.id);
@@ -27,21 +25,21 @@ public class VehicleCard : Card
         foreach (var resource in vehicle.cargo)
             AddResourceToList(cargoItemList, resource);
 
-        AddPropertyToList(ordersItemList, "Status", vehicle.transitOrder.status.id);
-        AddPropertyToList(ordersItemList, "DestX", vehicle.transitOrder.destX.ToString(CultureInfo.CurrentCulture));
-        AddPropertyToList(ordersItemList, "DestY", vehicle.transitOrder.destY.ToString(CultureInfo.CurrentCulture));
-        AddPropertyToList(ordersItemList, "Steps", vehicle.transitOrder.steps.ToString(CultureInfo.CurrentCulture));
+        var transitOrderItem = Instantiate(transitOrderItemPrefab, ordersItemList, false);
+        transitOrderItem.Populate(vehicle.transitOrder);
 
+        var col = host.simulationManager.CurrentState.transfers.FindAll(x => x.vehicle == vehicle.id);
+        col.Sort(SimulationManager.TransferComparer);
+        foreach (var transferOrder in col)
+        {
+            var transferOrderItem = Instantiate(transferOrderItemPrefab, ordersItemList, false);
+            transferOrderItem.Populate(transferOrder);
+        }
+        
         AddPropertyToList(propertyItemList, "X", vehicle.x.ToString(CultureInfo.CurrentCulture));
         AddPropertyToList(propertyItemList, "Y", vehicle.y.ToString(CultureInfo.CurrentCulture));
-        if (vehicle.fuel == null)
-        {
-            AddPropertyToList(propertyItemList, "Fuel", "!!! NULL !!!");
-        }
-        else
-        {
-            AddPropertyToList(propertyItemList, "Fuel", SimulationManager.FormatResourceVolumeDisplay(vehicle.fuel));
-        }
+        AddPropertyToList(propertyItemList, "Fuel",
+            vehicle.fuel == null ? "!!! NULL !!!" : SimulationManager.FormatResourceVolumeDisplay(vehicle.fuel));
 
         AddPropertyToList(propertyItemList, "Speed", vehicle.speed.ToString(CultureInfo.CurrentCulture));
         AddPropertyToList(propertyItemList, "Max Distance", vehicle.maxDistance.ToString(CultureInfo.CurrentCulture));

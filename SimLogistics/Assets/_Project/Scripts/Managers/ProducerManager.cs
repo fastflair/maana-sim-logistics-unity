@@ -15,17 +15,17 @@ public class ProducerManager : EntityManager<QProducer>
     [SerializeField] private Entity oilWellPrefab;
     [SerializeField] private Entity warehousePrefab;
 
-    [SerializeField] public Sprite coalMineSprite;
-    [SerializeField] public Sprite cottonSprite;
-    [SerializeField] public Sprite farmSprite;
-    [SerializeField] public Sprite factorySprite;
-    [SerializeField] public Sprite forestSprite;
-    [SerializeField] public Sprite lumberMillSprite;
-    [SerializeField] public Sprite oilRefinerySprite;
-    [SerializeField] public Sprite oilWellSprite;
-    [SerializeField] public Sprite powerPlantSprite;
-    [SerializeField] public Sprite textileMillSprite;
-    [SerializeField] public Sprite warehouseSprite;
+    [SerializeField] private  Sprite coalMineSprite;
+    [SerializeField] private Sprite cottonSprite;
+    [SerializeField] private Sprite farmSprite;
+    [SerializeField] private Sprite factorySprite;
+    [SerializeField] private Sprite forestSprite;
+    [SerializeField] private  Sprite lumberMillSprite;
+    [SerializeField] private Sprite oilRefinerySprite;
+    [SerializeField] private  Sprite oilWellSprite;
+    [SerializeField] private Sprite powerPlantSprite;
+    [SerializeField] private Sprite textileMillSprite;
+    [SerializeField] private Sprite warehouseSprite;
 
     protected override IEnumerable<QProducer> QEntities => simulationManager.CurrentState.producers;
 

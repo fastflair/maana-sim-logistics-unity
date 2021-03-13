@@ -127,6 +127,22 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1803277011706308382, guid: fdaa74126b3714c63b051e6c40db71c9, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1803277011706308383, guid: fdaa74126b3714c63b051e6c40db71c9, type: 3}
+      propertyPath: m_Spacing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1803277011706308383, guid: fdaa74126b3714c63b051e6c40db71c9, type: 3}
+      propertyPath: m_ChildControlWidth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1803277011706308383, guid: fdaa74126b3714c63b051e6c40db71c9, type: 3}
+      propertyPath: m_ChildControlHeight
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1803277011760773101, guid: fdaa74126b3714c63b051e6c40db71c9, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

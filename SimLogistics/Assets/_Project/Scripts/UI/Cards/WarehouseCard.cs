@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class WarehouseCard : Card
 {
-    [SerializeField] private CardHost host;
     [SerializeField] private Sprite warehouseSprite;
 
     [SerializeField] protected Transform storageItemList;

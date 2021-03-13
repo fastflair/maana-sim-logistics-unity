@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class CityCard : Card
 {
-    [SerializeField] private CardHost host;
     [SerializeField] private Sprite citySprite;
 
     [SerializeField] protected Transform resourceItemList;

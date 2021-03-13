@@ -72,6 +72,13 @@ public class SimulationManager : MonoBehaviour
         return agentEndpoint ?? "Interactive";
     }
 
+    public static string FormatTransferDetailDisplay(QResourceTransfer transfer)
+    {
+        var res = transfer.resourceType.id;
+        var dir = transfer.transferType.id == "Deposit" ? "→" : "←";
+        var tot = transfer.quantity * transfer.price;
+        return $"{dir} {transfer.quantity} x {res} @ {transfer.price}/ea = {tot}";
+    }
 
     public static string FormatResourceDetailDisplay(QResource resource)
     {
@@ -104,6 +111,44 @@ public class SimulationManager : MonoBehaviour
         var rr = resource.replenishRate.ToString("F", CultureInfo.CurrentCulture);
 
         return $"↓{cr} ↑{rr}";
+    }
+
+    public static int TransferComparer(QResourceTransfer x, QResourceTransfer y)
+    {
+        switch (x)
+        {
+            case null when y == null:
+                return 0;
+            case null:
+                return -1;
+        }
+
+        if (y == null) return 1;
+        if (x.status.id == y.status.id) return 0;
+        if (x.status.id == "OK") return -1;
+        return 1;
+    }
+
+    public static int TransitComparer(QTransitOrder x, QTransitOrder y)
+    {
+        switch (x)
+        {
+            case null when y == null:
+                return 0;
+            case null:
+                return 1;
+        }
+
+        if (y == null) return -1;
+        if (x.status.id == y.status.id) return 0;
+
+        if (x.status.id == "Disabled") return -1;
+        if (y.status.id == "Disabled") return 1;
+        
+        if (x.status.id != "Idle") return -1;
+        if (y.status.id != "Idle") return 1;
+        
+        return 1;
     }
 
     // Resource accessors
@@ -333,8 +378,6 @@ public class SimulationManager : MonoBehaviour
             queryName,
             res =>
             {
-                print($"List of simulations: {string.Join(",", res)}");
-
                 NotBusy();
                 callback(res);
             });
@@ -359,8 +402,6 @@ public class SimulationManager : MonoBehaviour
             queryName,
             simulation =>
             {
-                print($"Deleted simulation: {simulation}");
-
                 NotBusy();
                 if (id == CurrentSimulation.id) LoadDefault();
                 callback(simulation);
@@ -420,6 +461,8 @@ public class SimulationManager : MonoBehaviour
             NotBusy();
             if (state == null) return;
 
+            ResetActions();
+            
             CurrentState = state;
             onUpdated.Invoke();
 

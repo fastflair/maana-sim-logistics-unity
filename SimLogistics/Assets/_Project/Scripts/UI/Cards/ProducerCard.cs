@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class ProducerCard : Card
 {
-    [SerializeField] private CardHost host;
     [SerializeField] protected Transform materialItemList;
     [SerializeField] protected Transform productItemList;
     [SerializeField] protected Transform propertyItemList;
@@ -18,7 +17,7 @@ public class ProducerCard : Card
         ClearLists();
         
         host.SetEntityId(producer.id);
-        host.SetThumbnail(producerManager.EntityThumbnail(producer.type.id));
+        host.SetThumbnail(host.producerManager.EntityThumbnail(producer.type.id));
 
         AddPropertyToList(propertyItemList, "Stoppage Surcharge Factor", producer.stoppageSurchargeFactor.ToString(CultureInfo.CurrentCulture));
         
@@ -27,9 +26,10 @@ public class ProducerCard : Card
 
         foreach (var resource in producer.products)
         {
-            print($"Adding produce to list: {resource}");
             AddResourceToList(productItemList, resource);
         }
+        
+        AddTransferOrdersToList(producer.id);
     }
     
     private void ClearLists()

@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class CardHost : MonoBehaviour
 {
-    [SerializeField] protected SimulationManager simulationManager;
+    [SerializeField] public ProducerManager producerManager;
+    [SerializeField] public SimulationManager simulationManager;
     [SerializeField] protected TMP_Text title;
     [SerializeField] protected Image thumbnail;
     [SerializeField] protected CityCard cityCard;
