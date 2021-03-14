@@ -10,7 +10,8 @@ public class VehicleManager : EntityManager<QVehicle>
     [SerializeField] private Entity planePrefab;
     [SerializeField] private Entity shipPrefab;
 
-    [SerializeField] private float lerpSpeed = 3;
+    [SerializeField] private float lerpSpeed = .5f;
+    [SerializeField] private float rotateSpeed = .3f;
 
     public override IEnumerable<QVehicle> QEntities => simulationManager.CurrentState.vehicles;
 
@@ -45,37 +46,53 @@ public class VehicleManager : EntityManager<QVehicle>
             var transitOrder = vehicle.transitOrder;
             var status = transitOrder.status.id;
             if (!IsMoving(status)) continue;
-
-            // entity.QEntity = QEntities.First(qEntity => qEntity.id == entity.QEntity.id);
-            // var entityTransform = entity.transform;
-            // var newPosX = EntityXToWorldX(entity.QEntity.x);
-            // var newPosZ = EntityYToWorldZ(entity.QEntity.y);
-            // if (!(Math.Abs(newPosX - entityTransform.position.x) > float.Epsilon) &&
-            //     !(Math.Abs(newPosZ - entityTransform.position.z) > float.Epsilon))
-            // {
-            //     // print($"[{name}] {SimulationManager.FormatEntityIdDisplay(entity.QEntity.id)} - no change.");
-            //     continue;
-            // }
-            //
-            // // print($"[{name}] {SimulationManager.FormatEntityIdDisplay(entity.QEntity.id)} -> ({newPosX}, {newPosZ})");
-            //
-            // var newPosition = new Vector3(newPosX, entityTransform.position.y, newPosZ);
-            // StartCoroutine(LerpPosition(entityTransform, newPosition, lerpSpeed));
+            
+            var vehicleEntity = EntityById(vehicle.id);
+            var remaining = new Queue<QWaypoint>(transitOrder.visited);
+            MoveThroughWaypoints(vehicleEntity.gameObject, remaining);
         }
     }
 
-    private static IEnumerator LerpPosition(Transform entityTransform, Vector3 targetPosition, float duration)
+    public static float RotationFromDirection(Vector3 direction)
     {
-        float time = 0;
-        var startPosition = entityTransform.position;
-
-        while (time < duration)
+        return direction.x switch
         {
-            entityTransform.position = Vector3.Lerp(startPosition, targetPosition, time / duration);
-            time += Time.deltaTime;
-            yield return null;
-        }
+            1f => 90f,
+            -1f => -90f,
+            _ => Math.Abs(direction.z + 1f) < Single.Epsilon ? 180f : 0f
+        };
+    }
 
-        entityTransform.position = targetPosition;
+    private void MoveThroughWaypoints(GameObject go, Queue<QWaypoint> waypoints)
+    {
+        if (!waypoints.Any()) return;
+
+        var waypoint = waypoints.Dequeue();
+
+        var newPosX = EntityXToWorldX(waypoint.x);
+        var newPosZ = EntityYToWorldZ(waypoint.y);
+
+        var vehicleTransform = go.transform;
+
+        var position = vehicleTransform.position;
+        var newPosition = new Vector3(newPosX, position.y, newPosZ);
+
+        var dir = (newPosition - position).normalized;
+        var rfd = RotationFromDirection(dir);
+        var rotation = vehicleTransform.rotation.eulerAngles;
+
+        Func<LTDescr> lerp = () => LeanTween.move(go, newPosition, lerpSpeed).setOnComplete(() =>
+        {
+            MoveThroughWaypoints(go, waypoints);
+        });
+
+        if (Math.Abs(rfd - rotation.y) > float.Epsilon)
+        {
+            LeanTween.rotateY(go, rfd, rotateSpeed).setOnComplete(() => lerp());
+        }
+        else
+        {
+            lerp();
+        }
     }
 }

@@ -80,7 +80,7 @@ public class SimulationManager : MonoBehaviour
         var lastWaypoint = qWaypoints.Last();
         var lastLoc = $"({lastWaypoint.x},{lastWaypoint.y})";
         var count = qWaypoints.Count;
-        return $"{lastLoc} #{count} waypoints";
+        return $"{lastLoc} with {count} waypoints";
     }
 
     public static string FormatTransferDetailDisplay(QResourceTransfer transfer)

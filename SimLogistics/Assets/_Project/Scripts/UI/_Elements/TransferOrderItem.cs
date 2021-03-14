@@ -50,20 +50,20 @@ public class TransferOrderItem : MonoBehaviour
     
     public void OnClick()
     {        
-        var counterpartyEntity = ProducerManager.Entity(this._transfer.counterparty);
+        var counterpartyEntity = ProducerManager.EntityById(this._transfer.counterparty);
         if (counterpartyEntity == null)
         {
-            counterpartyEntity = CityManager.Entity(_transfer.counterparty);
+            counterpartyEntity = CityManager.EntityById(_transfer.counterparty);
             if (counterpartyEntity == null)
             {
-                counterpartyEntity = HubManager.Entity(_transfer.counterparty);
+                counterpartyEntity = HubManager.EntityById(_transfer.counterparty);
                 if (counterpartyEntity == null)
                 {
                     return;
                 }
             }
         }
-        var entities = new[] { VehicleManager.Entity(_transfer.vehicle), counterpartyEntity};
+        var entities = new[] { VehicleManager.EntityById(_transfer.vehicle), counterpartyEntity};
         VehicleManager.SelectEntities(entities);
     }
 

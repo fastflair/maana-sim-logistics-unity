@@ -29,14 +29,14 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
     public abstract IEnumerable<TQEntity> QEntities { get; }
     public abstract Entity EntityPrefab(TQEntity qEntity);
 
-    public Entity Entity(string id)
+    public Entity EntityById(string id)
     {
         return UEntities.Find(x => x.QEntity.id == id);
     }
 
     public void SelectEntity(string id)
     {
-        var entity = Entity(id);
+        var entity = EntityById(id);
         if (entity == null) return;
         
         var selectableObject = entity.GetComponent<SelectableObject>();

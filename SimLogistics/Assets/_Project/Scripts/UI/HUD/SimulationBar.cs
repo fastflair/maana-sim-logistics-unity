@@ -106,14 +106,13 @@ public class SimulationBar : UIElement
             pair.Structure.y,
             waypoints =>
             {
-                var qWaypoints = waypoints.ToList();
-                if (!qWaypoints.Any())
+                if (!waypoints.Any())
                 {
                     uiManager.ShowErrorDialog("No route to destination.");
                     return;
                 }
 
-                simulationManager.AddTransitAction(pair.Vehicle.id, qWaypoints.ToList());
+                simulationManager.AddTransitAction(pair.Vehicle.id, waypoints.ToList());
                 selectionManager.DeselectAll();
             }
         );
