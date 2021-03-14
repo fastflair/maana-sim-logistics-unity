@@ -24,22 +24,20 @@ public class CardHost : MonoBehaviour
         // print($"OnSimulationUpdate: {_activeEntity}");
         if (_activeEntity == null) return;
         
-        QEntity qEntity = _activeEntityType switch
-        {
-            Entity.EntityType.City => simulationManager.CurrentState.cities.Find(x => x.id == _activeEntity.id),
-            Entity.EntityType.Producer => simulationManager.CurrentState.producers.Find(x => x.id == _activeEntity.id),
-            Entity.EntityType.Hub => simulationManager.CurrentState.hubs.Find(x => x.id == _activeEntity.id),
-            Entity.EntityType.Vehicle => simulationManager.CurrentState.vehicles.Find(x => x.id == _activeEntity.id),
-            _ => null
-        };
-
-        if (qEntity == null) return;
-        ShowCardForEntity(_activeEntityType, qEntity);
+        ShowCardForEntity(_activeEntityType, _activeEntity.id);
     }
     
-    public void ShowCardForEntity(Entity.EntityType type, QEntity qEntity)
+    public void ShowCardForEntity(Entity.EntityType type, string id)
     {
-        // print($"ShowCardForEntity: {type} {qEntity}");
+        QEntity qEntity = type switch
+        {
+            Entity.EntityType.City => simulationManager.CurrentState.cities.Find(x => x.id == id),
+            Entity.EntityType.Producer => simulationManager.CurrentState.producers.Find(x => x.id == id),
+            Entity.EntityType.Hub => simulationManager.CurrentState.hubs.Find(x => x.id == id),
+            Entity.EntityType.Vehicle => simulationManager.CurrentState.vehicles.Find(x => x.id == id),
+            _ => null
+        };
+        if (qEntity == null) return;
         
         var prevActiveCard = _activeCard;
         _activeEntityType = type;

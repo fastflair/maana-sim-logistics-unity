@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,9 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
     [SerializeField] private FloatVariable entityOffsetY;
     [SerializeField] private FloatVariable spawnHeight;
     [SerializeField] private FloatVariable spawnDelay;
+
+    [SerializeField] private float lerpSpeed = .5f;
+    [SerializeField] private float rotateSpeed = .3f;
 
     public List<Entity> UEntities { get; set; } = new List<Entity>();
 
@@ -86,5 +90,69 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
         }
 
         onSpawned.Invoke();
+    }
+    
+    public static float RotationFromDirection(Vector3 direction)
+    {
+        return direction.x switch
+        {
+            1f => 90f,
+            -1f => -90f,
+            _ => Math.Abs(direction.z + 1f) < float.Epsilon ? 180f : 0f
+        };
+    }
+
+    protected void VisitWaypoints(QEntity qEntity, GameObject uEntity, Queue<QWaypoint> waypoints)
+    {
+        if (!waypoints.Any()) return;
+
+        var waypoint = waypoints.Dequeue();
+        var entityTransform = uEntity.transform;
+        var position = entityTransform.position;
+
+        // Assume we are moving to the next waypoint centroid
+        var destX = waypoint.x;
+        var destY = waypoint.y;
+
+        // We may not have reached the final waypoint
+        if (!waypoints.Any())
+        {
+            if ((Math.Abs(qEntity.x - waypoint.x) > float.Epsilon) || (Math.Abs(qEntity.y - waypoint.y) > float.Epsilon))
+            {
+                destX = qEntity.x;
+                destY = qEntity.y;
+            }
+        }
+
+        var newPosX = EntityXToWorldX(destX);
+        var newPosZ = EntityYToWorldZ(destY);
+        
+        var newPosition = new Vector3(newPosX, position.y, newPosZ);
+
+        var dir = (newPosition - position).normalized;
+        
+        // Skip if we're already there
+        if (Math.Abs(dir.magnitude) < float.Epsilon)
+        {
+            VisitWaypoints(qEntity, uEntity, waypoints);
+            return;
+        }
+        
+        var rfd = RotationFromDirection(dir);
+        var rotation = entityTransform.rotation.eulerAngles;
+
+        Func<LTDescr> lerp = () => LeanTween.move(uEntity, newPosition, lerpSpeed).setOnComplete(() =>
+        {
+            VisitWaypoints(qEntity, uEntity, waypoints);
+        });
+
+        if (Math.Abs(rfd - rotation.y) > float.Epsilon)
+        {
+            LeanTween.rotateY(uEntity, rfd, rotateSpeed).setOnComplete(() => lerp());
+        }
+        else
+        {
+            lerp();
+        }
     }
 }

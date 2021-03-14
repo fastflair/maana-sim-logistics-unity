@@ -26,6 +26,6 @@ public class Entity : MonoBehaviour
 
     public void OnSelect()
     {
-        cardHost.ShowCardForEntity(type, QEntity);
+        cardHost.ShowCardForEntity(type, QEntity.id);
     }
 }

@@ -39,6 +39,8 @@ public class TransitOrderItem : MonoBehaviour
 
     public void Populate(QTransitOrder transitOrder)
     {
+        // print($"Populating transit order item: {transitOrder}");
+        
         _transitOrder = transitOrder;
         Vehicle = SimulationManager.FormatEntityIdDisplay(transitOrder.vehicle);
         Destination = SimulationManager.FormatWaypointDisplay(transitOrder.waypoints);

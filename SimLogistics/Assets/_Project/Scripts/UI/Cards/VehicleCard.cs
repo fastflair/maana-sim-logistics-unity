@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 
 public class VehicleCard : Card
-{    
+{
     [SerializeField] private Sprite planeSprite;
     [SerializeField] private Sprite shipSprite;
     [SerializeField] private Sprite truckSprite;
@@ -18,7 +18,7 @@ public class VehicleCard : Card
     public void Populate(QVehicle vehicle)
     {
         ClearLists();
-        
+
         host.SetEntityId(vehicle.id);
         host.SetThumbnail(ResolveThumbnail(vehicle.type.id));
 
@@ -36,21 +36,23 @@ public class VehicleCard : Card
             var transferOrderItem = Instantiate(transferOrderItemPrefab, ordersItemList, false);
             transferOrderItem.Populate(transferOrder);
         }
-        
+
         AddPropertyToList(propertyItemList, "X", vehicle.x.ToString(CultureInfo.CurrentCulture));
         AddPropertyToList(propertyItemList, "Y", vehicle.y.ToString(CultureInfo.CurrentCulture));
-        AddPropertyToList(propertyItemList, "Fuel",
-            vehicle.fuel == null ? "!!! NULL !!!" : SimulationManager.FormatResourceVolumeDisplay(vehicle.fuel));
+        AddPropertyToList(propertyItemList, "Fuel", SimulationManager.FormatResourceVolumeDisplay(vehicle.fuel));
 
         AddPropertyToList(propertyItemList, "Speed", vehicle.speed.ToString(CultureInfo.CurrentCulture));
         AddPropertyToList(propertyItemList, "Max Distance", vehicle.maxDistance.ToString(CultureInfo.CurrentCulture));
         AddPropertyToList(propertyItemList, "Efficiency", vehicle.efficiency.ToString(CultureInfo.CurrentCulture));
         AddPropertyToList(propertyItemList, "Durability", vehicle.durability.ToString(CultureInfo.CurrentCulture));
-        AddPropertyToList(propertyItemList, "Service Interval", vehicle.serviceInterval.ToString(CultureInfo.CurrentCulture));
-        AddPropertyToList(propertyItemList, "Last Service Step", $"{vehicle.lastServiceStep.ToString(CultureInfo.CurrentCulture)} ({vehicle.steps - vehicle.lastServiceStep})");
-        AddPropertyToList(propertyItemList, "Cargo Mode AND?", vehicle.cargoModeAND.ToString(CultureInfo.CurrentCulture));
+        AddPropertyToList(propertyItemList, "Service Interval",
+            vehicle.serviceInterval.ToString(CultureInfo.CurrentCulture));
+        AddPropertyToList(propertyItemList, "Last Service Step",
+            $"{vehicle.lastServiceStep.ToString(CultureInfo.CurrentCulture)} ({vehicle.steps - vehicle.lastServiceStep})");
+        AddPropertyToList(propertyItemList, "Cargo Mode AND?",
+            vehicle.cargoModeAND.ToString(CultureInfo.CurrentCulture));
     }
-    
+
     private void ClearLists()
     {
         ClearList(cargoItemList);
@@ -69,5 +71,4 @@ public class VehicleCard : Card
             _ => null
         };
     }
-
 }
