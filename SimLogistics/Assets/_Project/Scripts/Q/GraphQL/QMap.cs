@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 public static class QMapFragment
 {
     public const string data = @"
-        fragment mapData on MapOutput {
+        fragment mapData on Map {
           id
           tilesX
           tilesY

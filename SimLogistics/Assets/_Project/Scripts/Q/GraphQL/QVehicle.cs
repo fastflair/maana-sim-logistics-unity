@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 public static class QVehicleFragment
 {
     public static readonly string withIncludes = @$"
-      {QTransitOrderFragment.data}
+      {QTransitOrderFragment.withIncludes}
       {QResourceFragment.OutputData}
       {data}
     ";

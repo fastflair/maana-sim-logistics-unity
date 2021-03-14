@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using JetBrains.Annotations;
 
 // ReSharper disable InconsistentNaming
@@ -9,9 +10,13 @@ public static class QTransitActionFragment
           id
           sim
           vehicle
-          destX
-          destY
+          waypoints { ...waypointData }
         }";
+    
+    public static readonly string withIncludes = @$"
+      {QWaypointFragment.data}
+      {data}
+    ";
 }
 
 public class QTransitAction
@@ -19,8 +24,7 @@ public class QTransitAction
     [UsedImplicitly] public string id;
     [UsedImplicitly] public string sim;
     [UsedImplicitly] public string vehicle;
-    [UsedImplicitly] public float destX;
-    [UsedImplicitly] public float destY;
+    [UsedImplicitly] public List<QWaypoint> waypoints;
     
     public override string ToString()
     {
@@ -28,8 +32,7 @@ public class QTransitAction
             id: ""{id}""
             sim: ""{sim}""
             vehicle: ""{vehicle}""
-            destX: {destX}
-            destY: {destY}
+            waypoints: [{string.Join(",", waypoints)}]
         }}";
     }
 }

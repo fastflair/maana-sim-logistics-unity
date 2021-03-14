@@ -1,6 +1,3 @@
-// using System;
-
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,12 +18,11 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
     [SerializeField] private FloatVariable entityOffsetY;
     [SerializeField] private FloatVariable spawnHeight;
     [SerializeField] private FloatVariable spawnDelay;
-    [SerializeField] private float lerpSpeed = 3;
 
     public List<Entity> UEntities { get; set; } = new List<Entity>();
 
-    private float EntityXToWorldX(float x) => tileSize.Value * x + entityOffsetX.Value;
-    private float EntityYToWorldZ(float y) => -(tileSize.Value * y + entityOffsetY.Value);
+    public float EntityXToWorldX(float x) => tileSize.Value * x + entityOffsetX.Value;
+    public float EntityYToWorldZ(float y) => -(tileSize.Value * y + entityOffsetY.Value);
 
 
     // Interface
@@ -69,44 +65,7 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
 
         UEntities = new List<Entity>();
     }
-
-    public void OnUpdate()
-    {
-        foreach (var entity in UEntities)
-        {
-            entity.QEntity = QEntities.First(qEntity => qEntity.id == entity.QEntity.id);
-            var entityTransform = entity.transform;
-            var newPosX = EntityXToWorldX(entity.QEntity.x);
-            var newPosZ = EntityYToWorldZ(entity.QEntity.y);
-            if (!(Math.Abs(newPosX - entityTransform.position.x) > float.Epsilon) &&
-                !(Math.Abs(newPosZ - entityTransform.position.z) > float.Epsilon))
-            {
-                // print($"[{name}] {SimulationManager.FormatEntityIdDisplay(entity.QEntity.id)} - no change.");
-                continue;
-            }
-
-            // print($"[{name}] {SimulationManager.FormatEntityIdDisplay(entity.QEntity.id)} -> ({newPosX}, {newPosZ})");
-
-            var newPosition = new Vector3(newPosX, entityTransform.position.y, newPosZ);
-            StartCoroutine(LerpPosition(entityTransform, newPosition, lerpSpeed));
-        }
-    }
-
-    private static IEnumerator LerpPosition(Transform entityTransform, Vector3 targetPosition, float duration)
-    {
-        float time = 0;
-        var startPosition = entityTransform.position;
-
-        while (time < duration)
-        {
-            entityTransform.position = Vector3.Lerp(startPosition, targetPosition, time / duration);
-            time += Time.deltaTime;
-            yield return null;
-        }
-
-        entityTransform.position = targetPosition;
-    }
-
+    
     private IEnumerator Co_Spawn()
     {
         foreach (var qEntity in QEntities)

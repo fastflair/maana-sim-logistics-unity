@@ -7,10 +7,11 @@ using UnityEngine.Events;
 
 public class SimulationManager : MonoBehaviour
 {
+    // Used by the Scenario Editor
     [SerializeField] private string cityEndpoint = "maana-sim-logistics-city-v3";
-    [SerializeField] private string producerEndpoint = "maana-sim-logistics-producer-v3";
-    [SerializeField] private string hubEndpoint = "maana-sim-logistics-hub-v3";
-    [SerializeField] private string vehicleEndpoint = "maana-sim-logistics-vehicle-v3";
+    // [SerializeField] private string producerEndpoint = "maana-sim-logistics-producer-v3";
+    // [SerializeField] private string hubEndpoint = "maana-sim-logistics-hub-v3";
+    // [SerializeField] private string vehicleEndpoint = "maana-sim-logistics-vehicle-v3";
     
     public enum ActionType
     {
@@ -70,6 +71,16 @@ public class SimulationManager : MonoBehaviour
     public static string FormatAgentEndpointDisplay(string agentEndpoint)
     {
         return agentEndpoint ?? "Interactive";
+    }
+
+    public static string FormatWaypointDisplay(IEnumerable<QWaypoint> waypoints)
+    {
+        var qWaypoints = waypoints.ToList();
+        if (!qWaypoints.Any()) return "n/a";
+        var lastWaypoint = qWaypoints.Last();
+        var lastLoc = $"({lastWaypoint.x},{lastWaypoint.y})";
+        var count = qWaypoints.Count;
+        return $"{lastLoc} #{count} waypoints";
     }
 
     public static string FormatTransferDetailDisplay(QResourceTransfer transfer)
@@ -183,14 +194,45 @@ public class SimulationManager : MonoBehaviour
         onActionsReset.Invoke();
     }
 
-    public QTransitAction AddTransitAction(string vehicle, float destX, float destY)
+    public void MoveTo(QVehicle vehicle, float x, float y, Action<IEnumerable<QWaypoint>> callback)
+    {
+        Busy();
+
+        const string queryName = "routeVehicle";
+        var query = @$"
+          {QWaypointFragment.data}
+          query {{
+            {queryName}(
+              vehicleType: ""{vehicle.type.id}"", 
+              fromX: {vehicle.x},
+              fromY: {vehicle.y},
+              toX: {x},
+              toY: {y},
+              mapAndTiles: {CurrentState.mapAndTiles}
+              ) {{
+              ...waypointData
+            }}
+          }}
+        ";
+
+        connectionManager.QueryRaiseOnError<List<QWaypoint>>(
+            connectionManager.ApiEndpoint,
+            query,
+            queryName,
+            res =>
+            {
+                NotBusy();
+                callback(res);
+            });
+    }
+    
+    public QTransitAction AddTransitAction(string vehicle, IEnumerable<QWaypoint> waypoints)
     {
         var transitAction = new QTransitAction
         {
             id = $"{CurrentSimulation.id}:{vehicle}",
             vehicle = vehicle,
-            destX = destX,
-            destY = destY
+            waypoints = waypoints.ToList()
         };
         Actions.transitActions.Add(transitAction);
         onNewAction.Invoke(TransitActionInfo(transitAction));
@@ -262,7 +304,7 @@ public class SimulationManager : MonoBehaviour
                 .Where(x => x.id != id)
                 .ToList();
     }
-
+    
     private static ActionInfo TransitActionInfo(QTransitAction action)
     {
         var vehicle = FormatEntityIdDisplay(action.vehicle);
@@ -270,7 +312,7 @@ public class SimulationManager : MonoBehaviour
         {
             ID = action.id,
             Type = ActionType.Transit,
-            DisplayText = $"{vehicle} → ({action.destX}, {action.destY})"
+            DisplayText = $"{vehicle} → {FormatWaypointDisplay(action.waypoints)}"
         };
     }
 

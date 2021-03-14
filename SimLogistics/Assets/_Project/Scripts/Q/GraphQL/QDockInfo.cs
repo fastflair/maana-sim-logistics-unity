@@ -1,5 +1,7 @@
 using JetBrains.Annotations;
 
+// ReSharper disable InconsistentNaming
+
 public static class QDockInfoFragment
 {
     public const string data = @"

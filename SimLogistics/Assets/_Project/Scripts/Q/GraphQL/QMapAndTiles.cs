@@ -11,7 +11,12 @@ public static class QMapAndTilesFragment
           map { ...mapData }
           tiles { ...tileData }
         }";
-}
+    
+    public static readonly string withIncludes = @$"
+      {QMapFragment.data}
+      {QTileFragment.withIncludes}
+      {data}
+    ";}
 
 public class QMapAndTiles
 {

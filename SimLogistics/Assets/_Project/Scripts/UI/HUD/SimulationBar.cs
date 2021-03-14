@@ -100,15 +100,23 @@ public class SimulationBar : UIElement
             return;
         }
 
-        var vehicleId = pair.Vehicle.id;
-
-        simulationManager.AddTransitAction(
-            vehicleId,
+        simulationManager.MoveTo(
+            pair.Vehicle,
             pair.Structure.x,
-            pair.Structure.y
-        );
+            pair.Structure.y,
+            waypoints =>
+            {
+                var qWaypoints = waypoints.ToList();
+                if (!qWaypoints.Any())
+                {
+                    uiManager.ShowErrorDialog("No route to destination.");
+                    return;
+                }
 
-        selectionManager.DeselectAll();
+                simulationManager.AddTransitAction(pair.Vehicle.id, qWaypoints.ToList());
+                selectionManager.DeselectAll();
+            }
+        );
     }
 
     public void OnRepairPressed()

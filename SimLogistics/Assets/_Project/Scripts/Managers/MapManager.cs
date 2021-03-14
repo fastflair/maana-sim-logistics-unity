@@ -11,7 +11,6 @@ using Object = UnityEngine.Object;
 
 public class MapManager : MonoBehaviour
 {
-    [SerializeField] private UnityEvent onLoaded;
     [SerializeField] private UnityEvent onSpawned;
 
     [SerializeField] private ConnectionManager connectionManager;
@@ -51,13 +50,12 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject waterTile04Prefab;
     [SerializeField] private GameObject waterTile05Prefab;
 
-    private QMapAndTiles QMapAndTiles { get; set; }
     private List<GameObject> _tileGameObjects = new List<GameObject>();
 
     public float TileYRot(float x, float y)
     {
         return (
-            from tile in QMapAndTiles.tiles
+            from tile in simulationManager.CurrentState.mapAndTiles.tiles
             where
                 Math.Abs(tile.x - x) < Single.Epsilon
                 && Math.Abs(tile.y - y) < Single.Epsilon
@@ -73,12 +71,7 @@ public class MapManager : MonoBehaviour
     
     private float TileXToWorldX(float x) => tileSize.Value * x + tileOffsetX.Value;
     private float TileYToWorldZ(float y) => -(tileSize.Value * y + tileOffsetY.Value);
-
-    public void Load()
-    {
-        QueryQ();
-    }
-
+    
     public void Spawn()
     {
         Destroy();
@@ -102,37 +95,37 @@ public class MapManager : MonoBehaviour
     {
     }
 
-    private void QueryQ()
-    {
-        const string queryName = "mapAndTiles";
-        var query = @$"
-          {QMapFragment.data}
-          {QTileFragment.withIncludes}
-          {QMapAndTilesFragment.data}
-          query {{
-            {queryName}(map: ""{SimulationManager.MapName}"") {{
-              ...mapAndTilesData
-            }}
-          }}
-        ";
-
-        connectionManager.QueryRaiseOnError<QMapAndTiles>(
-            connectionManager.ApiEndpoint,
-            query,
-            queryName,
-            qMapAndTiles =>
-            {
-                // print($"MapAndTiles query result: {qMapAndTiles}");
-
-                QMapAndTiles = qMapAndTiles;
-
-                onLoaded.Invoke();
-            });
-    }
+    // private void QueryQ()
+    // {
+    //     const string queryName = "mapAndTiles";
+    //     var query = @$"
+    //       {QMapFragment.data}
+    //       {QTileFragment.withIncludes}
+    //       {QMapAndTilesFragment.data}
+    //       query {{
+    //         {queryName}(map: ""{SimulationManager.MapName}"") {{
+    //           ...mapAndTilesData
+    //         }}
+    //       }}
+    //     ";
+    //
+    //     connectionManager.QueryRaiseOnError<QMapAndTiles>(
+    //         connectionManager.ApiEndpoint,
+    //         query,
+    //         queryName,
+    //         qMapAndTiles =>
+    //         {
+    //             // print($"MapAndTiles query result: {qMapAndTiles}");
+    //
+    //             QMapAndTiles = qMapAndTiles;
+    //
+    //             onLoaded.Invoke();
+    //         });
+    // }
 
     private IEnumerator Co_Spawn()
     {
-        foreach (var tile in from qTile in QMapAndTiles.tiles
+        foreach (var tile in from qTile in simulationManager.CurrentState.mapAndTiles.tiles
             let tilePrefab = ResolveTilePrefab(qTile.type.id)
             where tilePrefab is { }
             let posX = TileXToWorldX(qTile.x)

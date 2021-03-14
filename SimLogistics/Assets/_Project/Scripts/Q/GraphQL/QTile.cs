@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 public static class QTileFragment
 {
     public const string data = @"
-        fragment tileData on TileOutput {
+        fragment tileData on Tile {
           id
           map
           type { id }

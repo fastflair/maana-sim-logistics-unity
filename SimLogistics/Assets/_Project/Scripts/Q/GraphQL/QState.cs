@@ -15,10 +15,12 @@ public static class QStateFragment
           vehicles { ...vehicleData }
           transfers { ...resourceTransferData }
           transitOrders { ...transitOrderData }
+          mapAndTiles { ...mapAndTilesData }
         }";
 
     public static readonly string withIncludes = @$"
-      {QTransitOrderFragment.data}
+      {QMapAndTilesFragment.withIncludes}
+      {QTransitOrderFragment.withIncludes}
       {QResourceTransferFragment.data}
       {QResourceFragment.OutputData}
       {QVehicleFragment.data}
@@ -40,6 +42,7 @@ public class QState
     [UsedImplicitly] public List<QVehicle> vehicles;
     [UsedImplicitly] public List<QResourceTransfer> transfers;
     [UsedImplicitly] public List<QTransitOrder> transitOrders;
+    [UsedImplicitly] public QMapAndTiles mapAndTiles;
 
     public override string ToString()
     {
@@ -52,6 +55,7 @@ public class QState
             vehicles: [{string.Join(",", vehicles)}]
             transfers: [{string.Join(",", transfers)}]
             transitOrders: [{string.Join(",", transitOrders)}]
+            mapAndTiles: {mapAndTiles}
         }}";
     }
 }

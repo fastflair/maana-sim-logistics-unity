@@ -41,7 +41,7 @@ public class TransitOrderItem : MonoBehaviour
     {
         _transitOrder = transitOrder;
         Vehicle = SimulationManager.FormatEntityIdDisplay(transitOrder.vehicle);
-        Destination = $"({transitOrder.destX}, {transitOrder.destY})";
+        Destination = SimulationManager.FormatWaypointDisplay(transitOrder.waypoints);
         Steps = transitOrder.steps.ToString(CultureInfo.CurrentCulture);
         Status = transitOrder.status.id;
     }
