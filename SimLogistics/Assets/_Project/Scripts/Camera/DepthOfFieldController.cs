@@ -7,8 +7,11 @@ using UnityEngine.Rendering.Universal;
 
 public class DepthOfFieldController : MonoBehaviour
 {
+    [SerializeField] private CameraController cameraController;
     [SerializeField] private GameObject volumeObject;
     [SerializeField] private float maxFocusDistance;
+    [SerializeField] private float maxFocalLength;
+    [SerializeField] private float minFocalLength;
     [SerializeField] private float blurFocusDistance = 0.1f;
     [SerializeField] private float focusSpeed;
     [SerializeField] private int layer;
@@ -33,7 +36,7 @@ public class DepthOfFieldController : MonoBehaviour
     {
         if (_isBlurred)
         {
-            SetFocus(blurFocusDistance);
+            SetFocusDistance(blurFocusDistance);
             return;
         }
 
@@ -42,13 +45,22 @@ public class DepthOfFieldController : MonoBehaviour
         
         _raycast = new Ray(position, localTransform.forward * maxFocusDistance);
         _hitDistance = Physics.Raycast(_raycast, out _hit, maxFocusDistance, 1 << layer) ? Vector3.Distance(position, _hit.point) : maxFocusDistance;
+        SetFocusDistance(_hitDistance);
 
-        SetFocus(_hitDistance);
+        var zoomLevel = cameraController.ZoomLevel();
+        var focalLength = minFocalLength + zoomLevel * (maxFocalLength-minFocalLength);
+        print($"ZoomLevel: {zoomLevel} => {focalLength}");
+        SetFocalLength(focalLength);
     }
 
-    private void SetFocus(float focusDistance)
+    private void SetFocusDistance(float focusDistance)
     {
         _dof.focusDistance.value = Mathf.Lerp(_dof.focusDistance.value, focusDistance, Time.deltaTime * focusSpeed);
+    }
+
+    private void SetFocalLength(float focalLength)
+    {
+        _dof.focalLength.value = Mathf.Lerp(_dof.focalLength.value, focalLength, Time.deltaTime * focusSpeed);
     }
 
     public void BlurBackground()

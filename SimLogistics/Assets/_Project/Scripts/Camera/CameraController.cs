@@ -1,3 +1,4 @@
+using System;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -37,6 +38,14 @@ public class CameraController : MonoBehaviour
 
     public Camera Camera => camera;
 
+    public float ZoomLevel()
+    {
+        var boundDelta = _startZoom - minBoundZoom;
+        var curDelta = _startZoom - _newZoom;
+        var level = curDelta.y / boundDelta.y;
+        return level;
+    }
+    
     private void Start()
     {
         _startPosition = _newPosition = transform.position;

@@ -20,7 +20,7 @@ MonoBehaviour:
     min: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0.59
+    m_Value: 3.5
     min: 0
   scatter:
     m_OverrideState: 0
@@ -33,7 +33,7 @@ MonoBehaviour:
     min: 0
   tint:
     m_OverrideState: 1
-    m_Value: {r: 0.9433962, g: 0.9433962, b: 0.9433962, a: 1}
+    m_Value: {r: 0.9811321, g: 0.7493754, b: 0.2082592, a: 1}
     hdr: 0
     showAlpha: 0
     showEyeDropper: 1
@@ -129,7 +129,7 @@ MonoBehaviour:
     max: 32
   focalLength:
     m_OverrideState: 1
-    m_Value: 92
+    m_Value: 32
     min: 1
     max: 300
   bladeCount:

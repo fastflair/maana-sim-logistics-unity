@@ -4580,6 +4580,8 @@ MonoBehaviour:
   entityOffsetY: {fileID: 11400000, guid: 3fbe9e2512d1e454b947c3003caa214f, type: 2}
   spawnHeight: {fileID: 11400000, guid: a5b0373571464403b8f12fd2b4bb5c27, type: 2}
   spawnDelay: {fileID: 11400000, guid: d9406173a3339405d96b5cfaf8644123, type: 2}
+  lerpSpeed: 0.5
+  rotateSpeed: 0.3
   cityPrefab: {fileID: 547844478126932216, guid: abf5f8e44db2e471f882ddbe657e91a8, type: 3}
 --- !u!4 &570201678
 Transform:
@@ -5207,11 +5209,11 @@ MonoBehaviour:
   entityOffsetY: {fileID: 11400000, guid: 3fbe9e2512d1e454b947c3003caa214f, type: 2}
   spawnHeight: {fileID: 11400000, guid: a5b0373571464403b8f12fd2b4bb5c27, type: 2}
   spawnDelay: {fileID: 11400000, guid: d9406173a3339405d96b5cfaf8644123, type: 2}
+  lerpSpeed: 3
+  rotateSpeed: 0.3
   truckPrefab: {fileID: 5074143022650899318, guid: 9abc2b84a4d5442d99a9fa3af8ccf902, type: 3}
   planePrefab: {fileID: 8962829798710150946, guid: 708541b0b086949849b801bb25a45619, type: 3}
   shipPrefab: {fileID: 6864559486372078770, guid: a2c14c57568c344878162b8c322c7f35, type: 3}
-  lerpSpeed: 3
-  rotateSpeed: 0.3
 --- !u!4 &700448672
 Transform:
   m_ObjectHideFlags: 0
@@ -8667,6 +8669,8 @@ MonoBehaviour:
   entityOffsetY: {fileID: 11400000, guid: 3fbe9e2512d1e454b947c3003caa214f, type: 2}
   spawnHeight: {fileID: 11400000, guid: a5b0373571464403b8f12fd2b4bb5c27, type: 2}
   spawnDelay: {fileID: 11400000, guid: d9406173a3339405d96b5cfaf8644123, type: 2}
+  lerpSpeed: 0.5
+  rotateSpeed: 0.3
   portPrefab: {fileID: 2148192271462010314, guid: 0279b7db21c7f443a8b5e096622d48e7, type: 3}
   airportPrefab: {fileID: 547844478126932216, guid: 6c56bc4a3ab094827a24206251f8c18a, type: 3}
   truckDepotPrefab: {fileID: 547844478126932216, guid: 0d4f9ac7b953c49198401f929b9f0b61, type: 3}
@@ -12952,8 +12956,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e1e50146e0a244df96306013a1d3c8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraController: {fileID: 1779000259}
   volumeObject: {fileID: 1334222044}
   maxFocusDistance: 5
+  maxFocalLength: 180
+  minFocalLength: 80
   blurFocusDistance: 0
   focusSpeed: 8
   layer: 10
@@ -20965,6 +20972,8 @@ MonoBehaviour:
   entityOffsetY: {fileID: 11400000, guid: 3fbe9e2512d1e454b947c3003caa214f, type: 2}
   spawnHeight: {fileID: 11400000, guid: a5b0373571464403b8f12fd2b4bb5c27, type: 2}
   spawnDelay: {fileID: 11400000, guid: d9406173a3339405d96b5cfaf8644123, type: 2}
+  lerpSpeed: 0.5
+  rotateSpeed: 0.3
   coalMinePrefab: {fileID: 547844478126932216, guid: 1240530938b694f28b84d851351a8c13, type: 3}
   cottonPrefab: {fileID: 547844478126932216, guid: 3084e418ffae241b8bb754db5c2fd24b, type: 3}
   factoryPrefab: {fileID: 547844478126932216, guid: 695fa34e2d1f44b518ddb3a97d725493, type: 3}
