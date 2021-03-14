@@ -10,7 +10,15 @@ public static class QMapFragment
           id
           tilesX
           tilesY
+          tileDescriptors { ...tileDescriptorData }
+          entityTraversalCompatibilities { ...entityTraversalCompatibilityData }
         }";
+
+    public static readonly string withIncludes = @$"
+      {QTileDescriptorFragment.data}
+      {QEntityTraversalCompatibilityFragment.data}
+      {data}
+    ";
 }
 
 public class QMap
@@ -18,6 +26,8 @@ public class QMap
     [UsedImplicitly] public string id;
     [UsedImplicitly] public float tilesX;
     [UsedImplicitly] public float tilesY;
+    [UsedImplicitly] public List<QTileDescriptor> tileDescriptors;
+    [UsedImplicitly] public List<QEntityTraversalCompatibility> entityTraversalCompatibilities;
 
     public override string ToString()
     {
@@ -25,6 +35,8 @@ public class QMap
             id: ""{id}""
             tilesX: {tilesX}
             tilesY: {tilesY}
+            tileDescriptors: [{string.Join(",", tileDescriptors)}]
+            entityTraversalCompatibilities: [{string.Join(",", entityTraversalCompatibilities)}]
         }}";
     }
 }

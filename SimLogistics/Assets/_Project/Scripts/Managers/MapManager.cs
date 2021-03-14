@@ -126,7 +126,7 @@ public class MapManager : MonoBehaviour
     private IEnumerator Co_Spawn()
     {
         foreach (var tile in from qTile in simulationManager.CurrentState.mapAndTiles.tiles
-            let tilePrefab = ResolveTilePrefab(qTile.type.id)
+            let tilePrefab = ResolveTilePrefab(qTile.type)
             where tilePrefab is { }
             let posX = TileXToWorldX(qTile.x)
             let posZ = TileYToWorldZ(qTile.y)

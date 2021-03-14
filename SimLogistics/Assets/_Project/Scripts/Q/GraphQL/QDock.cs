@@ -2,10 +2,10 @@ using JetBrains.Annotations;
 
 // ReSharper disable InconsistentNaming
 
-public static class QDockInfoFragment
+public static class QDockFragment
 {
     public const string data = @"
-        fragment dockInfoData on DockInfo {
+        fragment dockData on Dock {
           id
           vehicleType
           xOffset
@@ -14,7 +14,7 @@ public static class QDockInfoFragment
         }";
 }
 
-public class QDockInfo
+public class QDock
 {
     [UsedImplicitly] public string id;
     [UsedImplicitly] public string vehicleType;

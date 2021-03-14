@@ -13,7 +13,7 @@ public static class QMapAndTilesFragment
         }";
     
     public static readonly string withIncludes = @$"
-      {QMapFragment.data}
+      {QMapFragment.withIncludes}
       {QTileFragment.withIncludes}
       {data}
     ";}

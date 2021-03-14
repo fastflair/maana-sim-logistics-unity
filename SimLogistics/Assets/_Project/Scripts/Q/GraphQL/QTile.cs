@@ -9,16 +9,15 @@ public static class QTileFragment
         fragment tileData on Tile {
           id
           map
-          type { id }
+          type
           x
           y
           yRot
-          traversalType { id }
-          dockInfo { ...dockInfoData }
+          docks { ...dockData }
         }";
     
     public static readonly string withIncludes = @$"
-      {QDockInfoFragment.data}
+      {QDockFragment.data}
       {data}
     ";
 }
@@ -27,24 +26,22 @@ public class QTile
 {
     [UsedImplicitly] public string id;
     [UsedImplicitly] public string map;
-    [UsedImplicitly] public QTileTypeEnum type;
+    [UsedImplicitly] public string type;
     [UsedImplicitly] public float x;
     [UsedImplicitly] public float y;
     [UsedImplicitly] public float yRot;
-    [UsedImplicitly] public QTraversalTypeEnum traversalType;
-    [UsedImplicitly] public List<QDockInfo> dockInfo;
+    [UsedImplicitly] public List<QDock> docks;
     
     public override string ToString()
     {
         return @$"{{
             id: ""{id}""
             map: ""{map}""
-            type: {type}
+            type: ""{type}""
             x: {x}
             y: {y}
             yRot: {yRot}
-            traversalType: {traversalType}
-            dockInfo: [{string.Join(",", dockInfo)}]
+            docks: [{string.Join(",", docks)}]
         }}";
     }
 }
