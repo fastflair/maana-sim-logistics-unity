@@ -49,7 +49,7 @@ public class VehicleManager : EntityManager<QVehicle>
             
             var vehicleEntity = EntityById(vehicle.id);
             var remaining = new Queue<QWaypoint>(transitOrder.visited);
-            MoveThroughWaypoints(vehicleEntity.gameObject, remaining);
+            MoveThroughWaypoints(vehicle, vehicleEntity.gameObject, remaining);
         }
     }
 
@@ -63,18 +63,27 @@ public class VehicleManager : EntityManager<QVehicle>
         };
     }
 
-    private void MoveThroughWaypoints(GameObject go, Queue<QWaypoint> waypoints)
+    private void MoveThroughWaypoints(QVehicle vehicle, GameObject go, Queue<QWaypoint> waypoints)
     {
-        if (!waypoints.Any()) return;
+        var vehicleTransform = go.transform;
+        var position = vehicleTransform.position;
+        
+        if (!waypoints.Any())
+        {
+            var endPosition = new Vector3(
+                EntityXToWorldX(vehicle.x),
+                position.y,
+                EntityYToWorldZ(vehicle.y));
+            print($"No waypoints: ${position} {endPosition}");
+            LeanTween.move(go, endPosition, lerpSpeed);
+            return;
+        }
 
         var waypoint = waypoints.Dequeue();
 
         var newPosX = EntityXToWorldX(waypoint.x);
         var newPosZ = EntityYToWorldZ(waypoint.y);
-
-        var vehicleTransform = go.transform;
-
-        var position = vehicleTransform.position;
+        
         var newPosition = new Vector3(newPosX, position.y, newPosZ);
 
         var dir = (newPosition - position).normalized;
@@ -83,7 +92,7 @@ public class VehicleManager : EntityManager<QVehicle>
 
         Func<LTDescr> lerp = () => LeanTween.move(go, newPosition, lerpSpeed).setOnComplete(() =>
         {
-            MoveThroughWaypoints(go, waypoints);
+            MoveThroughWaypoints(vehicle, go, waypoints);
         });
 
         if (Math.Abs(rfd - rotation.y) > float.Epsilon)

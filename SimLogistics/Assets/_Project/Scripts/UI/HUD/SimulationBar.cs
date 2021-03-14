@@ -100,22 +100,51 @@ public class SimulationBar : UIElement
             return;
         }
 
-        simulationManager.MoveTo(
-            pair.Vehicle,
-            pair.Structure.x,
-            pair.Structure.y,
-            waypoints =>
-            {
-                if (!waypoints.Any())
+        var destX = pair.Structure.x;
+        var destY = pair.Structure.y;
+        
+        if (Input.GetKey(KeyCode.LeftAlt))
+        {
+            simulationManager.AddTransitAction(
+                pair.Vehicle.id,
+                new[]
                 {
-                    uiManager.ShowErrorDialog("No route to destination.");
-                    return;
-                }
+                    new QWaypoint()
+                    {
+                        id = $"no-route:{destX}:{destY}:0",
+                        order = 0,
+                        x = pair.Vehicle.x,
+                        y = pair.Vehicle.y,
+                    },
+                    new QWaypoint()
+                    {
+                        id = $"no-route:{destX}:{destY}:1",
+                        order = 1,
+                        x = destX,
+                        y = destY,
+                    },
+                });
+            selectionManager.DeselectAll();
+        }
+        else
+        {
+            simulationManager.MoveTo(
+                pair.Vehicle,
+                destX,
+                destY,
+                waypoints =>
+                {
+                    if (!waypoints.Any())
+                    {
+                        uiManager.ShowErrorDialog("No route to destination.");
+                        return;
+                    }
 
-                simulationManager.AddTransitAction(pair.Vehicle.id, waypoints.ToList());
-                selectionManager.DeselectAll();
-            }
-        );
+                    simulationManager.AddTransitAction(pair.Vehicle.id, waypoints.ToList());
+                    selectionManager.DeselectAll();
+                }
+            );
+        }
     }
 
     public void OnRepairPressed()
