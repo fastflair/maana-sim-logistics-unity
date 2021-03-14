@@ -49,7 +49,6 @@ public class DepthOfFieldController : MonoBehaviour
 
         var zoomLevel = cameraController.ZoomLevel();
         var focalLength = minFocalLength + zoomLevel * (maxFocalLength-minFocalLength);
-        print($"ZoomLevel: {zoomLevel} => {focalLength}");
         SetFocalLength(focalLength);
     }
 
