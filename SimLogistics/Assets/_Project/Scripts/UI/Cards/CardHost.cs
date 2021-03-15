@@ -29,16 +29,9 @@ public class CardHost : MonoBehaviour
     
     public void ShowCardForEntity(Entity.EntityType type, string id)
     {
-        QEntity qEntity = type switch
-        {
-            Entity.EntityType.City => simulationManager.CurrentState.cities.Find(x => x.id == id),
-            Entity.EntityType.Producer => simulationManager.CurrentState.producers.Find(x => x.id == id),
-            Entity.EntityType.Hub => simulationManager.CurrentState.hubs.Find(x => x.id == id),
-            Entity.EntityType.Vehicle => simulationManager.CurrentState.vehicles.Find(x => x.id == id),
-            _ => null
-        };
+        var qEntity = simulationManager.FindQEntityById(type, id);
         if (qEntity == null) return;
-        
+
         var prevActiveCard = _activeCard;
         _activeEntityType = type;
         _activeEntity = qEntity;

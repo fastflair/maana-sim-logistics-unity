@@ -51,21 +51,22 @@ public class SimulationBar : UIElement
         var selectableObjects = selectionManager.SelectedObjects.ToArray();
         if (selectableObjects.Length != 2) return null;
 
-        var entity1 = selectableObjects[0].GetComponent<Entity>();
-        var entity2 = selectableObjects[1].GetComponent<Entity>();
+        var uEntity1 = selectableObjects[0].GetComponent<Entity>();
+        var uEntity2 = selectableObjects[1].GetComponent<Entity>();
+
 
         QVehicle vehicle = null;
         QEntity structure = null;
-
-        if (entity1.QEntity is QVehicle entity)
+        
+        if (uEntity1.QEntity is QVehicle entity)
         {
             vehicle = entity;
-            if (!(entity2.QEntity is QVehicle)) structure = entity2.QEntity;
+            if (!(uEntity2.QEntity is QVehicle)) structure = uEntity2.QEntity;
         }
-        else if (entity2.QEntity is QVehicle qEntity)
+        else if (uEntity2.QEntity is QVehicle qEntity)
         {
             vehicle = qEntity;
-            structure = entity1.QEntity;
+            structure = uEntity1.QEntity;
         }
 
         if (vehicle == null || structure == null) return null;
@@ -84,7 +85,6 @@ public class SimulationBar : UIElement
     {
         var selectableObjects = selectionManager.SelectedObjects.ToArray();
         if (selectableObjects.Length != 1) return null;
-
         return selectableObjects[0].GetComponent<Entity>().QEntity as QVehicle;
     }
 
@@ -102,7 +102,7 @@ public class SimulationBar : UIElement
 
         var destX = pair.Structure.x;
         var destY = pair.Structure.y;
-        
+
         if (Input.GetKey(KeyCode.LeftAlt))
         {
             simulationManager.AddTransitAction(

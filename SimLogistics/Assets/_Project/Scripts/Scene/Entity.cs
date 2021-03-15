@@ -17,8 +17,10 @@ public class Entity : MonoBehaviour
 
     [HideInInspector] public CardHost cardHost;
 
-    public QEntity QEntity;
-
+    [HideInInspector] public string entityId;
+    
+    public QEntity QEntity => cardHost.simulationManager.FindQEntityById(type, entityId);
+    
     public void OnHoverEnter()
     {
         // cardHost.ShowCardForEntity(type, QEntity);

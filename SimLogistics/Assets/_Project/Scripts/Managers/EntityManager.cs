@@ -35,14 +35,14 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
 
     public Entity EntityById(string id)
     {
-        return UEntities.Find(x => x.QEntity.id == id);
+        return UEntities.Find(x => x.entityId == id);
     }
 
     public void SelectEntity(string id)
     {
         var entity = EntityById(id);
         if (entity == null) return;
-        
+
         var selectableObject = entity.GetComponent<SelectableObject>();
         if (selectableObject == null) return;
 
@@ -69,7 +69,7 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
 
         UEntities = new List<Entity>();
     }
-    
+
     private IEnumerator Co_Spawn()
     {
         foreach (var qEntity in QEntities)
@@ -83,7 +83,7 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
                 new Vector3(EntityXToWorldX(qEntity.x), spawnHeight.Value * tileSize.Value, EntityYToWorldZ(qEntity.y)),
                 quaternion);
             entity.cardHost = cardHost;
-            entity.QEntity = qEntity;
+            entity.entityId = qEntity.id;
             UEntities.Add(entity);
 
             yield return new WaitForSeconds(spawnDelay.Value);
@@ -91,7 +91,7 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
 
         onSpawned.Invoke();
     }
-    
+
     public static float RotationFromDirection(Vector3 direction)
     {
         return direction.x switch
@@ -101,7 +101,7 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
             _ => Math.Abs(direction.z + 1f) < float.Epsilon ? 180f : 0f
         };
     }
-    
+
     protected void VisitWaypoints(QEntity qEntity, GameObject uEntity, Queue<QWaypoint> waypoints)
     {
         if (!waypoints.Any()) return;
@@ -114,18 +114,39 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
         var destX = waypoint.x;
         var destY = waypoint.y;
 
-        // We may not have reached the final waypoint
+        QDock dock = null;
+        
+        // Special processing for final waypoint
         if (!waypoints.Any())
         {
-            if ((Math.Abs(qEntity.x - waypoint.x) > float.Epsilon) || (Math.Abs(qEntity.y - waypoint.y) > float.Epsilon))
+            var qVehicle = qEntity as QVehicle;
+            var tile = mapManager.FindTile(waypoint.x, waypoint.y);
+            if (tile != null && qVehicle != null)
             {
-                destX = qEntity.x;
-                destY = qEntity.y;
+                dock = tile.docks.Find(x => x.vehicleType == qVehicle.type.id);
+                // print($"Dock: {dock}");
+            }
+
+            if (dock == null)
+            {
+                // We may not have reached the final waypoint
+                if ((Math.Abs(qEntity.x - waypoint.x) > float.Epsilon) ||
+                    (Math.Abs(qEntity.y - waypoint.y) > float.Epsilon))
+                {
+                    destX = qEntity.x;
+                    destY = qEntity.y;
+                }
             }
         }
 
         var newPosX = EntityXToWorldX(destX);
         var newPosZ = EntityYToWorldZ(destY);
+
+        if (dock != null)
+        {
+            newPosX += dock.xOffset;
+            newPosZ -= dock.yOffset;
+        }
         
         var newPosition = new Vector3(newPosX, position.y, newPosZ);
 
@@ -138,21 +159,20 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
             return;
         }
         
-        var rfd = RotationFromDirection(dir);
+        var yRot = dock?.yRot ?? RotationFromDirection(dir);
+        
         var rotation = entityTransform.rotation.eulerAngles;
 
-        Func<LTDescr> lerp = () => LeanTween.move(uEntity, newPosition, lerpSpeed).setOnComplete(() =>
-        {
-            VisitWaypoints(qEntity, uEntity, waypoints);
-        });
+        LTDescr Lerp() => LeanTween.move(uEntity, newPosition, lerpSpeed)
+            .setOnComplete(() => { VisitWaypoints(qEntity, uEntity, waypoints); });
 
-        if (Math.Abs(rfd - rotation.y) > float.Epsilon)
+        if (Math.Abs(yRot - rotation.y) > float.Epsilon)
         {
-            LeanTween.rotateY(uEntity, rfd, rotateSpeed).setOnComplete(() => lerp());
+            LeanTween.rotateY(uEntity, yRot, rotateSpeed).setOnComplete(() => Lerp());
         }
         else
         {
-            lerp();
+            Lerp();
         }
     }
 }

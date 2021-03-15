@@ -43,6 +43,18 @@ public class SimulationManager : MonoBehaviour
     public string AgentEndpoint => CurrentSimulation.agentEndpoint;
     public bool IsCurrentDefault => CurrentState == null || CurrentSimulation.id == DefaultSimulation.id;
 
+    public QEntity FindQEntityById(Entity.EntityType type, string id)
+    {
+        return type switch
+        {
+            Entity.EntityType.City => CurrentState.cities.Find(x => x.id == id),
+            Entity.EntityType.Producer => CurrentState.producers.Find(x => x.id == id),
+            Entity.EntityType.Hub => CurrentState.hubs.Find(x => x.id == id),
+            Entity.EntityType.Vehicle => CurrentState.vehicles.Find(x => x.id == id),
+            _ => null
+        };
+    }
+
     public QActions Actions { get; private set; } = new QActions();
 
     // TODO: get from simulation

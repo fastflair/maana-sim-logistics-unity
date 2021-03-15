@@ -40,9 +40,6 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject grassTile07Prefab;
     [SerializeField] private GameObject grassTile08Prefab;
 
-    [SerializeField] private GameObject pavementTile00Prefab;
-    [SerializeField] private GameObject pavementTile01Prefab;
-
     [SerializeField] private GameObject waterTile00Prefab;
     [SerializeField] private GameObject waterTile01Prefab;
     [SerializeField] private GameObject waterTile02Prefab;
@@ -52,15 +49,21 @@ public class MapManager : MonoBehaviour
 
     private List<GameObject> _tileGameObjects = new List<GameObject>();
 
-    public float TileYRot(float x, float y)
+    public QTile FindTile(float x, float y)
     {
         return (
             from tile in simulationManager.CurrentState.mapAndTiles.tiles
             where
                 Math.Abs(tile.x - x) < Single.Epsilon
                 && Math.Abs(tile.y - y) < Single.Epsilon
-            select tile.yRot
+            select tile
         ).FirstOrDefault();
+    }
+    
+    public float TileYRot(float x, float y)
+    {
+        var tile = FindTile(x, y);
+        return tile?.yRot ?? 0;
     }
 
     private Quaternion TileRotation(float x, float y)
@@ -162,8 +165,6 @@ public class MapManager : MonoBehaviour
             "Sand04" => sandTile04Prefab,
             "Sand05" => sandTile05Prefab,
             "Sand06" => sandTile06Prefab,
-            "Pavement" => pavementTile00Prefab,
-            "Pavement01" => pavementTile01Prefab,
             "Water" => waterTile00Prefab,
             "Water01" => waterTile01Prefab,
             "Water02" => waterTile02Prefab,
