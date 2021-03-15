@@ -106,7 +106,7 @@ public class ConnectionsDialog : Dialog
 
     public void OnCancel()
     {
-        Hide();
+        Destroy();
     }
     
     public void OnDone()
@@ -115,7 +115,7 @@ public class ConnectionsDialog : Dialog
         {
             ConnectionManager.LoadAndConnect(_currentState.id);
         }
-        Hide();
+        Destroy();
     }
     
     private void UpdateButtons()

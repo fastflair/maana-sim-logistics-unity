@@ -81,12 +81,12 @@ public class TransferDialog : Dialog
     public void OnOkay()
     {
         onAddTransfer.Invoke();
-        Hide();
+        Destroy();
     }
 
     public void OnCancel()
     {
-        Hide();
+        Destroy();
     }
 
     public void PopulateList()

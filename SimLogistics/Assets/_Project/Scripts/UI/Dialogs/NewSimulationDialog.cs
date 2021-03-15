@@ -11,7 +11,7 @@ public class NewSimulationDialog : Dialog
     [SerializeField] private InputFieldItem agentEndpoint;
     [SerializeField] private Button okayButton;
     private QSimulation _currentSimulation;
-
+    
     public ScenarioEditor ScenarioEditor { get; set; }
 
     private SimulationManager _simulationManager;
@@ -38,14 +38,18 @@ public class NewSimulationDialog : Dialog
     
     public void OnCancel()
     {
-        Hide();
+        okayButton.interactable = false;
+        Destroy();
     }
 
     public void OnOkay()
     {
+        okayButton.interactable = false;
+        Hide();
+        
         if (agentEndpoint.Value == ScenarioEditor.SecretKey)
         {
-            Hide();
+            Destroy();
             ScenarioEditor.Show(simName.Value);
             return;
         }
@@ -57,20 +61,22 @@ public class NewSimulationDialog : Dialog
                 var dialog = UIManager.ShowConfirmationDialog($"A simulation with this name (and agent endpoint) already exists.{Environment.NewLine}Do you want to overwrite it?");
                 dialog.onOkay.AddListener(() =>
                 {
+                    Destroy();
                     SimulationManager.Overwrite(simName.Value, agentEndpoint.Value, simulation =>
                     {
-                        Hide();
                     });
                 });
-                dialog.onCancel.AddListener(() =>
+                dialog.onCancel.AddListener(()  =>
                 {
+                    Show();
+                    okayButton.interactable = true;
                 });
             }
             else
             {
+                Destroy();
                 SimulationManager.New(simName.Value, agentEndpoint.Value, simulation =>
                 {
-                    Hide();
                 });
             }
         });
