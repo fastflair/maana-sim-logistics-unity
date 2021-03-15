@@ -5305,6 +5305,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 875546c8571c3ce4e915520e42d0374b, type: 3}
+--- !u!114 &713215146 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2113769784546538807, guid: efa36cea8c74f4a88a85d767b97c67b8, type: 3}
+  m_PrefabInstance: {fileID: 8890134802334700995}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41712223f04644ef4bfd08b829ad70ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &756451210
 GameObject:
   m_ObjectHideFlags: 0
@@ -5448,7 +5459,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7929705258238976076, guid: 41a4995e5e63e4544b2e975457df28c6, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7929705258238976076, guid: 41a4995e5e63e4544b2e975457df28c6, type: 3}
       propertyPath: m_AnchorMax.x
@@ -9501,7 +9512,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7929705258238976076, guid: 41a4995e5e63e4544b2e975457df28c6, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7929705258238976076, guid: 41a4995e5e63e4544b2e975457df28c6, type: 3}
       propertyPath: m_AnchorMax.x
@@ -12455,7 +12466,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7929705258238976076, guid: 41a4995e5e63e4544b2e975457df28c6, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7929705258238976076, guid: 41a4995e5e63e4544b2e975457df28c6, type: 3}
       propertyPath: m_AnchorMax.x
@@ -21263,7 +21274,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7929705258238976076, guid: 41a4995e5e63e4544b2e975457df28c6, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7929705258238976076, guid: 41a4995e5e63e4544b2e975457df28c6, type: 3}
       propertyPath: m_AnchorMax.x
@@ -26452,6 +26463,10 @@ PrefabInstance:
       propertyPath: hubManager
       value: 
       objectReference: {fileID: 837692214}
+    - target: {fileID: 4155269118575780759, guid: efa36cea8c74f4a88a85d767b97c67b8, type: 3}
+      propertyPath: pendingTab
+      value: 
+      objectReference: {fileID: 713215146}
     - target: {fileID: 4155269118575780759, guid: efa36cea8c74f4a88a85d767b97c67b8, type: 3}
       propertyPath: cityManager
       value: 

@@ -34,6 +34,7 @@ public class Actions : MonoBehaviour
 
     // Tab controls (to self activate)
     [SerializeField] private TabGroup tabGroup;
+    [SerializeField] private Tab pendingTab;
     [SerializeField] private Tab issuedTab;
 
     private readonly List<ToggleItem> _toggleItems = new List<ToggleItem>();
@@ -52,6 +53,8 @@ public class Actions : MonoBehaviour
         item.onValueChanged.AddListener(UpdateButtons);
         _toggleItems.Add(item);
         UpdateButtons();
+
+        tabGroup.OnTabClick(pendingTab);
     }
 
     public void OnActionsReset()

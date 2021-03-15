@@ -92,36 +92,58 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
         onSpawned.Invoke();
     }
 
-    public static float RotationFromDirection(Vector3 direction)
+    private static bool FloatEq(float val, float target) => Math.Abs(val - target) < 0.1f;
+
+    private static float RotationFromDirection(Vector3 direction)
     {
-        return direction.x switch
-        {
-            1f => 90f,
-            -1f => -90f,
-            _ => Math.Abs(direction.z + 1f) < float.Epsilon ? 180f : 0f
-        };
+        if (FloatEq(direction.x, 1f)) return 90f;
+        if (FloatEq(direction.x, -1f)) return -90f;
+        if (FloatEq(direction.z, -1f)) return 180f;
+        if (FloatEq(direction.x, .7f) && FloatEq(direction.z, .7f)) return 45f;
+        if (FloatEq(direction.x, -.7f) && FloatEq(direction.z, .7f)) return 135f;
+        if (FloatEq(direction.x, -.7f) && FloatEq(direction.z, -.7f)) return 225f;
+        if (FloatEq(direction.x, .7f) && FloatEq(direction.z, -.7f)) return 315f;
+        return 0f;
     }
 
-    protected void VisitWaypoints(QEntity qEntity, GameObject uEntity, Queue<QWaypoint> waypoints)
+    protected void VisitWaypoints(QVehicle qVehicle, GameObject uEntity, Queue<QWaypoint> waypoints)
     {
         if (!waypoints.Any()) return;
 
         var waypoint = waypoints.Dequeue();
+        // print($"Waypoint: {waypoint}");
         var entityTransform = uEntity.transform;
         var position = entityTransform.position;
+        // print($"Position: {position}");
+        var nextWaypoint = waypoints.Any() ? waypoints.Peek() : null;
+        if (nextWaypoint != null)
+        {
+            var cwpPos = new Vector3(EntityXToWorldX(waypoint.x), EntityYToWorldZ(waypoint.y));
+            var nwpPos = new Vector3(EntityXToWorldX(nextWaypoint.x), EntityYToWorldZ(nextWaypoint.y));
+            var distanceToCurrent = (position - cwpPos).magnitude;
+            var distanceToNext = (position - nwpPos).magnitude;
+            var isNextCloser = distanceToNext <= distanceToCurrent;
+            // print($"dtoc: {distanceToCurrent}, dton: {distanceToNext}, isNextCloser: {isNextCloser}");
+            if (isNextCloser)
+            {
+                VisitWaypoints(qVehicle, uEntity, waypoints);
+                return;
+            }
+        }
 
         // Assume we are moving to the next waypoint centroid
         var destX = waypoint.x;
         var destY = waypoint.y;
 
         QDock dock = null;
-        
+
         // Special processing for final waypoint
-        if (!waypoints.Any())
+        if (!waypoints.Any() && !qVehicle.transitOrder.waypoints.Any())
         {
-            var qVehicle = qEntity as QVehicle;
+            // print($"Final waypoint");
+
             var tile = mapManager.FindTile(waypoint.x, waypoint.y);
-            if (tile != null && qVehicle != null)
+            if (tile != null)
             {
                 dock = tile.docks.Find(x => x.vehicleType == qVehicle.type.id);
                 // print($"Dock: {dock}");
@@ -129,12 +151,15 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
 
             if (dock == null)
             {
+                // print($"no dock");
+
                 // We may not have reached the final waypoint
-                if ((Math.Abs(qEntity.x - waypoint.x) > float.Epsilon) ||
-                    (Math.Abs(qEntity.y - waypoint.y) > float.Epsilon))
+                if ((Math.Abs(qVehicle.x - waypoint.x) > float.Epsilon) ||
+                    (Math.Abs(qVehicle.y - waypoint.y) > float.Epsilon))
                 {
-                    destX = qEntity.x;
-                    destY = qEntity.y;
+                    // print("forcing move to entity position");
+                    destX = qVehicle.x;
+                    destY = qVehicle.y;
                 }
             }
         }
@@ -147,31 +172,34 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
             newPosX += dock.xOffset;
             newPosZ -= dock.yOffset;
         }
-        
-        var newPosition = new Vector3(newPosX, position.y, newPosZ);
 
+        var newPosition = new Vector3(newPosX, position.y, newPosZ);
         var dir = (newPosition - position).normalized;
-        
+        // print($"New position: {newPosition}, dir: {dir}");
+
         // Skip if we're already there
         if (Math.Abs(dir.magnitude) < float.Epsilon)
         {
-            VisitWaypoints(qEntity, uEntity, waypoints);
+            // print($"Already there");
+            VisitWaypoints(qVehicle, uEntity, waypoints);
             return;
         }
-        
+
         var yRot = dock?.yRot ?? RotationFromDirection(dir);
-        
+
         var rotation = entityTransform.rotation.eulerAngles;
 
         LTDescr Lerp() => LeanTween.move(uEntity, newPosition, lerpSpeed)
-            .setOnComplete(() => { VisitWaypoints(qEntity, uEntity, waypoints); });
+            .setOnComplete(() => { VisitWaypoints(qVehicle, uEntity, waypoints); });
 
         if (Math.Abs(yRot - rotation.y) > float.Epsilon)
         {
+            // print($"Rotating: {yRot}");
             LeanTween.rotateY(uEntity, yRot, rotateSpeed).setOnComplete(() => Lerp());
         }
         else
         {
+            // print("Not rotating");
             Lerp();
         }
     }
