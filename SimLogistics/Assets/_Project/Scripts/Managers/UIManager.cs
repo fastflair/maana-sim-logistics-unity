@@ -113,9 +113,9 @@ public class UIManager : MonoBehaviour
         dialog.SetVisible(true, UIElement.Effect.Animate);
     }
 
-    public void HideDialog(Dialog dialog)
+    public void DestroyDialog(Dialog dialog)
     {
-        Debug.Assert(dialog != null);
+        if (dialog == null) return;
 
         dialog
             .SetVisible(false, UIElement.Effect.Animate)
@@ -171,7 +171,7 @@ public class UIManager : MonoBehaviour
 
     public void OnInfo()
     {
-        ShowInfoDialog("TODO: Change this to Info dialog");
+        ShowInfoDialog("Maana Q SimLogistics v3");
     }
 
     public void ShowInfoDialog(string message)

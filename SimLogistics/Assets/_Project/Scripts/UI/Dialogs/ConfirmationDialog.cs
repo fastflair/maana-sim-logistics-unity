@@ -12,7 +12,7 @@ public class ConfirmationDialog : MessageDialog
     public void OnCancel()
     {
         onCancel.Invoke();
-        Hide();
+        Destroy();
     }
 
     public override void OnOkay()

@@ -30,7 +30,7 @@ public class LoadSimulationDialog : Dialog
 
     public void OnCancel()
     {
-        Hide();
+        Destroy();
     }
 
     public void OnClearFilters()
@@ -89,7 +89,7 @@ public class LoadSimulationDialog : Dialog
                     {
                         SimulationManager.Load(simulation.id, loaded =>
                         {
-                            Hide();
+                            Destroy();
                         });
                     });
                 }

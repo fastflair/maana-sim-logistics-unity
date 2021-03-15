@@ -29,14 +29,14 @@ public class InputDialog : Dialog
     public void OnCancel()
     {
         onCancel.Invoke();
-        Hide();
+        Destroy();
     }
 
     public void OnOkay()
     {
         print("OnOkay");
         onOkay.Invoke();
-        Hide();
+        Destroy();
     }
     
     private void UpdateButtons()

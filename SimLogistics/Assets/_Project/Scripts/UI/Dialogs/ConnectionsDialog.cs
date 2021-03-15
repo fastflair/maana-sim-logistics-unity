@@ -67,7 +67,6 @@ public class ConnectionsDialog : Dialog
     private void ClearForm()
     {
         foreach (var field in _fieldMap.Values) field.Value = "";
-        ClearList();
     }
 
     private void Reset()
@@ -84,7 +83,17 @@ public class ConnectionsDialog : Dialog
 
     public void OnDelete()
     {
-        if (!ConnectionManager.Delete(_fieldMap["Name"].Value)) return;        
+        // Re-boostrap
+        if (Input.GetKey(KeyCode.LeftAlt))
+        {
+            ConnectionManager.Rebootstrap();
+        }
+        else
+        {
+
+            if (!ConnectionManager.Delete(_fieldMap["Name"].Value)) return;
+        }
+
         Reset();
     }
 
@@ -106,7 +115,7 @@ public class ConnectionsDialog : Dialog
 
     public void OnCancel()
     {
-        Hide();
+        Destroy();
     }
     
     public void OnDone()
@@ -115,7 +124,7 @@ public class ConnectionsDialog : Dialog
         {
             ConnectionManager.LoadAndConnect(_currentState.id);
         }
-        Hide();
+        Destroy();
     }
     
     private void UpdateButtons()
@@ -150,11 +159,13 @@ public class ConnectionsDialog : Dialog
                 _currentState = ConnectionManager.Load(connection);
                 PopulateForm(_currentState);
             });
+            print($"button added");
         }
     }
 
     private void ClearList()
     {
+        print($"clear list");
         foreach (Transform buttonItem in listHost) Destroy(buttonItem.gameObject);
     }
     

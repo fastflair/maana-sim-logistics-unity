@@ -20,9 +20,19 @@ public class Dialog : MonoBehaviour
         var uiElement = GetComponent<UIElement>();
         return uiElement.SetVisible(isVisible, effect);
     }
+
+    public void Show()
+    {
+        SetVisible(true, UIElement.Effect.None);
+    }
     
     public void Hide()
     {
-        UIManager.HideDialog(this);
+        SetVisible(true, UIElement.Effect.None);
+    }
+    
+    public void Destroy()
+    {
+        UIManager.DestroyDialog(this);
     }
 }

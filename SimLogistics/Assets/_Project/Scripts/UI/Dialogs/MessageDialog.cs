@@ -16,6 +16,6 @@ public class MessageDialog : Dialog
     
     public virtual void OnOkay()
     {
-        Hide();
+        Destroy();
     }
 }

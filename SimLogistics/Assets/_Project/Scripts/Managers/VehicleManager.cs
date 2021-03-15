@@ -45,7 +45,7 @@ public class VehicleManager : EntityManager<QVehicle>
             if (!IsMoving(status)) continue;
             
             var vehicleEntity = EntityById(vehicle.id);
-            var visited = new Queue<QWaypoint>(transitOrder.visited);
+            var visited = new Queue<QWaypoint>(transitOrder.visited/*.Skip(1)*/);
             VisitWaypoints(vehicle, vehicleEntity.gameObject, visited);
         }
     }
