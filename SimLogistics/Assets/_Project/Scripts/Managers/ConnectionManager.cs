@@ -26,8 +26,15 @@ public class ConnectionManager : MonoBehaviour
     {
         get
         {
-            return saveManager
-                .saveFiles
+            var saveFiles = saveManager
+                .saveFiles;
+
+            foreach (var saveFile in saveFiles)
+            {
+                print($"SaveFile: {saveFile.FileName}");
+            }
+            
+            return saveFiles
                 .OrderByDescending(x => x.LastWriteTime)
                 .Select(x => x.FileName)
                 .ToList();
@@ -62,6 +69,11 @@ public class ConnectionManager : MonoBehaviour
         return id == _bootstrapConnectionState.id;
     }
 
+    public void Rebootstrap()
+    {
+        CurrentConnectionState = _bootstrapConnectionState;
+    }
+    
     public bool Save(ConnectionState state)
     {
         return saveManager.Save(state.id, state);
@@ -130,7 +142,16 @@ public class ConnectionManager : MonoBehaviour
             state.refreshMinutes);
         server.connectionReadyEvent.AddListener(UpdateConnectionStatus);
         server.connectionNotReadyEvent.AddListener(() => onDisconnected.Invoke());
-        server.connectionErrorEvent.AddListener(error => { onConnectionError.Invoke(error); });
+        server.connectionErrorEvent.AddListener(error =>
+        {
+            onConnectionError.Invoke(error);
+            
+            if (CurrentConnectionState.id != _bootstrapConnectionState.id)
+            {
+                Rebootstrap();
+                ConnectEndpoint(CurrentConnectionState);
+            }
+        });
     }
 
     private void UpdateConnectionStatus()

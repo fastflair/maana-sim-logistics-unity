@@ -15,6 +15,7 @@ public static class QActionsFragment
         }";
     
     public static readonly string withIncludes = @$"
+      {QWaypointFragment.data}
       {QTransitActionFragment.data}
       {QRepairActionFragment.data}
       {QTransferActionFragment.data}
