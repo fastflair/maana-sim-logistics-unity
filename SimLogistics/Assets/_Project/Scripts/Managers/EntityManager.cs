@@ -101,7 +101,7 @@ public abstract class EntityManager<TQEntity> : MonoBehaviour
             _ => Math.Abs(direction.z + 1f) < float.Epsilon ? 180f : 0f
         };
     }
-
+    
     protected void VisitWaypoints(QEntity qEntity, GameObject uEntity, Queue<QWaypoint> waypoints)
     {
         if (!waypoints.Any()) return;

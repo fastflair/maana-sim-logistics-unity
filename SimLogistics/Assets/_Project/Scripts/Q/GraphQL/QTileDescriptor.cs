@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 
 // ReSharper disable InconsistentNaming
@@ -21,7 +22,7 @@ public class QTileDescriptor
     {
         return @$"{{
             id: ""{id}""
-            traversabilityGrid: [{string.Join(",", traversabilityGrid)}]
+            traversabilityGrid: [{string.Join(",", traversabilityGrid.Select(x => $"\"{x}\""))}]
         }}";
     }
 }
