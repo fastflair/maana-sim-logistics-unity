@@ -21,25 +21,13 @@ public class ConnectionManager : MonoBehaviour
     public string ApiEndpoint => CurrentConnectionState.apiEndpoint;
 
     public GraphQLManager Server => server;
-    
-    public IEnumerable<string> AvailableConnections
-    {
-        get
-        {
-            var saveFiles = saveManager
-                .saveFiles;
 
-            foreach (var saveFile in saveFiles)
-            {
-                print($"SaveFile: {saveFile.FileName}");
-            }
-            
-            return saveFiles
-                .OrderByDescending(x => x.LastWriteTime)
-                .Select(x => x.FileName)
-                .ToList();
-        }
-    }
+    public IEnumerable<string> AvailableConnections =>
+        saveManager
+            .saveFiles
+            .OrderByDescending(x => x.LastWriteTime)
+            .Select(x => x.FileName)
+            .ToList();
 
     private void Start()
     {
@@ -69,11 +57,11 @@ public class ConnectionManager : MonoBehaviour
         return id == _bootstrapConnectionState.id;
     }
 
-    public void Rebootstrap()
+    public bool Rebootstrap()
     {
-        CurrentConnectionState = _bootstrapConnectionState;
+        return saveManager.Save(_bootstrapConnectionState.id, _bootstrapConnectionState);
     }
-    
+
     public bool Save(ConnectionState state)
     {
         return saveManager.Save(state.id, state);
@@ -119,7 +107,7 @@ public class ConnectionManager : MonoBehaviour
             }
 
             print($"response: {response.Raw}");
-            
+
             callback.Invoke(response.GetValue<T>(queryName));
         });
     }
@@ -132,7 +120,7 @@ public class ConnectionManager : MonoBehaviour
     private void ConnectEndpoint(ConnectionState state)
     {
         print($"Connecting to {state.url}");
-        
+
         server.Connect(
             state.url,
             state.authDomain,
@@ -145,12 +133,11 @@ public class ConnectionManager : MonoBehaviour
         server.connectionErrorEvent.AddListener(error =>
         {
             onConnectionError.Invoke(error);
-            
-            if (CurrentConnectionState.id != _bootstrapConnectionState.id)
-            {
-                Rebootstrap();
-                ConnectEndpoint(CurrentConnectionState);
-            }
+
+            if (CurrentConnectionState.id == _bootstrapConnectionState.id) return;
+
+            Rebootstrap();
+            ConnectEndpoint(CurrentConnectionState);
         });
     }
 

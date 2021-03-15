@@ -1102,7 +1102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5754717, g: 0.0047205985, b: 0, a: 1}
+  m_Color: {r: 0.9811321, g: 0.7493754, b: 0.2082592, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1213,8 +1213,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190483
-  m_fontColor: {r: 0.5754717, g: 0.0047205985, b: 0, a: 1}
+    rgba: 4281712634
+  m_fontColor: {r: 0.9811321, g: 0.7493754, b: 0.2082592, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1466,7 +1466,7 @@ Animator:
   m_GameObject: {fileID: 3764941979826929973}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 03d017c8078fe480282870f85b30579e, type: 2}
+  m_Controller: {fileID: 9100000, guid: dc7cb9a4cdc1d449286293bccce4b6bb, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2086,6 +2086,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiManager: {fileID: 0}
+  cityManager: {fileID: 0}
+  producerManager: {fileID: 0}
+  hubManager: {fileID: 0}
+  vehicleManager: {fileID: 0}
   simulationManager: {fileID: 0}
   toggleItemPrefab: {fileID: 4689674690593923475, guid: 53d2bf7eeb21b48eb89e9a10fa76e273, type: 3}
   transitOrderItemPrefab: {fileID: -1446972856995492331, guid: 0d8fef990a93c4887800b9b36e8361cb, type: 3}
@@ -2097,6 +2101,7 @@ MonoBehaviour:
   clearAllButton: {fileID: 6971783526634347880}
   clearUntoggledButton: {fileID: 3764941979826929969}
   tabGroup: {fileID: 8768944681448819313}
+  pendingTab: {fileID: 0}
   issuedTab: {fileID: 5772021599520070689}
 --- !u!114 &7111237432925823022
 MonoBehaviour:
@@ -2657,7 +2662,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5754717, g: 0.0047205985, b: 0, a: 1}
+  m_Color: {r: 0.9811321, g: 0.7493754, b: 0.2082592, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2768,8 +2773,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190483
-  m_fontColor: {r: 0.5754717, g: 0.0047205985, b: 0, a: 1}
+    rgba: 4281712634
+  m_fontColor: {r: 0.9811321, g: 0.7493754, b: 0.2082592, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3021,7 +3026,7 @@ Animator:
   m_GameObject: {fileID: 6971783526634347884}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 03d017c8078fe480282870f85b30579e, type: 2}
+  m_Controller: {fileID: 9100000, guid: dc7cb9a4cdc1d449286293bccce4b6bb, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -5652,6 +5657,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e2b05f19d7254bf9af6ba101d201589, type: 3}
+--- !u!224 &607862303990612781 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5571334852057107510, guid: 2e2b05f19d7254bf9af6ba101d201589, type: 3}
+  m_PrefabInstance: {fileID: 4989658588938506011}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8768944681448819313 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4363804105754723690, guid: 2e2b05f19d7254bf9af6ba101d201589, type: 3}
@@ -5663,11 +5673,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 324fcbe3c608c481c9f9509f97d8aedb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &607862303990612781 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 5571334852057107510, guid: 2e2b05f19d7254bf9af6ba101d201589, type: 3}
-  m_PrefabInstance: {fileID: 4989658588938506011}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8393666170241215117
 PrefabInstance:
   m_ObjectHideFlags: 0

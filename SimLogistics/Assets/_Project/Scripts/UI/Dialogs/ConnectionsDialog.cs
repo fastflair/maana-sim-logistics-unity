@@ -159,13 +159,11 @@ public class ConnectionsDialog : Dialog
                 _currentState = ConnectionManager.Load(connection);
                 PopulateForm(_currentState);
             });
-            print($"button added");
         }
     }
 
     private void ClearList()
     {
-        print($"clear list");
         foreach (Transform buttonItem in listHost) Destroy(buttonItem.gameObject);
     }
     
