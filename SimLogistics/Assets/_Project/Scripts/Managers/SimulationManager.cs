@@ -530,7 +530,7 @@ public class SimulationManager : MonoBehaviour
     {
         const string queryName = "selectCity";
         var query = @$"
-          {QCityFragment.OutputDataWithIncludes}
+          {QCityFragment.withIncludes}
           query {{
             {queryName}(sim: ""{sim}"") {{
               ...cityData

@@ -5,13 +5,8 @@ using JetBrains.Annotations;
 
 public static class QProducerFragment
 {
-    public static readonly string withIncludes = @$"
-      {QResourceFragment.OutputData}
-      {data}
-    ";
-    
     public const string data = @"
-        fragment producerData on ProducerOutput {
+        fragment producerData on Producer {
           id
           sim
           steps
@@ -23,6 +18,11 @@ public static class QProducerFragment
           products { ...resourceData }
           stoppageSurchargeFactor
         }";
+    
+    public static readonly string withIncludes = @$"
+      {QResourceFragment.data}
+      {data}
+    ";
 }
 
 [UsedImplicitly]

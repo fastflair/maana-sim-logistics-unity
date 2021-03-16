@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 public static class QTransitOrderFragment
 {
     public const string data = @"
-        fragment transitOrderData on TransitOrderOutput {
+        fragment transitOrderData on TransitOrder {
           id
           sim
           vehicle

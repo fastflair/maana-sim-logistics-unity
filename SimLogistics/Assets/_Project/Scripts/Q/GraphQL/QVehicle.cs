@@ -4,13 +4,7 @@ using JetBrains.Annotations;
 // ReSharper disable InconsistentNaming
 
 public static class QVehicleFragment
-{
-    public static readonly string withIncludes = @$"
-      {QTransitOrderFragment.withIncludes}
-      {QResourceFragment.OutputData}
-      {data}
-    ";
-    
+{ 
     public const string data = @"
         fragment vehicleData on Vehicle {
           id
@@ -33,6 +27,12 @@ public static class QVehicleFragment
           transitOrder { ...transitOrderData }
           fuel  { ...resourceData }
         }";
+    
+    public static readonly string withIncludes = @$"
+      {QTransitOrderFragment.withIncludes}
+      {QResourceFragment.data}
+      {data}
+    ";
 }
 
 public class QVehicle : QEntity

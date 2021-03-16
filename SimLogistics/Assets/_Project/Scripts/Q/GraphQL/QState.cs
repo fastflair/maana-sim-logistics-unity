@@ -22,11 +22,11 @@ public static class QStateFragment
       {QMapAndTilesFragment.withIncludes}
       {QTransitOrderFragment.withIncludes}
       {QResourceTransferFragment.data}
-      {QResourceFragment.OutputData}
+      {QResourceFragment.data}
       {QVehicleFragment.data}
       {QHubFragment.data}
       {QProducerFragment.data}
-      {QCityFragment.OutputData}
+      {QCityFragment.data}
       {QSimulationFragment.data}
       {data}
     ";

@@ -7,11 +7,8 @@ using JetBrains.Annotations;
 
 public static class QCityFragment
 {
-    public const string Kind = "City";
-    public static readonly string OutputKind = $"{Kind}Output";
-
-    private const string fragmentTemplate = @"
-        fragment cityData on {0} {{
+    public const string data = @"
+        fragment cityData on City {
           id
           sim
           steps
@@ -21,20 +18,12 @@ public static class QCityFragment
           population
           populationGrowthRate
           populationDeclineRate
-          demand {{ ...resourceData }}
-        }}";
+          demand { ...resourceData }
+        }";
 
-    public static string Data => string.Format(fragmentTemplate, Kind);
-    public static readonly string OutputData = string.Format(fragmentTemplate, OutputKind);
-
-    public static string DataWithIncludes => @$"
-      {QResourceFragment.Data}
-      {Data}
-    ";
-    
-    public static string OutputDataWithIncludes => @$"
-      {QResourceFragment.OutputData}
-      {OutputData}
+    public static string withIncludes => @$"
+      {QResourceFragment.data}
+      {data}
     ";
 }
 

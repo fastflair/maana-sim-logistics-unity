@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 public static class QResourceTransferFragment
 {
     public const string data = @"
-        fragment resourceTransferData on ResourceTransferOutput {
+        fragment resourceTransferData on ResourceTransfer {
           id
           sim
           vehicle
