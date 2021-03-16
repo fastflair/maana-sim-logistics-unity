@@ -34,7 +34,6 @@ public class Card : UIElement
     protected void AddResourceToList(Transform list, QResource resource)
     {
         var resourceItem = Instantiate(resourceItemPrefab, list, false);
-        print($"Resource: {resource.type.id}");
         resourceItem.Populate(resource, host.producerManager.ResourceThumbnail(resource.type.id));
     }
 

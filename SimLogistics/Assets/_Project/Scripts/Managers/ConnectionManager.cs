@@ -90,6 +90,11 @@ public class ConnectionManager : MonoBehaviour
     public ConnectionState LoadAndConnect(string id)
     {
         CurrentConnectionState = Load(id);
+        if (CurrentConnectionState.url == null)
+        {
+            Rebootstrap();
+            CurrentConnectionState = _bootstrapConnectionState;
+        }
         ConnectEndpoint(CurrentConnectionState);
         return CurrentConnectionState;
     }
